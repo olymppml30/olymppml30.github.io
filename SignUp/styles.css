@@ -52,7 +52,7 @@ pre {
     transition: all .1s ease-in-out;    
   }
 
-  .normalData {
+.normalData {
     height: 37px;
     width: 230px;
     box-sizing: border-box;
@@ -64,7 +64,7 @@ pre {
     overflow: auto;
   }
 
-  .errorData {
+.errorData {
     height: 37px;
     width: 230px;
     box-sizing: border-box;
@@ -76,13 +76,13 @@ pre {
     overflow: auto;
   }
 
-  #login:hover {
+#login:hover {
     background-color: black;
     border-color: #fff;
     transition: all .1s ease-in-out;
   }
 
-  #signup {
+#signup {
     width: 200px;
     height: 36px;
     border-radius: 18px;
@@ -95,7 +95,7 @@ pre {
     transition: all .1s ease-in-out;    
   }
 
-  #signup:hover {
+#signup:hover {
     background-color: black;
     border-radius: 40px;
     border-color: #fff;
@@ -103,4 +103,3 @@ pre {
 
     transition: all .1s ease-in-out;
   }
-
