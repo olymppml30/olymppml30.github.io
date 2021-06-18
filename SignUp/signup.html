@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sign up</title>
+    <h1>SIGN UP</h1>
+    <script type="text/javascript">
+        let nameUser, surname, form;
+        let name, password;
+
+        function changeName() {
+            name = document.getElementById("username").value;
+        }
+
+        function changePassword() {
+            password = document.getElementById("password").value;
+        }
+
+        function changeUserName() {
+            nameUser = document.getElementById("name").value;
+        }
+
+        function changeSurname() {
+            surname = document.getElementById("surname").value;
+        }
+
+        function changeForm() {
+            form = document.getElementById("form").value;
+        }
+
+        function signup() {
+            document.getElementById("name").value = "";
+            document.getElementById("surname").value = "";
+            document.getElementById("form").value = "";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            /* На сервер / в базу данных */
+
+            /* Логин без запроса пароля */
+
+            /* И очистить пароль */
+            password = "";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="start">
+        <h2 id="log">Enter your personal data:</h2>
+
+        <td>Name </td><input id="name" onchange="changeName()" placeholder="Иван"><br><br>
+        <td>Surname </td><input id="surname" onchange="changeSurname()" placeholder="Иванов"><br><br>
+        <td>Form </td><input id="form" onchange="changeForm()" placeholder="8-1"><br><br>
+        <td>Username </td><input id="username" onchange="changeName()" placeholder="ivan_ivanov"><br><br>
+        <td>Password </td><input id="password" type="password" onchange="changePassword()"
+            placeholder="PML30 FOREVER"><br><br>
+
+        <button id="signup" onclick="signup()">Sign Up</button>
+    </div>
+</body>
+
+</html>

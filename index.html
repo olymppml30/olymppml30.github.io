@@ -5,19 +5,28 @@
     <meta charset="utf-8">
     <title>Olymp30</title>
     <h1>Welcome to Olymp30 site!</h1>
-    <style>
-        body {
-            background-image: url('https://abitu.net/public/user/77/69/22/222530_4341.jpg?t=c987');
-            background-size: cover;
-            background-attachment: fixed;
+    <script type="text/javascript">
+        let name, password;
+
+        function changeName() {
+            name = document.getElementById("username").value;
         }
 
-        h1 {
-            text-align: center;
-            color: white;
-            font-size: 102px;
+        function changePassword() {
+            password = document.getElementById("password").value;
         }
-    </style>
+
+        function login() {
+            /* Чистим поля ввода */
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            /* Перекинуть пользователя на сервер, если пароль правильный */
+
+            /* Чистим пароль */
+            name = "";
+            password = "";
+        }
+    </script>
 </head>
 
 <body>
@@ -28,7 +37,7 @@
         <input id="password" type="password" onchange="changePassword()"><br><br>
 
         <button id="login" onclick="login()">LogIn</button>
-        <button id="signup" onclick="signUp()">Sign Up</button>
+        <button id="signup" onclick="window.location.href='SignUp/signup.html'">Sign Up</button>
     </div>
 </body>
 
