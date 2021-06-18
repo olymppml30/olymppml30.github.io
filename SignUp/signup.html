@@ -87,11 +87,41 @@
             /* И очистить пароль */
             password = "";
         }
+
+        function clockWork() {
+            var date = new Date();
+            var time = [date.getHours(), date.getMinutes(), date.getSeconds()];
+            var yearDay = [date.getDate(), date.getMonth(), date.getFullYear()];
+            var months = ['January', 'February', 'March', 'April', 'May',
+                'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var curmonth;
+
+            if (time[0] < 10) { time[0] = "0" + time[0]; }
+            if (time[1] < 10) { time[1] = "0" + time[1]; }
+            if (time[2] < 10) { time[2] = "0" + time[2]; }
+            if (yearDay[0] < 10) { yearDay[0] = "0" + yearDay[0]; }
+            curmonth = months[yearDay[1]];
+
+            var cur_time = [time[0], time[1], time[2]].join(":");
+            var cur_date = yearDay[0] + " " + curmonth + ", " + yearDay[2];
+
+            var docclk = document.getElementById("clock");
+            var docdate = document.getElementById("date");
+
+            docclk.innerHTML = cur_time;
+            docdate.innerHTML = cur_date;
+
+            setTimeout("clockWork()", 1000);
+        }
     </script>
 </head>
 
-<body>
-    <div class="foreground">
+<body onload="clockWork()">
+    <div class="clockpage">
+        <span id="clock"></span><br>
+        <span id="date"></span>
+    </div>
+    <div class=" foreground">
         <h2 id="log">Enter your personal data:</h2>
 
         <pre><b>Name</b></pre><input id="name" onchange="changeName()" placeholder="Иван" class="normalData"><br><br>
