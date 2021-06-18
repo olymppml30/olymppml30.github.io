@@ -35,6 +35,8 @@
             var months = ['January', 'February', 'March', 'April', 'May',
                 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var curmonth;
+            var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var weekDay = date.getDay();
 
             if (time[0] < 10) { time[0] = "0" + time[0]; }
             if (time[1] < 10) { time[1] = "0" + time[1]; }
@@ -47,9 +49,11 @@
 
             var docclk = document.getElementById("clock");
             var docdate = document.getElementById("date");
+            var docday = document.getElementById("wDay");
 
             docclk.innerHTML = cur_time;
             docdate.innerHTML = cur_date;
+            docday.innerHTML = dayOfWeek[weekDay];
 
             setTimeout("clockWork()", 1000);
         }
@@ -59,7 +63,8 @@
 <body onload="clockWork()">
     <div class="clockpage">
         <span id="clock"></span><br>
-        <span id="date"></span>
+        <span id="date"></span><br>
+        <span id="wDay"></span>
     </div>
     <div class="foreground">
         <h2 id="log">Authorization</h2>
