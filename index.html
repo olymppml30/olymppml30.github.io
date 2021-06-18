@@ -6,21 +6,39 @@
     <title>Olymp30</title>
     <h1>Welcome to Olymp30 site!</h1>
     <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript">
+        let name, password;
+
+        function changeName() {
+            name = document.getElementById("username").value;
+        }
+
+        function changePassword() {
+            password = document.getElementById("password").value;
+        }
+
+        function login() {
+            /* Чистим поля ввода */
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            /* Перекинуть пользователя на сервер, если пароль правильный */
+
+            /* Чистим пароль */
+            name = "";
+            password = "";
+        }
+    </script>
 </head>
 
 <body>
-    <div class="background">
-
-    </div>
-
     <div class="foreground">
-        <h2 id="log">Авторизация</h2>
+        <h2 id="log">Authorization</h2>
 
         <input id="username" onchange="changeName()"><br><br>
         <input id="password" type="password" onchange="changePassword()"><br><br>
 
-        <button id="login" onclick="login()">LogIn</button><br><br>
-        <button id="signup" onclick="signUp()">Sign Up</button>
+        <button id="login" onclick="login()">LogIn</button>
+        <button id="signup" onclick="window.location.href='SignUp/signup.html'">Sign Up</button>
     </div>
 </body>
 
