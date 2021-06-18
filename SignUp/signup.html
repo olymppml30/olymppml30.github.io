@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Sign up</title>
-    <h1>SIGN UP</h1>
+    <h1>Sign Up</h1>
+    <link rel="stylesheet" href="./styles.css">
     <script type="text/javascript">
         let nameUser, surname, form;
         let name, password;
@@ -46,14 +47,14 @@
 </head>
 
 <body>
-    <div class="start">
+    <div class="foreground">
         <h2 id="log">Enter your personal data:</h2>
 
-        <td>Name </td><input id="name" onchange="changeName()" placeholder="Иван"><br><br>
-        <td>Surname </td><input id="surname" onchange="changeSurname()" placeholder="Иванов"><br><br>
-        <td>Form </td><input id="form" onchange="changeForm()" placeholder="8-1"><br><br>
-        <td>Username </td><input id="username" onchange="changeName()" placeholder="ivan_ivanov"><br><br>
-        <td>Password </td><input id="password" type="password" onchange="changePassword()"
+        <pre><b>Name</b></pre><input id="name" onchange="changeName()" placeholder="Иван"><br><br>
+        <pre><b>Surname</b></pre><input id="surname" onchange="changeSurname()" placeholder="Иванов"><br><br>
+        <pre><b>Form</b></pre><input id="form" onchange="changeForm()" placeholder="8-1"><br><br>
+        <pre><b>Username</b></pre><input id="username" onchange="changeName()" placeholder="ivan_ivanov"><br><br>
+        <pre><b>Password</b></pre><input id="password" type="password" onchange="changePassword()"
             placeholder="PML30 FOREVER"><br><br>
 
         <button id="signup" onclick="signup()">Sign Up</button>
