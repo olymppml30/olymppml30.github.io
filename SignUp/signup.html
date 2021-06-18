@@ -12,25 +12,69 @@
 
         function changeName() {
             name = document.getElementById("username").value;
+            document.getElementById("username").className = "normalData";
         }
 
         function changePassword() {
             password = document.getElementById("password").value;
+            document.getElementById("password").className = "normalData";
         }
 
         function changeUserName() {
             nameUser = document.getElementById("name").value;
+            document.getElementById("name").className = "normalData";
         }
 
         function changeSurname() {
             surname = document.getElementById("surname").value;
+            document.getElementById("surname").className = "normalData";
         }
 
         function changeForm() {
             form = document.getElementById("form").value;
+            document.getElementById("form").className = "normalData";
+        }
+
+        function ifStrNormal(str) {
+            if (str === "")
+                return false;
+            let num = str.charCodeAt(0);
+            return num > 32;
+        }
+
+        function isAllOk() {
+            let doc1 = document.getElementById("username");
+            let doc2 = document.getElementById("password");
+            let doc3 = document.getElementById("name");
+            let doc4 = document.getElementById("surname");
+            let doc5 = document.getElementById("form");
+            let str1 = doc1.value;
+            let str2 = doc2.value;
+            let str3 = doc3.value;
+            let str4 = doc4.value;
+            let str5 = doc5.value;
+            let allStr = [str1, str2, str3, str4, str5];
+            let allDocs = [doc1, doc2, doc3, doc4, doc5];
+
+            for (let i = 0; i < 5; i++) {
+                if (ifStrNormal(allStr[i]))
+                    allDocs[i].className = "normalData";
+                else
+                    allDocs[i].className = "errorData";
+            }
+
+            for (let i = 0; i < 5; i++) {
+                if (!ifStrNormal(allStr[i]))
+                    return false;
+            }
+            return true;
         }
 
         function signup() {
+            if (!isAllOk()) {
+                alert("Fill all input cells!!!")
+                return;
+            }
             document.getElementById("name").value = "";
             document.getElementById("surname").value = "";
             document.getElementById("form").value = "";
@@ -50,12 +94,14 @@
     <div class="foreground">
         <h2 id="log">Enter your personal data:</h2>
 
-        <pre><b>Name</b></pre><input id="name" onchange="changeName()" placeholder="Иван"><br><br>
-        <pre><b>Surname</b></pre><input id="surname" onchange="changeSurname()" placeholder="Иванов"><br><br>
-        <pre><b>Form</b></pre><input id="form" onchange="changeForm()" placeholder="8-1"><br><br>
-        <pre><b>Username</b></pre><input id="username" onchange="changeName()" placeholder="ivan_ivanov"><br><br>
+        <pre><b>Name</b></pre><input id="name" onchange="changeName()" placeholder="Иван" class="normalData"><br><br>
+        <pre><b>Surname</b></pre><input id="surname" onchange="changeSurname()" placeholder="Иванов"
+            class="normalData"><br><br>
+        <pre><b>Form</b></pre><input id="form" onchange="changeForm()" placeholder="8-1" class="normalData"><br><br>
+        <pre><b>Username</b></pre><input id="username" onchange="changeName()" placeholder="ivan_ivanov"
+            class="normalData"><br><br>
         <pre><b>Password</b></pre><input id="password" type="password" onchange="changePassword()"
-            placeholder="PML30 FOREVER"><br><br>
+            placeholder="PML30 FOREVER" class="normalData"><br><br>
 
         <button id="signup" onclick="signup()">Sign Up</button>
     </div>
