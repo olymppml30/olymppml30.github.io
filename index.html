@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Olymp30</title>
+    <h1>Welcome to Olymp30 site!</h1>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript">
+        let name, password;
+
+        function changeName() {
+            name = document.getElementById("username").value;
+        }
+
+        function changePassword() {
+            password = document.getElementById("password").value;
+        }
+
+        function login() {
+            /* Чистим поля ввода */
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            /* Перекинуть пользователя на сервер, если пароль правильный */
+
+            /* Чистим пароль */
+            name = "";
+            password = "";
+        }
+
+        function clockWork() {
+            var date = new Date();
+            var time = [date.getHours(), date.getMinutes(), date.getSeconds()];
+            var yearDay = [date.getDate(), date.getMonth(), date.getFullYear()];
+            var months = ['January', 'February', 'March', 'April', 'May',
+                'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var curmonth;
+            var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var weekDay = date.getDay();
+
+            if (time[0] < 10) { time[0] = "0" + time[0]; }
+            if (time[1] < 10) { time[1] = "0" + time[1]; }
+            if (time[2] < 10) { time[2] = "0" + time[2]; }
+            if (yearDay[0] < 10) { yearDay[0] = "0" + yearDay[0]; }
+            curmonth = months[yearDay[1]];
+
+            var cur_time = [time[0], time[1], time[2]].join(":");
+            var cur_date = yearDay[0] + " " + curmonth + ", " + yearDay[2];
+
+            var docclk = document.getElementById("clock");
+            var docdate = document.getElementById("date");
+            var docday = document.getElementById("wDay");
+
+            docclk.innerHTML = cur_time;
+            docdate.innerHTML = cur_date;
+            docday.innerHTML = dayOfWeek[weekDay];
+
+            setTimeout("clockWork()", 1000);
+        }
+    </script>
+</head>
+
+<body onload="clockWork()">
+    <div class="clockpage">
+        <span id="clock"></span>
+        <span id="date"></span>
+        <span id="wDay"></span>
+    </div>
+    <div class="foreground">
+        <h2 id="log">Authorization</h2>
+        <td>
+            Username:
+        </td> <input id="username" onchange="changeName()"><br><br>
+        <td>
+            Password:
+        </td><input id="password" type="password" onchange="changePassword()">
+        <br><br>
+
+        <button id="login" onclick="login()">LogIn</button>
+        <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+body {
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: url("src/pml30.jpg");
+}
+
+.foreground {
+    text-align: center;
+    margin: auto;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-radius: 40px;
+    border-color: black;
+    border-style: solid;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(100px);
+  }
+ h1 {
+    text-align: center;
+    color: white;
+    font-size: 80px;
+}
+  h2 {
+    text-align: center;
+    color: black;
+    font-size: 30px;
+}
+
+#username {
+    height: 37px;
+    width: 230px;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-repeat: no-repeat;
+    transition: width 0.4s ease-in-out;
+    overflow: auto;
+  }
+
+#password {
+    height: 37px;
+    width: 230px;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: white;
+    background-repeat: no-repeat;
+    transition: width 0.4s ease-in-out;
+    overflow: auto;
+  }
+#login {
+    width: 200px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: #1c89ff;
+    border: solid 1px transparent;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    margin-top: 6px;    
+    margin-right: 10px;    
+  }
+
+  #login:hover {
+    background-color: black;
+    border-color: #fff;
+    transition: all .1s ease-in-out;
+  }
+
+  #signup {
+    width: 200px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: #1c89ff;
+    border: solid 1px transparent;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all .1s ease-in-out;    
+  }
+
+  #signup:hover {
+    background-color: black;
+    border-radius: 40px;
+    border-color: #fff;
+    border-style: solid;
+    transition: all .1s ease-in-out;
+  }
+
+  .clockpage {
+    color: white;
+    margin: 16px;
+    max-width: 400px;
+    min-width: 100px;
+    background-color: rgba(255, 255, 255, 0);
+    text-align: center;
+    font-family: "Source Serif Pro";
+    font-size: 27px;
+    font-weight: bold;
+    position:absolute;
+    bottom: 0%;
+    right: 0%;
+  }
+
+  #username-info {
+    font-family: "Source Serif Pro";
+  }
+
+  #log {
+    font-family: "Source Serif Pro";
+  }
+  td {
+    font-family: "Source Serif Pro";
+  }
