@@ -97,15 +97,17 @@ body {
     transition: all .1s ease-in-out;
   }
 
-  .clockpage {
+  .clockpage
+  {
     color: white;
     margin: 16px;
     max-width: 400px;
     min-width: 100px;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0.1);
     text-align: center;
     font-family: "Source Serif Pro";
     font-size: 27px;
+    border: 1px solid rgb(76.5, 119.85, 204.0);
     font-weight: bold;
     position:absolute;
     bottom: 0%;
