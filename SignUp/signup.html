@@ -6,33 +6,50 @@
     <title>Sign up</title>
     <h1>Sign Up</h1>
     <link rel="stylesheet" href="./styles.css">
+    <!--
+        Link libraries
+              -->
+    <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         let nameUser, surname, form;
         let name, password;
+        let user = {
+            name: "",
+            surname: "",
+            form: "",
+            nickname: "",
+            password: "",
+        };
+        var socket = io();
 
         function changeName() {
             name = document.getElementById("username").value;
+            user.nickname = name;
             document.getElementById("username").className = "normalData";
         }
 
         function changePassword() {
             password = document.getElementById("password").value;
             document.getElementById("password").className = "normalData";
+            user.password = password;
         }
 
         function changeUserName() {
             nameUser = document.getElementById("name").value;
             document.getElementById("name").className = "normalData";
+            user.name = nameUser;
         }
 
         function changeSurname() {
             surname = document.getElementById("surname").value;
             document.getElementById("surname").className = "normalData";
+            user.surname = surname;
         }
 
         function changeForm() {
             form = document.getElementById("form").value;
             document.getElementById("form").className = "normalData";
+            user.form = form;
         }
 
         function ifStrNormal(str) {
@@ -70,17 +87,65 @@
             return true;
         }
 
-        function signup() {
+        async function checkuser() {
+            let isNew = true;
+            try {
+                const responce = await window.fetch("/getDB", { method: 'GET' });
+                if (!responce.ok)
+                    throw new Error(`Response status is: ${response.status}`);
+                quotes = JSON.parse(await responce.text());
+            } catch (err) {
+                console.log(err.message);
+            }
+            let snickname = document.getElementById("signnickname").value;
+            let sname = document.getElementById("signname").value;
+            let ssurname = document.getElementById("signsurname").value;
+
+            alert(snickname);
+            alert(sname);
+            alert(ssurname);
+
+            for (var i = 0; i < quotes.length; i++) {
+                if (snickname == quotes[i].nickname) {
+                    if (quotes[i].name == sname && quotes[i].surname == ssurname) {
+                        alert("Please, log in, you have an account");
+                        isNew = false;
+                        break;
+                    }
+                    else {
+                        alert("Sorry, this nickname is used by other user");
+                        isNew = false;
+                        break;
+                    }
+                }
+            }
+            if (isNew) {
+                alert("Welcome, " + sname + " " + ssurname);
+            }
+            return isNew;
+        }
+
+        async function signup() {
             if (!isAllOk()) {
-                alert("Fill all input cells!!!")
+                alert("Fill all input cells!!!");
                 return;
             }
-            document.getElementById("name").value = "";
-            document.getElementById("surname").value = "";
-            document.getElementById("form").value = "";
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            /* На сервер / в базу данных */
+
+            if (await checkuser()) {
+                socket.emit('quotes', JSON.stringify(user));
+                user = {
+                    name: "",
+                    surname: "",
+                    form: "",
+                    nickname: "",
+                    password: "",
+                };
+                document.getElementById("name").value = "";
+                document.getElementById("surname").value = "";
+                document.getElementById("nickname").value = "";
+                document.getElementById("form").value = "";
+                document.getElementById("password").value = "";
+            }
 
             /* Логин без запроса пароля */
 

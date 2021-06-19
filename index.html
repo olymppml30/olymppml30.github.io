@@ -7,25 +7,55 @@
     <h1>Welcome to Olymp30 site!</h1>
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript">
-        let name, password;
 
-        function changeName() {
-            name = document.getElementById("username").value;
-        }
+        async function finduser() {
+            let isFind = true;
+            let isUser = false;
+            try {
+                const responce = await window.fetch("/getDB", { method: 'GET' });
+                if (!responce.ok)
+                    throw new Error(`Response status is: ${response.status}`);
+                quotes = JSON.parse(await responce.text());
+            } catch (err) {
+                console.log(err.message);
+            }
+            let uname = document.getElementById("username").value;
+            let upassword = document.getElementById("password").value;
 
-        function changePassword() {
-            password = document.getElementById("password").value;
+            console.log(uname);
+            console.log(upassword);
+
+            for (var i = 0; i < quotes.length; i++) {
+                if (quotes[i].nickname == uname) {
+                    isUser = true;
+                    if (quotes[i].password != upassword) {
+                        alert("Incorrect password");
+                        isFind = false;
+                        break;
+                    }
+                }
+            }
+            if (!isUser) {
+                alert(`There's no user ` + uname);
+                return false;
+            }
+            if (isFind) {
+                alert("Welcome, " + uname);
+            }
+            return isFind;
         }
 
         function login() {
-            /* Чистим поля ввода */
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-            /* Перекинуть пользователя на сервер, если пароль правильный */
+            if (await finduser()) {
+                /* Перекинуть пользователя на сервер, если пароль правильный */
 
-            /* Чистим пароль */
-            name = "";
-            password = "";
+                /* Чистим поля ввода */
+                document.getElementById("username").value = "";
+                document.getElementById("password").value = "";
+            }
+            else {
+                document.getElementById("password").value = "";
+            }
         }
 
         function clockWork() {
@@ -68,15 +98,15 @@
     </div>
     <div class="foreground">
         <h2 id="log">Authorization</h2>
-        <td>
-            Username:
-        </td> <input id="username" onchange="changeName()"><br><br>
-        <td>
-            Password:
-        </td><input id="password" type="password" onchange="changePassword()">
-        <br><br>
-
-        <button id="login" onclick="login()">LogIn</button>
+        <form action="  /getDB" method="GET">
+            <td>
+                Username:
+            </td><input type="text" placeholder="II1" id="username" /><br></br>
+            <td>
+                Password:
+            </td><input type="password" placeholder="PML 30 FOREVER!!!" id="password" /><br><br>
+            <button type="button" id="login" onclick="login();">LogIn</button>
+        </form>
         <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button>
     </div>
 </body>
