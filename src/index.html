@@ -62,19 +62,22 @@
 
 <body onload="clockWork()">
     <div class="clockpage">
-        <span id="clock"></span><br>
-        <span id="date"></span><br>
+        <span id="clock"></span>
+        <span id="date"></span>
         <span id="wDay"></span>
     </div>
     <div class="foreground">
         <h2 id="log">Authorization</h2>
-
-        <td>Username:
-        <td> </td><input id="username" onchange="changeName()"><br><br>
-        <td>Password: &nbsp;</td><input id="password" type="password" onchange="changePassword()"><br><br>
+        <td>
+            Username:
+        </td> <input id="username" onchange="changeName()"><br><br>
+        <td>
+            Password:
+        </td><input id="password" type="password" onchange="changePassword()">
+        <br><br>
 
         <button id="login" onclick="login()">LogIn</button>
-        <button id="signup" onclick="window.location.href='SignUp/signup.html'">Sign Up</button>
+        <button id="signup" onclick="window.location.href='../SignUp/signup.html'">Sign Up</button>
     </div>
 </body>
 

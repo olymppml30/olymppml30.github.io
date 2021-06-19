@@ -1,16 +1,14 @@
 body {
     background-size: cover;
     background-attachment: fixed;
-    background-image: url("https://abitu.net/public/user/77/69/22/222530_4341.jpg?t=c987");
     background-image: url("pml30.jpg");
-
 }
 
 .foreground {
     text-align: center;
     margin: auto;
     width: 500px;
-    height: 350px;
+    height: 300px;
     background-color: white;
     border-radius: 40px;
     border-color: black;
@@ -67,7 +65,9 @@ body {
     font-size: 18px;
     font-weight: 300;
     cursor: pointer;
-    transition: all .1s ease-in-out;    
+    transition: all .1s ease-in-out;
+    margin-top: 6px;    
+    margin-right: 10px;    
   }
 
   #login:hover {
@@ -94,22 +94,31 @@ body {
     border-radius: 40px;
     border-color: #fff;
     border-style: solid;
-
     transition: all .1s ease-in-out;
   }
 
-  .clockpage
-  {
-    max-width: 300px;
+  .clockpage {
+    color: white;
+    margin: 16px;
+    max-width: 400px;
     min-width: 100px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0);
     text-align: center;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 32px;
-    padding: 10px;
+    font-family: "Source Serif Pro";
+    font-size: 27px;
     font-weight: bold;
-    border: 6px solid rgb(76.5, 119.85, 204.0);
     position:absolute;
     bottom: 0%;
     right: 0%;
+  }
+
+  #username-info {
+    font-family: "Source Serif Pro";
+  }
+
+  #log {
+    font-family: "Source Serif Pro";
+  }
+  td {
+    font-family: "Source Serif Pro";
   }
