@@ -6,6 +6,7 @@
     <title>Olymp30</title>
     <h1>Welcome to Olymp30 site!</h1>
     <link rel="stylesheet" href="styles.css">
+    <script src="./socket.io/socket.io.js"></script>
     <script type="text/javascript">
 
         async function finduser() {
@@ -45,7 +46,7 @@
             return isFind;
         }
 
-        function login() {
+        async function logIn() {
             if (await finduser()) {
                 /* Перекинуть пользователя на сервер, если пароль правильный */
 
@@ -105,7 +106,7 @@
             <td>
                 Password:
             </td><input type="password" placeholder="PML 30 FOREVER!!!" id="password" /><br><br>
-            <button type="button" id="login" onclick="login();">LogIn</button>
+            <button id="login" onclick="logIn()">LogIn</button>
         </form>
         <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button>
     </div>

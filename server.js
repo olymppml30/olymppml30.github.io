@@ -24,14 +24,22 @@ MongoClient.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongod
             res.sendFile(__dirname + '/styles.css');
         });
 
+        app.get('/signup/styles.css', (req, res) => {
+            res.sendFile(__dirname + '/signup/styles.css');
+        });
+
         app.get('/src/pml30.jpg', (req, res) => {
             res.sendFile(__dirname + '/src/pml30.jpg');
+        });
+
+        app.get('/signup/signup.html', (req, res) => {
+            res.sendFile(__dirname + '/signup/signup.html');
         });
 
         app.get('/getDB', (req, res) => {
             db.collection('quotes').find().toArray()
                 .then(results => {
-                    console.log(results)
+                    console.log(results);
                     res.send(JSON.stringify(results));
                 })
         });

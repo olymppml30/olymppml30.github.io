@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <title>Sign up</title>
     <h1>Sign Up</h1>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" type="text/css" href="./styles.css">
     <!--
         Link libraries
               -->
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="../socket.io/socket.io.js"></script>
     <script type="text/javascript">
         let nameUser, surname, form;
         let name, password;
@@ -90,16 +90,16 @@
         async function checkuser() {
             let isNew = true;
             try {
-                const responce = await window.fetch("/getDB", { method: 'GET' });
+                const responce = await window.fetch("../getDB", { method: 'GET' });
                 if (!responce.ok)
                     throw new Error(`Response status is: ${response.status}`);
                 quotes = JSON.parse(await responce.text());
             } catch (err) {
                 console.log(err.message);
             }
-            let snickname = document.getElementById("signnickname").value;
-            let sname = document.getElementById("signname").value;
-            let ssurname = document.getElementById("signsurname").value;
+            let snickname = document.getElementById("username").value;
+            let sname = document.getElementById("name").value;
+            let ssurname = document.getElementById("surname").value;
 
             alert(snickname);
             alert(sname);
@@ -142,7 +142,7 @@
                 };
                 document.getElementById("name").value = "";
                 document.getElementById("surname").value = "";
-                document.getElementById("nickname").value = "";
+                document.getElementById("username").value = "";
                 document.getElementById("form").value = "";
                 document.getElementById("password").value = "";
             }
