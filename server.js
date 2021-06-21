@@ -121,8 +121,10 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                                 throw error
                             } else if (!isMatch) {
                                 console.log("Password doesn't match!")
+                                //io.emit("redirectToNewPage", JSON.stringify(0));
                             } else {
                                 console.log("Password matches!")
+                                io.emit("redirectToNewPage", "https://www.google.com/intl/ru/gmail/about/");
                             }
                         })
                     });

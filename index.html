@@ -54,7 +54,6 @@
 
             //socket.emit('getDB', null);
             socket.emit('password', stringToDataBase);
-
             setTimeout(() => {
                 for (var i = 0; i < quotes.length; i++) {
                     if (quotes[i].nickname == uname) {
@@ -125,6 +124,11 @@
         socket.on('data', function (DB) {
             quotes = JSON.parse(DB);
         });
+        socket.on('redirectToNewPage', newGameURL => {
+            // redirect to new URL
+            window.location.href = newGameURL;
+        });
+
     </script>
 </head>
 
