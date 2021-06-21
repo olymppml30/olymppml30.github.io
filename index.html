@@ -9,7 +9,6 @@
     <script src="./socket.io/socket.io.js"></script>
     <script type="text/javascript">
         var socket = io();
-        let quotes;
 
         function setCookie(cname, cvalue, exdays) {
             const d = new Date();
@@ -46,49 +45,16 @@
         }
 
         function finduser() {
-            let isFind = true;
-            let isUser = false;
             let uname = document.getElementById("username").value;
             let upassword = document.getElementById("password").value;
             let stringToDataBase = uname + ":" + upassword;
 
-            //socket.emit('getDB', null);
             socket.emit('password', stringToDataBase);
-            setTimeout(() => {
-                for (var i = 0; i < quotes.length; i++) {
-                    if (quotes[i].nickname == uname) {
-                        isUser = true;
-                        if (quotes[i].password != upassword) {
-                            alert("Incorrect password or username");
-                            isFind = false;
-                            break;
-                        }
-                    }
-                }
-                if (!isUser) {
-                    alert(`There's no user ` + uname);
-                    return false;
-                }
-                if (isFind) {
-                    alert("Welcome, " + uname);
-                }
-            }, 2000);
-            return isFind;
         }
 
         async function logIn() {
             setCookie("username", document.getElementById("username").value, 365);
-            if (finduser()) {
-                /* Перекинуть пользователя на сервер, если пароль правильный */
-                window.location.href = "https://ya.ru";
-
-                /* Чистим поля ввода */
-                document.getElementById("username").value = "";
-                document.getElementById("password").value = "";
-            }
-            else {
-                window.location.href = "/";
-            }
+            finduser();
         }
 
         function clockWork() {
@@ -120,15 +86,15 @@
 
             setTimeout("clockWork()", 1000);
         }
-
-        socket.on('data', function (DB) {
-            quotes = JSON.parse(DB);
-        });
         socket.on('redirectToNewPage', newGameURL => {
             // redirect to new URL
             window.location.href = newGameURL;
         });
 
+        socket.on('alertio', msg => {
+            alert(msg);
+            window.location.href = "/";
+        });
     </script>
 </head>
 

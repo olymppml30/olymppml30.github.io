@@ -74,11 +74,27 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
             res.sendFile(__dirname + '/src/pml30.jpg');
         });
 
+        app.get('/mainpage/mainpage.html', (req, res) => {
+            res.sendFile(__dirname + '/mainpage/mainpage.html');
+        });
+
+        app.get('/mainpage/styles.css', (req, res) => {
+            res.sendFile(__dirname + '/mainpage/styles.css');
+        });
+
         app.get('/signup/signup.html', (req, res) => {
             res.sendFile(__dirname + '/signup/signup.html');
         });
+
         app.get('/user_module/user_hash_password.js', (req, res) => {
             res.sendFile(__dirname + '/user_module/user_hash_password.js');
+        });
+
+        app.get("/getDB", (req, res) => {
+            quotesCollection.find().toArray()
+                .then(results => {
+                    res.send(JSON.stringify(results));
+                });
         });
 
         io.on('connection', (socket) => {
@@ -88,22 +104,25 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                     user.password = CreateHashPassword(user.password, 8);
                 */
                 bcrypt.genSalt(10, function (saltError, salt) {
-                    if (saltError) {
-                        throw saltError;
-                    } else {
-                        bcrypt.hash(user.password, salt, function (hashError, hash) {
-                            if (hashError) {
-                                throw hashError;
-                            }
-                            user.password = hash;
-                        })
+                    try {
+                        if (saltError) {
+                            throw saltError;
+                        } else {
+                            bcrypt.hash(user.password, salt, function (hashError, hash) {
+                                if (hashError) {
+                                    throw hashError;
+                                }
+                                user.password = hash;
+                                quotesCollection.insertOne(user);
+                            });
+                        }
                     }
-                })
-
-                quotesCollection.insertOne(user);
+                    catch (err) {
+                        console.log(err.message);
+                    }
+                });
             });
             socket.on('password', (user) => {
-                let Isfind;
                 var array_of_strings = user.split(":");
                 let username_by_user = array_of_strings[0];
                 console.log(username_by_user);
@@ -111,29 +130,34 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                 console.log(passwordEnteredByUser);
                 quotesCollection.findOne({ nickname: username_by_user },
                     function (err, doc) {
-                        if (err)
-                            throw err;
-                        console.log(doc);
-                        console.log(doc.nickname);
-                        let hashed_password = doc.password;
-                        bcrypt.compare(passwordEnteredByUser, hashed_password, function (error, isMatch) {
-                            if (error) {
-                                throw error
-                            } else if (!isMatch) {
-                                console.log("Password doesn't match!")
-                                //io.emit("redirectToNewPage", JSON.stringify(0));
-                            } else {
-                                console.log("Password matches!")
-                                io.emit("redirectToNewPage", "https://www.google.com/intl/ru/gmail/about/");
-                            }
-                        })
+                        try {
+                            if (err)
+                                throw err;
+                            console.log(doc);
+                            console.log(doc.nickname);
+                            let hashed_password = doc.password;
+                            bcrypt.compare(passwordEnteredByUser, hashed_password, function (error, isMatch) {
+                                if (error) {
+                                    throw error
+                                } else if (!isMatch) {
+                                    console.log("Password doesn't match!")
+                                    io.emit('alertio', "Incorrect password!");
+                                } else {
+                                    console.log("Password matches!")
+                                    io.emit("redirectToNewPage", "http://localhost:8080/Mainpage/mainpage.html");
+                                }
+                            });
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                            io.emit('alertio', "There is no user " + username_by_user);
+                        }
                     });
 
             });
             socket.on('getDB', arg => {
                 quotesCollection.find().toArray()
                     .then(results => {
-                        console.log(results);
                         io.emit('data', JSON.stringify(results));
                     });
             });

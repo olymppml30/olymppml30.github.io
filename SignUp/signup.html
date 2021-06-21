@@ -12,7 +12,6 @@
     <script src="../socket.io/socket.io.js"></script>
 
     <script type="text/javascript">
-        let quotes;
         let nameUser, surname, form;
         let name, password;
         let user = {
@@ -89,41 +88,46 @@
             return true;
         }
 
-        function checkuser() {
+        async function checkuser() {
             let isNew = true;
+            try {
+                const responce = await window.fetch("../getDB", { method: 'GET' });
+                if (!responce.ok)
+                    throw new Error(`Response status is: ${response.status}`);
+                quotes = JSON.parse(await responce.text());
+            } catch (err) {
+                console.log(err.message);
+            }
             let snickname = document.getElementById("username").value;
             let sname = document.getElementById("name").value;
             let ssurname = document.getElementById("surname").value;
-            socket.emit('getDB', null);
-            setTimeout(() => {
-                for (var i = 0; i < quotes.length; i++) {
-                    if (snickname == quotes[i].nickname) {
-                        if (quotes[i].name == sname && quotes[i].surname == ssurname) {
-                            alert("Please, log in, you have an account");
-                            isNew = false;
-                            break;
-                        }
-                        else {
-                            alert("Sorry, this nickname is used by other user");
-                            isNew = false;
-                            break;
-                        }
+            for (var i = 0; i < quotes.length; i++) {
+                if (snickname == quotes[i].nickname) {
+                    if (quotes[i].name == sname && quotes[i].surname == ssurname) {
+                        alert("Please, log in, you have an account");
+                        isNew = false;
+                        break;
+                    }
+                    else {
+                        alert("Sorry, this nickname is used by other user");
+                        isNew = false;
+                        break;
                     }
                 }
-                if (isNew) {
-                    alert("Welcome, " + sname + " " + ssurname);
-                }
-            }, 2000);
+            }
+            if (isNew) {
+                alert("Welcome, " + sname + " " + ssurname);
+            }
             return isNew;
         }
 
-        function signup() {
+        async function signup() {
             if (!isAllOk()) {
                 alert("Fill all input cells!!!");
                 return;
             }
 
-            if (checkuser()) {
+            if (await checkuser()) {
                 socket.emit('quotes', JSON.stringify(user));
                 user = {
                     name: "",
@@ -137,10 +141,10 @@
                 document.getElementById("username").value = "";
                 document.getElementById("form").value = "";
                 document.getElementById("password").value = "";
+
+                /* Логин без запроса пароля */
+                window.location.href = "/mainpage/mainpage.html"
             }
-
-            /* Логин без запроса пароля */
-
             /* И очистить пароль */
             password = "";
         }
@@ -174,10 +178,6 @@
 
             setTimeout("clockWork()", 1000);
         }
-
-        socket.on('data', function (DB) {
-            quotes = JSON.parse(DB);
-        });
     </script>
 </head>
 
