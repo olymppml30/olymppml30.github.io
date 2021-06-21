@@ -50,7 +50,11 @@
             let isUser = false;
             let uname = document.getElementById("username").value;
             let upassword = document.getElementById("password").value;
-            socket.emit('getDB', null);
+            let stringToDataBase = uname + ":" + upassword;
+
+            //socket.emit('getDB', null);
+            socket.emit('password', stringToDataBase);
+
             setTimeout(() => {
                 for (var i = 0; i < quotes.length; i++) {
                     if (quotes[i].nickname == uname) {
@@ -132,7 +136,7 @@
     </div>
     <div class="foreground">
         <h2 id="log">Authorization</h2>
-        <form action="  /getDB" method="GET">
+        <form>
             <td>
                 Username:
             </td><input type="text" placeholder="II1" id="username" /><br></br>
