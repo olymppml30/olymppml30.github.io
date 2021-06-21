@@ -30,7 +30,7 @@
                 if (quotes[i].nickname == uname) {
                     isUser = true;
                     if (quotes[i].password != upassword) {
-                        alert("Incorrect password");
+                        alert("Incorrect password or username");
                         isFind = false;
                         break;
                     }
@@ -49,13 +49,14 @@
         async function logIn() {
             if (await finduser()) {
                 /* Перекинуть пользователя на сервер, если пароль правильный */
+                window.location.href = "https://ya.ru";
 
                 /* Чистим поля ввода */
                 document.getElementById("username").value = "";
                 document.getElementById("password").value = "";
             }
             else {
-                document.getElementById("password").value = "";
+                window.location.href = "/";
             }
         }
 
