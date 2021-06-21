@@ -36,18 +36,18 @@ MongoClient.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongod
             res.sendFile(__dirname + '/signup/signup.html');
         });
 
-        app.get('/getDB', (req, res) => {
-            db.collection('quotes').find().toArray()
-                .then(results => {
-                    console.log(results);
-                    res.send(JSON.stringify(results));
-                })
-        });
-
         io.on('connection', (socket) => {
             socket.on('quotes', newEl => {
                 let user = JSON.parse(newEl);
                 quotesCollection.insertOne(user);
+            });
+
+            socket.on('getDB', arg => {
+                client.db('DataBase').collection('quotes').find().toArray()
+                    .then(results => {
+                        console.log(results);
+                        io.emit('data', JSON.stringify(results));
+                    });
             });
         });
 

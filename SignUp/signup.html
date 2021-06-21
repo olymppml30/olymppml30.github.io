@@ -11,6 +11,7 @@
               -->
     <script src="../socket.io/socket.io.js"></script>
     <script type="text/javascript">
+        let quotes;
         let nameUser, surname, form;
         let name, password;
         let user = {
@@ -87,47 +88,41 @@
             return true;
         }
 
-        async function checkuser() {
+        function checkuser() {
             let isNew = true;
-            try {
-                const responce = await window.fetch("../getDB", { method: 'GET' });
-                if (!responce.ok)
-                    throw new Error(`Response status is: ${response.status}`);
-                quotes = JSON.parse(await responce.text());
-            } catch (err) {
-                console.log(err.message);
-            }
             let snickname = document.getElementById("username").value;
             let sname = document.getElementById("name").value;
             let ssurname = document.getElementById("surname").value;
-
-            for (var i = 0; i < quotes.length; i++) {
-                if (snickname == quotes[i].nickname) {
-                    if (quotes[i].name == sname && quotes[i].surname == ssurname) {
-                        alert("Please, log in, you have an account");
-                        isNew = false;
-                        break;
-                    }
-                    else {
-                        alert("Sorry, this nickname is used by other user");
-                        isNew = false;
-                        break;
+            socket.emit('getDB', null);
+            setTimeout(() => {
+                for (var i = 0; i < quotes.length; i++) {
+                    if (snickname == quotes[i].nickname) {
+                        if (quotes[i].name == sname && quotes[i].surname == ssurname) {
+                            alert("Please, log in, you have an account");
+                            isNew = false;
+                            break;
+                        }
+                        else {
+                            alert("Sorry, this nickname is used by other user");
+                            isNew = false;
+                            break;
+                        }
                     }
                 }
-            }
-            if (isNew) {
-                alert("Welcome, " + sname + " " + ssurname);
-            }
+                if (isNew) {
+                    alert("Welcome, " + sname + " " + ssurname);
+                }
+            }, 2000);
             return isNew;
         }
 
-        async function signup() {
+        function signup() {
             if (!isAllOk()) {
                 alert("Fill all input cells!!!");
                 return;
             }
 
-            if (await checkuser()) {
+            if (checkuser()) {
                 socket.emit('quotes', JSON.stringify(user));
                 user = {
                     name: "",
@@ -178,6 +173,10 @@
 
             setTimeout("clockWork()", 1000);
         }
+
+        socket.on('data', function (DB) {
+            quotes = JSON.parse(DB);
+        });
     </script>
 </head>
 
