@@ -24,8 +24,8 @@
 
         function changeName() {
             name = document.getElementById("username").value;
-            user.nickname = name;
             document.getElementById("username").className = "normalData";
+            user.nickname = name;
         }
 
         function changePassword() {
@@ -100,10 +100,6 @@
             let snickname = document.getElementById("username").value;
             let sname = document.getElementById("name").value;
             let ssurname = document.getElementById("surname").value;
-
-            alert(snickname);
-            alert(sname);
-            alert(ssurname);
 
             for (var i = 0; i < quotes.length; i++) {
                 if (snickname == quotes[i].nickname) {

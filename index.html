@@ -9,6 +9,40 @@
     <script src="./socket.io/socket.io.js"></script>
     <script type="text/javascript">
 
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie() {
+            let user = getCookie("username");
+            if (user != "") {
+                document.getElementById("username").value = user;
+            } else {
+                user = document.getElementById("username").value;
+                if (user != "" && user != null) {
+                    setCookie("username", user, 365);
+                }
+            }
+        }
+
         async function finduser() {
             let isFind = true;
             let isUser = false;
@@ -22,9 +56,6 @@
             }
             let uname = document.getElementById("username").value;
             let upassword = document.getElementById("password").value;
-
-            console.log(uname);
-            console.log(upassword);
 
             for (var i = 0; i < quotes.length; i++) {
                 if (quotes[i].nickname == uname) {
@@ -47,6 +78,7 @@
         }
 
         async function logIn() {
+            setCookie("username", document.getElementById("username").value, 365);
             if (await finduser()) {
                 /* Перекинуть пользователя на сервер, если пароль правильный */
                 window.location.href = "https://ya.ru";
@@ -92,7 +124,7 @@
     </script>
 </head>
 
-<body onload="clockWork()">
+<body onload="clockWork(); checkCookie()">
     <div class="clockpage">
         <span id="clock"></span><br>
         <span id="date"></span><br>
