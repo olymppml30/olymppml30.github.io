@@ -58,33 +58,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
 
         app.use(bodyParser.urlencoded({ extended: true }));
 
-        app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/index.html');
-        });
-
-        app.get('/styles.css', (req, res) => {
-            res.sendFile(__dirname + '/styles.css');
-        });
-
-        app.get('/signup/styles.css', (req, res) => {
-            res.sendFile(__dirname + '/signup/styles.css');
-        });
-
-        app.get('/src/pml30.jpg', (req, res) => {
-            res.sendFile(__dirname + '/src/pml30.jpg');
-        });
-
-        app.get('/mainpage/mainpage.html', (req, res) => {
-            res.sendFile(__dirname + '/mainpage/mainpage.html');
-        });
-
-        app.get('/mainpage/styles.css', (req, res) => {
-            res.sendFile(__dirname + '/mainpage/styles.css');
-        });
-
-        app.get('/signup/signup.html', (req, res) => {
-            res.sendFile(__dirname + '/signup/signup.html');
-        });
+        app.use(express.static('/'));
 
         app.get('/user_module/user_hash_password.js', (req, res) => {
             res.sendFile(__dirname + '/user_module/user_hash_password.js');
