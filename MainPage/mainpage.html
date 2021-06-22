@@ -15,11 +15,24 @@
   </script>
 </head>
 
-<body onload="getUser()">
+<body onload="getUser(); clockDraw()">
 
   <div class="header">
     <h1>Olymp30</h1>
   </div>
+
+  <div class="clock">
+    <div class="hour">
+      <div class="hr" id="hr"></div>
+    </div>
+    <div class="min">
+      <div class="mn" id="mn"></div>
+    </div>
+    <div class="sec">
+      <div class="sc" id="sc"></div>
+    </div>
+  </div>
+  <script src="clock.js"></script>
 
   <div class="topnav">
     <div class="dropdown">
