@@ -56,6 +56,23 @@
             socket.emit('password', stringToDataBase);
         }
 
+        async function findUserByNickname(nickname) {
+            try {
+                const responce = await window.fetch("../getDB", { method: 'GET' });
+                if (!responce.ok)
+                    throw new Error(`Response status is: ${response.status}`);
+                quotes = JSON.parse(await responce.text());
+            } catch (err) {
+                console.log(err.message);
+            }
+
+            for (user in quotes) {
+                if (user.nickname === nickname)
+                    return user;
+            }
+            return null;
+        }
+
         async function logIn() {
             setCookie("username", document.getElementById("username").value, 365);
             finduser();
@@ -92,7 +109,13 @@
         }
         socket.on('redirectToNewPage', URL => {
             if (URL === "http://localhost:8080/Mainpage/mainpage.html") {
-                localStorage.setItem('user', document.getElementById("username").value);
+                let nick = document.getElementById("username").value;
+                localStorage.setItem('nickname', nick);
+                let user = await findUserByNickname(nick);
+
+                localStorage.setItem('name', user.name);
+                localStorage.setItem('surname', user.surname);
+                localStorage.setItem('form', user.form);
             }
             window.location.href = URL;
         });
@@ -122,7 +145,7 @@
             </td><input type="password" placeholder="PML 30 FOREVER!!!" id="password" /><br><br>
             <button id="login" onclick="logIn()">LogIn</button>
         </form>
-        <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button><br><br><br><br>
+        <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button>
         <span id="error"></span>
     </div>
 </body>
