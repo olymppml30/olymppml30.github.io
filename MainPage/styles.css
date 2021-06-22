@@ -176,7 +176,6 @@
     justify-content: center;
     align-items: center;
     background: url(https://antonaniskovich.ru/filearticle/chasy-na-javascript/file/clock.png),
-    url(js.png),
     radial-gradient(circle, rgb(17, 17, 17) 0%, rgb(48, 54, 58) 11%, rgb(16, 120, 199) 70%);
     background-size: cover;
     border-radius: 50%;

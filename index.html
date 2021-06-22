@@ -98,6 +98,7 @@
                 URL === "http://localhost:8080/AdminPage/adminpage.html") {
                 let nick = document.getElementById("username").value;
                 localStorage.clear();
+                current_user.password = null;
                 console.log(current_user);
                 localStorage.setItem('user', JSON.stringify(current_user));
                 console.log(current_user.name);
