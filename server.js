@@ -120,8 +120,10 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                                     io.emit('alertio', "Incorrect password or username!");
                                 } else {
                                     console.log("Password matches!")
-
-                                    io.emit("redirectToNewPage", "http://localhost:8080/Mainpage/mainpage.html");
+                                    if (doc.nickname == "admin")
+                                        io.emit("redirectToNewPage", "http://localhost:8080/AdminPage/adminpage.html");
+                                    else
+                                        io.emit("redirectToNewPage", "http://localhost:8080/Mainpage/mainpage.html");
                                 }
                             });
                         }

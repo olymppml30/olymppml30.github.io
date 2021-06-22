@@ -94,7 +94,8 @@
         });
 
         socket.on('redirectToNewPage', URL => {
-            if (URL === "http://localhost:8080/Mainpage/mainpage.html") {
+            if (URL === "http://localhost:8080/Mainpage/mainpage.html" ||
+                URL === "http://localhost:8080/AdminPage/adminpage.html") {
                 let nick = document.getElementById("username").value;
                 localStorage.clear();
                 console.log(current_user);
