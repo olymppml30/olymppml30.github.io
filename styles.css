@@ -130,3 +130,11 @@ body {
   td {
     font-family: "Source Serif Pro";
   }
+
+  #error {
+    color: red;
+    font-weight: bold;
+    position: absolute;
+    top: 63%;
+    right: 20%;;
+  }

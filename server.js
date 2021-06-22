@@ -5,7 +5,9 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+
+let currentUser;
 
 function CreateHashPassword(my_password, saltRounds) {
     var hashed_password = "";
@@ -127,6 +129,11 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                             io.emit('alertio', "Incorrect password or username!" + username_by_user);
                         }
                     });
+            });
+
+            socket.on('saveuser', (newUser) => {
+                currentUser = JSON.parse(newUser);
+                //quotesCollection.findOne({ nickname: currentUser },
             });
         });
 

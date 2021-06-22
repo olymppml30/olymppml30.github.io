@@ -56,25 +56,9 @@
             socket.emit('password', stringToDataBase);
         }
 
-        async function findUserByNickname(nickname) {
-            try {
-                const responce = await window.fetch("../getDB", { method: 'GET' });
-                if (!responce.ok)
-                    throw new Error(`Response status is: ${response.status}`);
-                quotes = JSON.parse(await responce.text());
-            } catch (err) {
-                console.log(err.message);
-            }
-
-            for (user in quotes) {
-                if (user.nickname === nickname)
-                    return user;
-            }
-            return null;
-        }
-
         async function logIn() {
             setCookie("username", document.getElementById("username").value, 365);
+            socket.emit('saveuser', JSON.stringify(document.getElementById("username").value));
             finduser();
         }
 
