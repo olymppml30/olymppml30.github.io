@@ -6,9 +6,15 @@
   <link rel="stylesheet" href="styles.css">
   <title>Main page</title>
   <script type="text/javascript">
+    let user = {
+      name: "",
+      surname: "",
+      form: "",
+      nickname: ""
+    };
 
     function getUser() {
-      document.getElementById("username").innerHTML = localStorage.getItem('user');
+      user.nickname = localStorage.getItem('user');
     }
   </script>
 </head>
@@ -30,19 +36,13 @@
         <button id="SignUp" class=".card button">Sign up</button><br><br>
       </div>
     </div>
-    <div class="rightcolumn">
-      <div class="card">
-        <h2 id="username"></h2>
-        <div style="height:100px;">Info...</div>
-      </div>
-    </div>
   </div>
 
   <div class="footer">
-    <a href="#" style="float:right">
+    <p style="float:right">
       <img src="https://school30.spb.ru/!inc/images/PhML30_2.png" style="height:120px;" />
       <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
-    </a>
+    </p><br>
     <h2>Andrey Usikov, Ivan Dmitriev</h2>
     <h2>Maxim Molostov, Vlad Biserov</h2>
     <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
