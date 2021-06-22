@@ -58,7 +58,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
 
         app.use(bodyParser.urlencoded({ extended: true }));
 
-        app.use(express.static('/'));
+        app.use(express.static(__dirname + '/'));
 
         app.get('/user_module/user_hash_password.js', (req, res) => {
             res.sendFile(__dirname + '/user_module/user_hash_password.js');
@@ -115,7 +115,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                                     throw error
                                 } else if (!isMatch) {
                                     console.log("Password doesn't match!")
-                                    io.emit('alertio', "Incorrect password!");
+                                    io.emit('alertio', "Incorrect password or username!");
                                 } else {
                                     console.log("Password matches!")
                                     io.emit("redirectToNewPage", "http://localhost:8080/Mainpage/mainpage.html");
@@ -124,10 +124,9 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         }
                         catch (err) {
                             console.log(err.message);
-                            io.emit('alertio', "There is no user " + username_by_user);
+                            io.emit('alertio', "Incorrect password or username!" + username_by_user);
                         }
                     });
-
             });
         });
 
