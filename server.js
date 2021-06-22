@@ -129,12 +129,6 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                     });
 
             });
-            socket.on('getDB', arg => {
-                quotesCollection.find().toArray()
-                    .then(results => {
-                        io.emit('data', JSON.stringify(results));
-                    });
-            });
         });
 
         http.listen(8080);

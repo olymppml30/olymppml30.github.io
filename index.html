@@ -42,6 +42,10 @@
                     setCookie("username", user, 365);
                 }
             }
+            let err = getCookie("error");
+            if (err != "") {
+                document.getElementById("error").innerHTML = err;
+            }
         }
 
         function finduser() {
@@ -86,13 +90,16 @@
 
             setTimeout("clockWork()", 1000);
         }
-        socket.on('redirectToNewPage', newGameURL => {
-            // redirect to new URL
-            window.location.href = newGameURL;
+        socket.on('redirectToNewPage', URL => {
+            if (URL === "http://localhost:8080/Mainpage/mainpage.html") {
+                localStorage.setItem('user', document.getElementById("username").value);
+            }
+            window.location.href = URL;
         });
 
         socket.on('alertio', msg => {
-            alert(msg);
+            if (document.getElementById("error").innerHTML === "" || document.getElementById("error").innerHTML !== msg)
+                setCookie("error", msg, 0.00035);
             window.location.href = "/";
         });
     </script>
@@ -115,7 +122,8 @@
             </td><input type="password" placeholder="PML 30 FOREVER!!!" id="password" /><br><br>
             <button id="login" onclick="logIn()">LogIn</button>
         </form>
-        <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button>
+        <button id="signup" onclick="window.location.href='./SignUp/signup.html'">Sign Up</button><br><br><br><br>
+        <span id="error"></span>
     </div>
 </body>
 

@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="styles.css">
   <title>Main page</title>
+  <script type="text/javascript">
+
+    function getUser() {
+      document.getElementById("username").innerHTML = localStorage.getItem('user');
+    }
+  </script>
 </head>
-<body>
 
-<div class="header">
-  <a href="#" style="position: absolute; top:0; right:0;">
-    <img src=https://pml30.ru/images/logo.png style="height: 140px;"/>
-  </a>
-  <h1>Olymp30</h1>  
-</div>
+<body onload="getUser()">
 
-<div class="row">
-  <div class="leftcolumn">
-    <div class="card">
-      <a>
+  <div class="header">
+    <img src=https://pml30.ru/images/logo.png style="height: 140px; position: absolute;
+     top:0; right:0;" />
+    <h1>Olymp30</h1>
+  </div>
+
+  <div class="row">
+    <div class="leftcolumn">
+      <div class="card">
         <h2>It olymp</h2>
-      </a>
-      <h5>05.06.2021, 13:00 - 16:00</h5>
-      <div class="fakeimg" style="height:fit-contents">Andrey Usikov win</div>
-      <button id="SignUp" class=".card button">Sign up</button><br><br>
+        <h5>05.06.2021, 13:00 - 16:00</h5>
+        <div class="fakeimg" style="height:fit-contents"></div>
+        <button id="SignUp" class=".card button">Sign up</button><br><br>
+      </div>
+    </div>
+    <div class="rightcolumn">
+      <div class="card">
+        <h2 id="username"></h2>
+        <div style="height:100px;">Info...</div>
+      </div>
     </div>
   </div>
-  <div class="rightcolumn">
-    <div class="card">
-      <h2>Username</h2>
-      <div style="height:100px;">Info...</div>
-    </div>
-  </div>
-</div>
 
-<div class="footer">
-  <a href="#" style="float:right">
-    <img src="https://school30.spb.ru/!inc/images/PhML30_2.png" style="height:120px;"/>
-    <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;"/>
-  </a>
-  <h2>Andrey Usikov, Ivan Dmitriev</h2> 
-  <h2>Maxim Molostov, Vlad Biserov</h2>
-  <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
-</div>
+  <div class="footer">
+    <a href="#" style="float:right">
+      <img src="https://school30.spb.ru/!inc/images/PhML30_2.png" style="height:120px;" />
+      <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
+    </a>
+    <h2>Andrey Usikov, Ivan Dmitriev</h2>
+    <h2>Maxim Molostov, Vlad Biserov</h2>
+    <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
+  </div>
 
 </body>
+
 </html>
