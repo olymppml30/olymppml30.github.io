@@ -127,7 +127,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         }
                         catch (err) {
                             console.log(err.message);
-                            io.emit('alertio', "Incorrect password or username!" + username_by_user);
+                            io.emit('alertio', "Incorrect password or username!");
                         }
                     });
             });
@@ -145,7 +145,6 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         }
                         catch (err) {
                             console.log(err.message);
-                            io.emit('alertio', err.message);
                         }
                     });
             });

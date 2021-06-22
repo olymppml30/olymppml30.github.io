@@ -129,13 +129,6 @@
 
             if (await checkuser()) {
                 socket.emit('quotes', JSON.stringify(user));
-                user = {
-                    name: "",
-                    surname: "",
-                    form: "",
-                    nickname: "",
-                    password: "",
-                };
                 document.getElementById("name").value = "";
                 document.getElementById("surname").value = "";
                 document.getElementById("username").value = "";
@@ -143,6 +136,16 @@
                 document.getElementById("password").value = "";
 
                 /* Логин без запроса пароля */
+                localStorage.clear();
+                user.password = null;
+                localStorage.setItem('user', JSON.stringify(user));
+                user = {
+                    name: "",
+                    surname: "",
+                    form: "",
+                    nickname: "",
+                    password: "",
+                };
                 window.location.href = "/mainpage/mainpage.html"
             }
             /* И очистить пароль */

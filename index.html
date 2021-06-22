@@ -43,10 +43,6 @@
                     setCookie("username", user, 365);
                 }
             }
-            let err = getCookie("error");
-            if (err != "") {
-                document.getElementById("error").innerHTML = err;
-            }
         }
 
         function finduser() {
@@ -115,9 +111,8 @@
         });
 
         socket.on('alertio', msg => {
-            if (document.getElementById("error").innerHTML === "" || document.getElementById("error").innerHTML !== msg)
-                setCookie("error", msg, 0.00035);
-            window.location.href = "/";
+            document.getElementById("error").innerHTML = msg;
+            document.getElementById("password").value = "";
         });
     </script>
 </head>
