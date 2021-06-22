@@ -11,6 +11,10 @@
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
+      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
+                                                       Surname: ${user.surname}<br>
+                                                       Form: ${user.form}<br>
+                                                       Nickname: ${user.nickname}<br>`;
     }
   </script>
 </head>
@@ -36,9 +40,9 @@
 
   <div class="topnav">
     <div class="dropdown">
-      <a>User</a>
+      <button class="dropbtn">User Information</button>
       <div class="dropdown-content">
-        <a>Info</a>
+        <a id="userinfo"></a>
       </div>
     </div>
   </div>
@@ -56,12 +60,12 @@
 
   <div class="footer">
     <p style="float:right">
-      <img src=https://pml30.ru/images/logo.png style="height: 120px;" />
-      <img src="https://school30.spb.ru/!inc/images/PhML30_2.png" style="height:120px;" />
       <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
-    </p><br>
-    <h2>Andrey Usikov, Ivan Dmitriev</h2>
-    <h2>Maxim Molostov, Vlad Biserov</h2>
+    </p>
+    <p style="float:left">
+      <img src=https://pml30.ru/images/logo.png style="height: 120px;" />
+    </p>
+    <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
     <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
   </div>
 
