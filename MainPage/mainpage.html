@@ -6,15 +6,11 @@
   <link rel="stylesheet" href="styles.css">
   <title>Main page</title>
   <script type="text/javascript">
-    let user = {
-      name: "",
-      surname: "",
-      form: "",
-      nickname: ""
-    };
+    let user;
+    let str;
 
     function getUser() {
-      user.nickname = localStorage.getItem('user');
+      user = JSON.parse(localStorage.getItem('user'));
     }
   </script>
 </head>
