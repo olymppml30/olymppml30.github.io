@@ -16,6 +16,12 @@
             nickname: "",
             password: "",
         };
+
+        let team = {
+            teamName: "",
+            captain: null,
+            teammates: null,
+        };
         var socket = io();
 
         function changePassword() {
@@ -42,6 +48,9 @@
         });
 
         socket.on('redirectToNewPage', URL => {
+            user.password = null;
+            team.captain = user;
+            socket.emit('addTeam', "Test", team, user.name + " " + user.surname);
             window.location.href = URL;
         });
 

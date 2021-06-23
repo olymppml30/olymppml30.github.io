@@ -118,7 +118,7 @@
         location.reload();
       }
       olymp.name = document.getElementById("name").value;
-      olymp.description = document.getElementById("descr").value;
+      olymp.description = document.getElementById("validate-input").value;
 
       socket.emit('newOlymp', JSON.stringify(olymp));
       location.href = "http://localhost:8080/AdminPage/adminpage.html"

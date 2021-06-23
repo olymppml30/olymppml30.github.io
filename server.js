@@ -187,6 +187,25 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                     });
             });
 
+            socket.on('addTeam', (olympName, newTeam, newTeamName) => {
+
+                olympsCollection.findOne({ name: olympName },
+                    function (err, doc) {
+                        try {
+                            if (err) {
+                                throw err;
+                            }
+                            newTeam.teamName = newTeamName;
+                            doc.allTeams.push(newTeam);
+
+                            olympsCollection.save(doc);
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                        }
+                    });
+            });
+
         });
 
         http.listen(8080);
