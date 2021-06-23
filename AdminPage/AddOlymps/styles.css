@@ -8,7 +8,7 @@ body {
   background-size: cover;
   background-attachment: fixed;
   background-color: rgb(76.8, 120.3, 204.8);
-  background-color: #EBEBEB
+  background-color: #EBEBEB;
 }
 .container {
   width: 100%;
@@ -91,7 +91,6 @@ h1 {
 
 #signup {
   position: absolute;
-  margin-top: 20px;
   right: 35px;
   margin-bottom: 10px;
   width: 200px;
@@ -218,6 +217,88 @@ input {
   margin-top: 10px; 
 }
 textarea {
-  max-width: 600px;
-  max-height: 100px;
+  resize: none;
+  width: 500px;
+  height: 100px;
+  font-family: "Source Serif Pro";
+  color: #333333;
+  line-height: 1.2;
+  font-size: 18px;
+  display: block;
+  width: 100%;
+  background: transparent;
+  padding: 0 20px;
+  margin: auto;
+  background-color: #f7f7f7;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.checkbox-other {
+	display: block;
+	margin: 0 0 10px 0;
+	cursor: pointer;
+	user-select: none;
+	position: relative;
+}
+.checkbox-other input[type=checkbox] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+.checkbox-other span {
+	display: inline-block;
+	position: relative; 
+	padding: 0 0 0 35px; 
+	line-height: 22px;    
+}
+.checkbox-other span:before {
+	content: "";
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	transition: background 0.3s ease;
+	background: url(https://snipp.ru/uploads/contents/checkbox-1.png) 0 0 no-repeat;
+}
+ 
+/* Checked */
+.checkbox-other input[type=checkbox]:checked + span:before {
+	background-image: url(https://snipp.ru/uploads/contents/checkbox-2.png);
+}
+ 
+/* Focus */
+.focused span:before {
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+ 
+/* Hover */
+.checkbox-other span:hover:before {
+	filter: brightness(110%);
+}
+ 
+/* Active */
+.checkbox-other span:active:before {
+	filter: brightness(80%);
+}
+ 
+/* Disabled */
+.checkbox-other input[type=checkbox]:disabled + span {
+	color: #666;
+	cursor: default;
+}
+.checkbox-other input[type=checkbox]:disabled + span:before {
+	filter: grayscale(100%);
+	opacity: 0.6;
+}
+
+h2 {
+  text-align: center;
+  padding: 0;
+  margin: 15px;
 }

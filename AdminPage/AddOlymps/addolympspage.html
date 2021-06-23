@@ -108,6 +108,10 @@
       }
     }
 
+    function setStatus() {
+      olymp.isCommand = !(document.getElementById("isCommand").checked);
+    }
+
     function addOlymp() {
       if (olymp.statements === null || olymp.answers === null) {
         alert("Fill in statements and answers!!!");
@@ -135,23 +139,21 @@
       <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
       <div class="wrapper-info"><span class="txt">Date of start</span></div>
       <div class="validate-input">
-        <input id="dateStart" placeholder="01.01.2021; 12:00">
+        <input id="dateStart" placeholder="01.01.2021; 12:00" onchange="setStart()">
       </div>
       <div class="wrapper-info"><span class="txt">Date of end</span></div>
       <div class="validate-input">
-        <input id="dateEnd" placeholder="01.01.2021; 15:00">
+        <input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd()">
       </div>
       <div class="wrapper-info"><span class="txt">Statements</span></div>
-      <input id="statements" type="file" onchange="loadStatements()">
+      <input id="statements" type="file" onchange="readFiles(this)">
       <div class="wrapper-info"><span class="txt">Correct answers on all tests</span></div>
-      <input id="answers" type="file" onchange="loadAnswers()">
+      <input id="answers" type="file" onchange="readFiles(this)">
 
-      <input type="checkbox" id="isCommand" onchange="setStatus()"> &nbsp;Individual contest
-
-      <div class="wrapper-info"><span class="txt">Participants per command</span></div>
-      <div class="validate-input">
-        <input id="maxpart" placeholder="4">
-      </div>
+      <label class="checkbox-other">
+        <input type="checkbox" id="isCommand">
+        <span>Individual contest</span>
+      </label>
 
       <button id="signup" onclick="addOlymp()">Add contest</button>
     </div>
