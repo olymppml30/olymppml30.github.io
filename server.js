@@ -153,6 +153,40 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
 
                 olympsCollection.insertOne(olymp);
             });
+
+            socket.on('singleolympreg', (user) => {
+                var array_of_strings = user.split(":");
+                let username_by_user = array_of_strings[0];
+                console.log(username_by_user);
+                let passwordEnteredByUser = array_of_strings[1];
+                console.log(passwordEnteredByUser);
+                quotesCollection.findOne({ nickname: username_by_user },
+                    function (err, doc) {
+                        try {
+                            if (err)
+                                throw err;
+                            console.log(doc);
+                            console.log(doc.nickname);
+                            let hashed_password = doc.password;
+                            bcrypt.compare(passwordEnteredByUser, hashed_password, function (error, isMatch) {
+                                if (error) {
+                                    throw error
+                                } else if (!isMatch) {
+                                    console.log("Password doesn't match!")
+                                    io.emit('alertio', "Incorrect password!");
+                                } else {
+                                    console.log("Password matches!");
+                                    io.emit('redirectToNewPage', "http://localhost:8080/Mainpage/mainpage.html");
+                                }
+                            });
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                            io.emit('alertio', "Incorrect password!");
+                        }
+                    });
+            });
+
         });
 
         http.listen(8080);

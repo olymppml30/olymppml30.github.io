@@ -6,22 +6,17 @@
     <title>Sign up to olymp</title>
     <h1>Sign up to olymp</h1>
     <link rel="stylesheet" type="text/css" href="./styles.css">
-
-    <script type="text/javascript">
-        let nameUser, surname, form;
-        let name, password;
-        let user = {
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var password;
+        var user = {
             name: "",
             surname: "",
             form: "",
             nickname: "",
             password: "",
         };
-        function changeName() {
-            name = document.getElementById("username").value;
-            document.getElementById("username").className = "normalData";
-            user.nickname = name;
-        }
+        var socket = io();
 
         function changePassword() {
             password = document.getElementById("password").value;
@@ -29,27 +24,31 @@
             user.password = password;
         }
 
-        function changeUserName() {
-            nameUser = document.getElementById("name").value;
-            document.getElementById("name").className = "normalData";
-            user.name = nameUser;
+        function getUser() {
+            user = JSON.parse(localStorage.getItem('user'));
         }
 
-        function changeSurname() {
-            surname = document.getElementById("surname").value;
-            document.getElementById("surname").className = "normalData";
-            user.surname = surname;
+        function findUser() {
+            let uname = user.nickname;
+            let upassword = document.getElementById("password").value;
+            let stringToDataBase = uname + ":" + upassword;
+
+            console.log(stringToDataBase);
+            socket.emit('singleolympreg', stringToDataBase);
         }
 
-        function changeForm() {
-            form = document.getElementById("form").value;
-            document.getElementById("form").className = "normalData";
-            user.form = form;
-        }
+        socket.on('alertio', msg => {
+            document.getElementById("error").innerHTML = msg;
+        });
+
+        socket.on('redirectToNewPage', URL => {
+            window.location.href = URL;
+        });
+
     </script>
 </head>
 
-<body>
+<body onload="getUser()">
     <div class=" foreground">
         <h2 id="log"></h2>
 
@@ -58,7 +57,8 @@
         <input id="password" type="password" onchange="changePassword()" placeholder="PML30 FOREVER"
             class="normalData"><br><br>
 
-        <button id="signup" onclick="signup()">Finish</button>
+        <button id="signup" onclick="findUser()">Finish</button><br><br>
+        <span id="error"></span>
         <h2 id="log"></h2>
     </div>
 </body>
