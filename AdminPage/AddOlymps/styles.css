@@ -73,17 +73,6 @@ h1 {
   clear: both;
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  font-size: 10px;
-  background: rgba(94, 94, 94, 0.672);
-  position: absolute;
-  bottom: 0%;
-  left: 0%;
-  width: 100%;
-}
-
  /* Style the top navigation bar */
  .topnav {
   overflow: hidden;

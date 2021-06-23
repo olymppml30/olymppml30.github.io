@@ -4,15 +4,125 @@
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="styles.css">
-  <title>Main page</title>
+  <title>Add olymp</title>
+  <script src="../../socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    let olympName;
-    let olympDescr;
+    var socket = io();
 
+    function checkAdmin() {
+      if (JSON.parse(localStorage.getItem('user')) === null ||
+        JSON.parse(localStorage.getItem('user')).nickname !== "admin")
+        location.href = "http://localhost:8080";
+    }
+
+    /* Olymp object */
+    let captain = {
+      name: "",
+      surname: "",
+      form: "",
+      username: "",
+      password: "",
+    };
+
+    let user = {
+      name: "",
+      surname: "",
+      form: "",
+    }
+
+    let teammates = [];
+
+    let team = {
+      teamName: "",
+      captain,
+      teammates,
+    };
+
+    let allTeams = [];
+
+    let olymp = {
+      name: "",                /* olymp name (ex. Programming command olymp) */
+      description: "",         /* description of olymp (ex. PML 30 first olymp) */
+      startDate: new Date,     /* date of start (ex. 01.09.2021) */
+      endDate: new Date,       /* date of ending (ex. 01.01.2022) */
+      state: 0,                /* 0 - NOT STARTED, 1 - IN PROGRESS, 2 - FINISHED */
+      statements: null,        /* *.pdf */
+      answers: null,           /* *.txt */
+      scorePerTask: 30,        /* amount of score per one task */
+      isRegisterOpen: true,    /* flag if register open */
+      isCommand: true,         /* false - individual, true - command */
+      allTeams,
+    };
+    /* End of olymp object */
+
+    const createIframe = (pdf) => {
+      const iframe = document.createElement("iframe");
+      iframe.src = URL.createObjectURL(pdf);
+      iframe.width = innerWidth;
+      iframe.height = innerHeight;
+      olymp.statements = iframe;
+      URL.revokeObjectURL(pdf);
+    };
+
+    function parseDate(text) {
+      var date = new Date();
+      let rows = text.split(";");
+      let dayData = rows[0].split(".");
+      let timeData = rows[1].split(":");
+      date.setFullYear(dayData[2], dayData[1] - 1, dayData[0]);
+      date.setHours(timeData[0], timeData[1], 0, 0);
+
+      return date;
+    }
+
+    function setStart(e) {
+      let date = parseDate(e.value);
+
+      olymp.startDate = date;
+    }
+
+    function setEnd(e) {
+      let date = parseDate(e.value);
+
+      olymp.endDate = date;
+    }
+
+    function readFiles(e) {
+      if (window.FileList && window.File) {
+        const file = e.files[0];
+        const type = file.type.replace(/\/.+/, "");
+
+        if (file.type === "application/pdf") {
+          createIframe(file);
+          return;
+        }
+        const reader = new FileReader();
+
+        reader.addEventListener('load', event => {
+          let content = event.target.result;
+
+          olymp.answers = content;
+        });
+
+        reader.readAsText(file);
+      }
+    }
+
+    function addOlymp() {
+      if (olymp.statements === null || olymp.answers === null) {
+        alert("Fill in statements and answers!!!");
+        location.reload();
+      }
+      olymp.name = document.getElementById("name").value;
+      olymp.description = document.getElementById("descr").value;
+
+      socket.emit('newOlymp', JSON.stringify(olymp));
+      location.href = "http://localhost:8080/AdminPage/adminpage.html"
+    }
   </script>
 </head>
 
-<body>
+<body onload="checkAdmin()">
   <h1>Add new contest</h1>
 
   <div class=" foreground">
@@ -20,27 +130,15 @@
 
     <pre><b>Contest Name</b></pre><input id="name" placeholder=" Olymp30"><br><br>
     <pre><b>Contest description</b></pre><textarea id="descr" placeholder="Опишите олимпиаду..."></textarea><br><br>
-    <pre><b>Date of start</b></pre><input id="dateStart" placeholder="01.01.2021; 12:00"><br><br>
-    <pre><b>Date of end</b></pre><input id="dateEnd" placeholder="01.01.2021; 15:00"><br><br>
-    <pre><b>Statements</b></pre><input id="statements" type="file" onchange="loadStatements()"><br><br>
-    <pre><b>Correct answers on all tests</b></pre><input id="answers" type="file" onchange="loadAnswers()"><br><br>
+    <pre><b>Date of start</b></pre><input id="dateStart" placeholder="01.01.2021; 12:00"
+      onchange="setStart(this)"><br><br>
+    <pre><b>Date of end</b></pre><input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd(this)"><br><br>
+    <pre><b>Statements</b></pre><input id="statements" type="file" onchange="readFiles(this)"><br><br>
+    <pre><b>Correct answers on all tests</b></pre><input id="answers" type="file" onchange="readFiles(this)"><br><br>
     <input type="checkbox" id="isCommand" onchange="setStatus()"> &nbsp;Individual contest<br><br>
-    <pre><b>Participants per command</b></pre><input id="maxpart" placeholder="4"><br><br>
 
     <button id="signup" onclick="addOlymp()">Add contest</button>
   </div>
-
-  <div class="footer">
-    <p style="float:right">
-      <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
-    </p>
-    <p style="float:left">
-      <img src=https://pml30.ru/images/logo.png style="height: 120px;" />
-    </p>
-    <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
-    <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
-  </div>
-
 </body>
 
 </html>

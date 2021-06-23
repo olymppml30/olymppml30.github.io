@@ -11,6 +11,8 @@
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
+      if (user === null || user.nickname !== "admin")
+        location.href = "http://localhost:8080";
       document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
                                                        Surname: ${user.surname}<br>
                                                        Form: ${user.form}<br>
