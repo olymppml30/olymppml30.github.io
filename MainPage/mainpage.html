@@ -16,6 +16,11 @@
                                                        Form: ${user.form}<br>
                                                        Nickname: ${user.nickname}<br>`;
     }
+    function logout() {
+      localStorage.clear();
+      window.location.href = "http://localhost:8080/";
+    }
+
   </script>
 </head>
 
@@ -34,6 +39,8 @@
         <p id="userinfo"></p>
       </div>
     </div>
+    <button class="logout" onclick="logout()"><i class="fa fa-sign-out"></i> Log out</button>
+
   </div>
 
   <script>

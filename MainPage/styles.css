@@ -1,3 +1,5 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
 * {
     box-sizing: border-box;
   }
@@ -52,6 +54,9 @@
     background-color: white;
     padding: 20px;
     margin-top: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+
     font-size: 20px;
     height: max-content;
     border-radius: 18px;
@@ -101,11 +106,12 @@
 
    /* Style the top navigation bar */
    .topnav {
+    position: relative;
     overflow: visible;
     background-color: #333;
     border-radius: 18px;
-    margin: auto;
-    width: 98%;
+    margin-left: 20px;
+    margin-right: 20px;
   }
   
   /* Style the topnav links */
@@ -117,7 +123,7 @@
     padding: 14px 16px;
     text-decoration: none;
     border-radius: 18px;
-  }*/
+  }
   
   /* Change color on hover */
   .topnav a:hover, .dropdown:hover .dropbtn {
@@ -155,6 +161,19 @@
     width: max-content;
   }
 
+  .logout {
+    position: absolute;
+    top: 7px;
+    font-family: "Source Serif Pro";
+    font-size: 27px;
+    margin-left: 5px;
+    margin-top: 0px;
+    padding: 5px 20px;
+    background-color: #F95959;
+    border-radius: 20px;
+    border-color: grey;
+  }
+  
 .dropdown-content p {
     color: black;
     padding: 12px 16px;
