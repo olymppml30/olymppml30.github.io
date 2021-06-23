@@ -16,9 +16,31 @@
                                                        Form: ${user.form}<br>
                                                        Nickname: ${user.nickname}<br>`;
     }
+<<<<<<< HEAD
     function logout() {
       localStorage.clear();
       window.location.href = "http://localhost:8080/";
+=======
+
+    function seeUser() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function getCommandByName() {
+
+      /*if (Command) return true;
+      else false*/
+      return false;
+    }
+
+    function redirectToReg() {
+      if (getCommandByName) {
+        window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
+      }
+      else {
+        window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
+      }
+>>>>>>> 239219d... Add reg to olymp
     }
 
   </script>
@@ -32,7 +54,7 @@
 
   <div class="topnav">
     <div class="dropdown">
-      <button onclick="myFunction()" class="dropbtn">
+      <button onclick="seeUser()" class="dropbtn">
         <img src="../src/user.png" style="height: 30px;" />
       </button>
       <div id="myDropdown" class="dropdown-content">
@@ -43,37 +65,13 @@
 
   </div>
 
-  <script>
-    /* When the user clicks on the button, 
-    toggle between hiding and showing the dropdown content */
-    function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    // Close the dropdown if the user clicks outside of it
-    /*window.onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }*/
-  </script>
-
-
   <div class="row">
     <div class="leftcolumn">
       <div class="card">
         <h2>It olymp</h2>
         <h5>05.06.2021, 13:00 - 16:00</h5>
         <div class="fakeimg" style="height:fit-contents"></div>
-        <button id="SignUp" class=".card button">Sign up</button><br><br>
+        <button id="SignUp" class=".card button" onclick="redirectToReg()">Sign up</button><br><br>
       </div>
     </div>
   </div>

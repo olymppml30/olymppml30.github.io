@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sign up to olymp</title>
+    <h1>Sign up to olymp</h1>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+
+    <script type="text/javascript">
+        let nameUser, surname, form;
+        let name, password;
+        let user = {
+            name: "",
+            surname: "",
+            form: "",
+            nickname: "",
+            password: "",
+        };
+        function changeName() {
+            name = document.getElementById("username").value;
+            document.getElementById("username").className = "normalData";
+            user.nickname = name;
+        }
+
+        function changePassword() {
+            password = document.getElementById("password").value;
+            document.getElementById("password").className = "normalData";
+            user.password = password;
+        }
+
+        function changeUserName() {
+            nameUser = document.getElementById("name").value;
+            document.getElementById("name").className = "normalData";
+            user.name = nameUser;
+        }
+
+        function changeSurname() {
+            surname = document.getElementById("surname").value;
+            document.getElementById("surname").className = "normalData";
+            user.surname = surname;
+        }
+
+        function changeForm() {
+            form = document.getElementById("form").value;
+            document.getElementById("form").className = "normalData";
+            user.form = form;
+        }
+    </script>
+</head>
+
+<body>
+    <div class=" foreground">
+        <h2 id="log"></h2>
+
+        <pre><b>Password</b></pre>
+        <b>Input your password to register to olymp</b><br><br>
+        <input id="password" type="password" onchange="changePassword()" placeholder="PML30 FOREVER"
+            class="normalData"><br><br>
+
+        <button id="signup" onclick="signup()">Finish</button>
+        <h2 id="log"></h2>
+    </div>
+</body>
+
+</html>

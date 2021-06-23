@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sign up to olymp</title>
+    <h1>Sign up to olymp</h1>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+
+    <script type="text/javascript">
+        let nameUser, surname, form;
+        let name, password;
+        let user = {
+            name: "",
+            surname: "",
+            form: "",
+            nickname: "",
+            password: "",
+        };
+        let TM = 1;
+
+        function add_fields() {
+            TM++;
+            if (TM > 4)
+                return;
+            var objTo = document.getElementById('room_fileds')
+            var divtest = document.createElement("div");
+            divtest.innerHTML = '<pre><b>TeamMember ' + TM + ':<div class="content"></pre></b><b>Name </b><input type="text" placeholder="Иван" class="normalData" style="width:100px;" /><b>  Surname </b><input type="text" placeholder="Иванов" class="normalData" style="width:100px;" /><b>  Form </b><input type="text" placeholder="8-1" class="normalData" style="width:40px;"/></pre><br><br>';
+
+            objTo.appendChild(divtest)
+        }
+
+        function changeName() {
+            name = document.getElementById("username").value;
+            document.getElementById("username").className = "normalData";
+            user.nickname = name;
+        }
+
+        function changePassword() {
+            password = document.getElementById("password").value;
+            document.getElementById("password").className = "normalData";
+            user.password = password;
+        }
+
+        function changeUserName() {
+            nameUser = document.getElementById("name").value;
+            document.getElementById("name").className = "normalData";
+            user.name = nameUser;
+        }
+
+        function changeSurname() {
+            surname = document.getElementById("surname").value;
+            document.getElementById("surname").className = "normalData";
+            user.surname = surname;
+        }
+
+        function changeForm() {
+            form = document.getElementById("form").value;
+            document.getElementById("form").className = "normalData";
+            user.form = form;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="foreground">
+        <h2 id="log"></h2>
+
+        <pre><b>Your password</b></pre><input id="password" type="password" onchange="changePassword()"
+            placeholder="PML30 FOREVER" class="normalData"><br><br>
+        <pre><b>Command name</b></pre><input id="comname" type="text" onchange="CommandName()" placeholder="PML30"
+            class="normalData"><br><br>
+        <div id="room_fileds">
+        </div>
+        <!--<pre><b>Name</b></pre><input id="name" onchange="changeUserName()" placeholder="Иван"
+            class="normalData"><br><br>
+        <pre><b>Surname</b></pre><input id="surname" onchange="changeSurname()" placeholder="Иванов"
+            class="normalData"><br><br>
+        <pre><b>Form</b></pre><input id="form" onchange="changeForm()" placeholder="8-1" class="normalData"><br><br>
+        -->
+
+        <button id="more_fields" onclick="add_fields();">Add Member</button>
+        <button id="signup" onclick="signup()">Finish</button>
+        <h2 id="log"></h2>
+    </div>
+</body>
+
+</html>
