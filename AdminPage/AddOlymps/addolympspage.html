@@ -6,40 +6,28 @@
   <link rel="stylesheet" href="styles.css">
   <title>Main page</title>
   <script type="text/javascript">
-    let user;
-    let str;
+    let olympName;
+    let olympDescr;
 
-    function getUser() {
-      user = JSON.parse(localStorage.getItem('user'));
-      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
-                                                       Surname: ${user.surname}<br>
-                                                       Form: ${user.form}<br>
-                                                       Nickname: ${user.nickname}<br>`;
-    }
   </script>
 </head>
 
-<body onload="getUser()">
+<body>
+  <h1>Add new contest</h1>
 
+  <div class=" foreground">
+    <h2 id="log">Enter contest data:</h2>
 
-  <div class="topnav">
-    <div class="dropdown">
-      <button class="dropbtn">Admin</button>
-      <div class="dropdown-content">
-        <a id="userinfo"></a>
-      </div>
-    </div>
-  </div>
+    <pre><b>Contest Name</b></pre><input id="name" placeholder=" Olymp30"><br><br>
+    <pre><b>Contest description</b></pre><textarea id="descr" placeholder="Опишите олимпиаду..."></textarea><br><br>
+    <pre><b>Date of start</b></pre><input id="dateStart" placeholder="01.01.2021; 12:00"><br><br>
+    <pre><b>Date of end</b></pre><input id="dateEnd" placeholder="01.01.2021; 15:00"><br><br>
+    <pre><b>Statements</b></pre><input id="statements" type="file" onchange="loadStatements()"><br><br>
+    <pre><b>Correct answers on all tests</b></pre><input id="answers" type="file" onchange="loadAnswers()"><br><br>
+    <input type="checkbox" id="isCommand" onchange="setStatus()"> &nbsp;Individual contest<br><br>
+    <pre><b>Participants per command</b></pre><input id="maxpart" placeholder="4"><br><br>
 
-  <div class="row">
-    <div class="leftcolumn">
-      <div class="card">
-        <h2>It olymp</h2>
-        <h5>05.06.2021, 13:00 - 16:00</h5>
-        <div class="fakeimg" style="height:fit-contents"></div>
-        <button id="SignUp" class=".card button">Sign up</button><br><br>
-      </div>
-    </div>
+    <button id="signup" onclick="addOlymp()">Add contest</button>
   </div>
 
   <div class="footer">

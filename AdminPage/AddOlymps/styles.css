@@ -9,25 +9,10 @@ body {
   background-color: rgb(76.8, 120.3, 204.8);
 }
 
-/* Header/Blog Title */
-.header {   
-  font-family: "Source Serif Pro";
+h1 {
+  font-size: 47px;
+  color:white;
   text-align: center;
-  color: white;
-  font-size: 80px;
-} 
-  
-.header a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  font-size: 40px;
-  text-decoration: none;  
-}
-
-.header h1 {
-  font-size: 80px;
 }
 
 /* Left column */
@@ -221,3 +206,14 @@ color: black;
     margin: auto;
   }
 } 
+
+.foreground {
+  text-align: center;
+  margin: auto;
+  width: 500px;
+  height: 617px;
+  background-color: white;
+  border-radius: 40px;
+  border-color: black;
+  border-style: solid;
+}
