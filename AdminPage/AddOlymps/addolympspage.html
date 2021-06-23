@@ -16,17 +16,11 @@
                                                        Form: ${user.form}<br>
                                                        Nickname: ${user.nickname}<br>`;
     }
-    function redirectToOlymps() {
-      window.location.href = "http://localhost:8080/AdminPage/AddOlymps/addolympspage.html";
-    }
   </script>
 </head>
 
 <body onload="getUser()">
 
-  <div class="header">
-    <h1>Olymp30</h1>
-  </div>
 
   <div class="topnav">
     <div class="dropdown">
@@ -35,9 +29,6 @@
         <a id="userinfo"></a>
       </div>
     </div>
-    <p style="color: white; position: absolute; margin: auto; margin-top: 1rem; right: 0; margin-right: 6rem;">
-      Add new olymp</p>
-    <button type="button" class="AddOlymp" onclick="redirectToOlymps()">+</button>
   </div>
 
   <div class="row">

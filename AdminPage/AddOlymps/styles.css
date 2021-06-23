@@ -125,23 +125,20 @@ body {
 background-color: #ddd;
 color: black;
 }  
-#olymp_paragraph {
-  color: white;
-  position: absolute;
-  margin: auto;
-  margin-top: 1rem;
-  right: 0;
-  margin-right: 5rem;
-}
+
 .AddOlymp {
-  margin-top: 4px;
-  pointer-events: fill;
+  margin-top: 3px;
+  pointer-events: none;
   position: absolute;
   right: 2rem;
   text-align: center;
+  text-decoration: none;
   border-radius: 999px;
+  border: solid 1px transparent;
+  outline: none;
   color: grey;
   padding: 5px 5px;
+  background-color: inherit;
   font-family: inherit;
   font-size: 17px;
   border: 2px solid lightgrey;
@@ -149,11 +146,10 @@ color: black;
 	height: 2.5em;
 	width: 2.5em;
 }
-.AddOlymp:hover {
+.AddOlymp:focus {
   background-color: black;
   cursor: pointer;
 }
-
 .AddOlymp::before, 
 .AddOlymp::after {
   content: "";
