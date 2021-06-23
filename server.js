@@ -44,19 +44,11 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
         console.log('Connected to Database');
         mongoose.Promise = global.Promise;
 
-        //const db = client.db('DataBase');
         const db = mongoose.connection;
-        /*
-        db.once('DataBase', function callback() {
-            console.log("h");
-        }); 
-        */
 
-        //const db = mongoose.db('DataBase');
-
+        /* Add users and olymps data */
         const quotesCollection = db.collection('quotes');
-
-        //app.use(express.json());
+        const olympsCollection = db.collection('olymps');
 
         app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -73,12 +65,17 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                 });
         });
 
+        app.get("/getOlymps", (req, res) => {
+            olympsCollection.find().toArray()
+                .then(results => {
+                    res.send(JSON.stringify(results));
+                });
+        });
+
         io.on('connection', (socket) => {
             socket.on('quotes', newEl => {
                 let user = JSON.parse(newEl);
-                /*
-                    user.password = CreateHashPassword(user.password, 8);
-                */
+
                 bcrypt.genSalt(10, function (saltError, salt) {
                     try {
                         if (saltError) {
@@ -149,6 +146,12 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                             console.log(err.message);
                         }
                     });
+            });
+
+            socket.on('newOlymp', newOl => {
+                let olymp = JSON.parse(newOl);
+
+                olympsCollection.insertOne(olymp);
             });
         });
 
