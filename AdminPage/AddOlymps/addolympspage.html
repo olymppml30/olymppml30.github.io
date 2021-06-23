@@ -123,22 +123,40 @@
 </head>
 
 <body onload="checkAdmin()">
-  <h1>Add new contest</h1>
+  <div class="container">
+    <div class="foreground">
+      <h2 id="log">Enter contest data:</h2>
 
-  <div class=" foreground">
-    <h2 id="log">Enter contest data:</h2>
+      <div class="wrapper-info"><span class="txt">Contest Name</span></div>
+      <div class="validate-input">
+        <input id="name" placeholder=" Olymp30">
+      </div>
+      <div class="wrapper-info"><span class="txt">Contest description</span></div>
+      <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
+      <div class="wrapper-info"><span class="txt">Date of start</span></div>
+      <div class="validate-input">
+        <input id="dateStart" placeholder="01.01.2021; 12:00">
+      </div>
+      <div class="wrapper-info"><span class="txt">Date of end</span></div>
+      <div class="validate-input">
+        <input id="dateEnd" placeholder="01.01.2021; 15:00">
+      </div>
+      <div class="wrapper-info"><span class="txt">Statements</span></div>
+      <input id="statements" type="file" onchange="loadStatements()">
+      <div class="wrapper-info"><span class="txt">Correct answers on all tests</span></div>
+      <input id="answers" type="file" onchange="loadAnswers()">
 
-    <pre><b>Contest Name</b></pre><input id="name" placeholder=" Olymp30"><br><br>
-    <pre><b>Contest description</b></pre><textarea id="descr" placeholder="Опишите олимпиаду..."></textarea><br><br>
-    <pre><b>Date of start</b></pre><input id="dateStart" placeholder="01.01.2021; 12:00"
-      onchange="setStart(this)"><br><br>
-    <pre><b>Date of end</b></pre><input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd(this)"><br><br>
-    <pre><b>Statements</b></pre><input id="statements" type="file" onchange="readFiles(this)"><br><br>
-    <pre><b>Correct answers on all tests</b></pre><input id="answers" type="file" onchange="readFiles(this)"><br><br>
-    <input type="checkbox" id="isCommand" onchange="setStatus()"> &nbsp;Individual contest<br><br>
+      <input type="checkbox" id="isCommand" onchange="setStatus()"> &nbsp;Individual contest
 
-    <button id="signup" onclick="addOlymp()">Add contest</button>
+      <div class="wrapper-info"><span class="txt">Participants per command</span></div>
+      <div class="validate-input">
+        <input id="maxpart" placeholder="4">
+      </div>
+
+      <button id="signup" onclick="addOlymp()">Add contest</button>
+    </div>
   </div>
+
 </body>
 
 </html>
