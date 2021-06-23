@@ -27,12 +27,38 @@
 
   <div class="topnav">
     <div class="dropdown">
-      <button class="dropbtn">User Information</button>
-      <div class="dropdown-content">
-        <a id="userinfo"></a>
+      <button onclick="myFunction()" class="dropbtn">
+        <img src="../src/user.png" style="height: 30px;" />
+      </button>
+      <div id="myDropdown" class="dropdown-content">
+        <p id="userinfo"></p>
       </div>
     </div>
   </div>
+
+  <script>
+    /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    /*window.onclick = function (event) {
+      if (!event.target.matches('.dropbtn')) {
+
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }*/
+  </script>
+
 
   <div class="row">
     <div class="leftcolumn">

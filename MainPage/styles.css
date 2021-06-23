@@ -101,7 +101,7 @@
 
    /* Style the top navigation bar */
    .topnav {
-    overflow: hidden;
+    overflow: visible;
     background-color: #333;
     border-radius: 18px;
     margin: auto;
@@ -117,7 +117,7 @@
     padding: 14px 16px;
     text-decoration: none;
     border-radius: 18px;
-  }
+  }*/
   
   /* Change color on hover */
   .topnav a:hover, .dropdown:hover .dropbtn {
@@ -125,49 +125,50 @@
   color: black;
   }  
   
-  .dropdown {
-    float: left;
-    overflow: hidden;
-  }
-  
-  .dropdown .dropbtn {
-    font-size: 16px;    
-    border-radius: 18px;
-    border: solid 1px transparent;
-    outline: none;
+  .dropbtn {
+    background-color: #333;
     color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-  }
-  
-  .dropdown-content {
+    padding: 16px;
+    font-size: 16px;
+    border-width: 0;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+.dropbtn:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
     display: none;
     position: absolute;
-    background-color: #fff;
-    min-width: 160px;
+    background-color: white;
+    overflow: auto;
     border-radius: 18px;
     border: solid 1px transparent;
     border-color: #000;
+    width: max-content;
   }
-  
-  .dropdown-content a {
-    float: none;
+
+.dropdown-content p {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    text-align: left;
-  }
-  
-  .dropdown-content a:hover {
-    background-color: #fff;
-  }
-  
-  .dropdown:hover .dropdown-content {
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
     display: block;
-  }
+}
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
   @media screen and (max-width: 800px) {
