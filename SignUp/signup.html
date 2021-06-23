@@ -137,7 +137,6 @@
 
                 /* Логин без запроса пароля */
                 localStorage.clear();
-                user.password = null;
                 localStorage.setItem('user', JSON.stringify(user));
                 user = {
                     name: "",
@@ -147,6 +146,9 @@
                     password: "",
                 };
                 window.location.href = "/mainpage/mainpage.html"
+            }
+            else {
+                location.reload();
             }
             /* И очистить пароль */
             password = "";
