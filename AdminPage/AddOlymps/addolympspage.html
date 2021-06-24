@@ -67,15 +67,6 @@
     };
     /* End of olymp object */
 
-    const createIframe = (pdf) => {
-      const iframe = document.createElement("iframe");
-      iframe.src = URL.createObjectURL(pdf);
-      iframe.width = innerWidth;
-      iframe.height = innerHeight;
-      olymp.statements = iframe;
-      URL.revokeObjectURL(pdf);
-    };
-
     function parseDate(text) {
       let date = "not_date";
       let rows = text.split(";");
@@ -146,7 +137,7 @@
       common_date_error_msg = "";
     }
 
-    function readFiles(e) {
+    function readFilesAns(e) {
       if (window.FileList && window.File) {
         const file = e.files[0];
         const type = file.type.replace(/\/.+/, "");
@@ -166,7 +157,28 @@
         reader.readAsText(file);
       }
       document.getElementById("error_answ").innerHTML = "";
+    }
 
+    function readFilesStat(e) {
+      if (window.FileList && window.File) {
+        const file = e.files[0];
+        const type = file.type.replace(/\/.+/, "");
+
+        if (file.type === "application/pdf") {
+          createIframe(file);
+          document.getElementById("error_statement").innerHTML = "";
+          return;
+        }
+        const reader = new FileReader();
+
+        reader.addEventListener('load', event => {
+          let content = event.target.result;
+
+          olymp.statements = content;
+        });
+        reader.readAsText(file);
+      }
+      document.getElementById("error_answ").innerHTML = "";
     }
 
     function setStatus() {
@@ -359,13 +371,13 @@
       <div class="wrapper-info"><span class="txt">Statements</span>
         <span class="txt" style="color:#ff0000">(*)
       </div>
-      <input id="statements" type="file" onchange="readFiles(this)">
+      <input id="statements" type="file" onchange="readFilesStat(this)">
       <span id="error_statement" class="txt"></span>
 
       <div class="wrapper-info"><span class="txt">Correct answers on all tests</span>
         <span class="txt" style="color:#ff0000">(*)
       </div>
-      <input id="answers" type="file" onchange="readFiles(this)">
+      <input id="answers" type="file" onchange="readFilesAns(this)">
       <span id="error_answ" class="txt"></span>
 
       <label class="checkbox-other">
