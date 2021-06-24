@@ -39,6 +39,25 @@
       }
     }
 
+    function getDateString(str) {
+      /* 2021-06-26T14:00:00.000Z */
+      let rows = str.split("T");
+      let dateData = rows[0].split("-");
+      str.replace(".", ":");
+      let timeData = rows[1].split(":");
+      let result = "";
+
+      //timeData[0] = (parseInt(timeData[0]) + 3).toString();
+      result += (dateData[2].toString() + ".");
+      result += (dateData[1].toString() + ".");
+      result += (dateData[0].toString() + "  ");
+
+      result += (timeData[0].toString() + ":");
+      result += timeData[1].toString();
+
+      return result;
+    }
+
     async function SeeOlymps() {
       try {
         const responce = await window.fetch("../getOlymps", { method: 'GET' });
@@ -94,8 +113,13 @@
             }
           }
         }
+        var sd = olymps[i].startDate;
+        var start = getDateString(sd);
+        var ed = olymps[i].endDate;
+        var end = getDateString(ed);
+
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
-          olymps[i].name + '</h2><h5>' + olymps[i].startDate + ' - ' + olymps[i].endDate +
+          olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check +
           `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button><br><br></div></div></div>`;

@@ -75,6 +75,8 @@
         let dayData = rows[0].split(".");
         let timeData = rows[1].split(":");
 
+        timeData[0] = (parseInt(timeData[0]) + 3).toString();
+
         if (dayData[0] === "undefined" || dayData[1] === "undefined" || dayData[2] === "undefined" ||
           timeData[0] === "undefined" || timeData[1] === "undefined")
           date_error_parse = "Incorrect date format";
