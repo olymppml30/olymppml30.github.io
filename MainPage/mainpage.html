@@ -10,16 +10,6 @@
     var socket = io();
     let user;
     let str;
-    /*
-        const createIframe = (pdf) => {
-          const iframe = document.createElement("iframe");
-          iframe.src = URL.createObjectURL(pdf);
-          iframe.width = innerWidth;
-          iframe.height = innerHeight;
-          URL.revokeObjectURL(pdf);
-          return iframe.outerHTML;
-        };
-    */
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
       document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>Surname: ${user.surname}<br>Form: ${user.form}<br>Nickname: ${user.nickname}<br>`;
@@ -33,7 +23,6 @@
     function seeUser() {
       document.getElementById("myDropdown").classList.toggle("show");
     }
-
 
     function redirectToReg(clicked_id) {
       var Name = clicked_id;
@@ -63,15 +52,13 @@
       for (let i = 0; i < olymps.length; i++) {
         var objTo = document.getElementById('ol');
         var divtest = document.createElement("div");
-        var reg, command;
+        var reg, command, check;
         var bid = olymps[i].name;
-        console.log(bid);
-        // var stpdf = createIframe(olymps[i].statements) + "<br><br>";
 
         if (olymps[i].isRegisterOpen)
-          reg = 'Registration is open';
+          reg = '<div style="color: green">Registration is open</div>';
         else {
-          reg = 'Registration is closed';
+          reg = '<div style="color: red">Registration is closed</div>';
         }
 
         if (olymps[i].isCommand)
@@ -80,12 +67,38 @@
           command = 'Single olympiad';
         }
 
+        for (var k = 0; k < olymps[i].allTeams.length; k++) {
+          console.log(olymps[i].allTeams[k].captain.nickname);
+          if (user.nickname == olymps[i].allTeams[k].captain.nickname) {
+            check = '<div style="color: green">You are registered as a captain</div>';
+            k++;
+            break;
+          }
+          else {
+            check = '<div style="color: red">You aren`t registered</div>';
+          }
+        }
+        if (k === 0) {
+          check = '<div style="color: orange">There aren`t any registered users</div>';
+        }
 
+        for (let j = 0; j < olymps[i].allTeams.length; j++) {
+          if (olymps[i].allTeams[j].teammates === null)
+            break;
+          for (let p = 0; p < olymps[i].allTeams[j].teammates.length; p++) {
+            if (user.name == olymps[i].allTeams[j].teammates[p].name &&
+              user.surname == olymps[i].allTeams[j].teammates[p].surname &&
+              user.form == olymps[i].allTeams[j].teammates[p].form) {
+              check = '<div style="color: green">You are registered as a team member</div>';
+              break;
+            }
+          }
+        }
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
           olymps[i].name + '</h2><h5>' + olymps[i].startDate + ' - ' + olymps[i].endDate +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
-          '</div><h4>' + reg + '</br>' + command + '</br>' //+ stpdf 
-          + `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button><br><br></div></div></div>`;
+          '</div></br>' + reg + command + check +
+          `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button><br><br></div></div></div>`;
 
         objTo.appendChild(divtest);
       }
@@ -95,7 +108,6 @@
 </head>
 
 <body onload="getUser(); SeeOlymps();">
-
   <div class="header">
     <h1>Olymp30</h1>
   </div>
