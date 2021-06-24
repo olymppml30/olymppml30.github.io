@@ -139,11 +139,11 @@
       <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
       <div class="wrapper-info"><span class="txt">Date of start</span></div>
       <div class="validate-input">
-        <input id="dateStart" placeholder="01.01.2021; 12:00" onchange="setStart()">
+        <input id="dateStart" placeholder="01.01.2021; 12:00" onchange="setStart(this)">
       </div>
       <div class="wrapper-info"><span class="txt">Date of end</span></div>
       <div class="validate-input">
-        <input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd()">
+        <input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd(this)">
       </div>
       <div class="wrapper-info"><span class="txt">Statements</span></div>
       <input id="statements" type="file" onchange="readFiles(this)">
@@ -151,7 +151,7 @@
       <input id="answers" type="file" onchange="readFiles(this)">
 
       <label class="checkbox-other">
-        <input type="checkbox" id="isCommand">
+        <input type="checkbox" id="isCommand" onchange="setStatus()">
         <span>Individual contest</span>
       </label>
 
