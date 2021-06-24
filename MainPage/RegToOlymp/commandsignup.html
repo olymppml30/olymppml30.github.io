@@ -9,6 +9,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
         var socket = io();
+        var Name;
         let password;
         let user = {
             name: "",
@@ -181,6 +182,10 @@
             user = JSON.parse(localStorage.getItem('user'));
         }
 
+        function getName() {
+            Name = JSON.parse(localStorage.getItem('OlympName'));
+        }
+
         function findUser() {
             let uname = user.nickname;
             let upassword = document.getElementById("password").value;
@@ -200,14 +205,14 @@
             if (team.teamName == "") {
                 team.teamName = user.name + " " + user.surname;
             }
-            socket.emit('addTeam', "ComOlymp", team, team.teamName);
+            socket.emit('addTeam', Name, team, team.teamName);
             window.location.href = URL;
         });
 
     </script>
 </head>
 
-<body onload="getUser()">
+<body onload="getUser(); getName();">
     <div class="foreground">
         <h2 id="log"></h2>
 

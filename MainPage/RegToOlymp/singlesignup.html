@@ -16,6 +16,7 @@
             nickname: "",
             password: "",
         };
+        var Name;
 
         let team = {
             teamName: "",
@@ -34,6 +35,10 @@
             user = JSON.parse(localStorage.getItem('user'));
         }
 
+        function getName() {
+            Name = JSON.parse(localStorage.getItem('OlympName'));
+        }
+
         function findUser() {
             let uname = user.nickname;
             let upassword = document.getElementById("password").value;
@@ -50,14 +55,14 @@
         socket.on('redirectToNewPage', URL => {
             user.password = null;
             team.captain = user;
-            socket.emit('addTeam', "Test", team, user.name + " " + user.surname);
+            socket.emit('addTeam', Name, team, user.name + " " + user.surname);
             window.location.href = URL;
         });
 
     </script>
 </head>
 
-<body onload="getUser()">
+<body onload="getUser(); getName()">
     <div class=" foreground">
         <h2 id="log"></h2>
 
