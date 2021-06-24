@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
+var Binary = require("mongodb").Binary;
 
 let currentUser;
 
@@ -212,7 +213,25 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         }
                     });
             });
+            socket.on('GetFile', (olympName, file_path) => {
+                olympsCollection.findOne({ name: olympName },
+                    function (err, doc) {
+                        try {
+                            if (err) {
+                                throw err;
+                            }
+                            var data = fs.readFileSync(file_path);
+                            var insert_data = {};
+                            insert_data.file_data = Binary(data);
+                            doc.statements = insert_data;
+                            olympsCollection.save(doc);
 
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                        }
+                    });
+            });
         });
 
         http.listen(8080);
