@@ -55,15 +55,6 @@
     };
     /* End of olymp object */
 
-    const createIframe = (pdf) => {
-      const iframe = document.createElement("iframe");
-      iframe.src = URL.createObjectURL(pdf);
-      iframe.width = innerWidth;
-      iframe.height = innerHeight;
-      olymp.statements = iframe;
-      URL.revokeObjectURL(pdf);
-    };
-
     function parseDate(text) {
       var date = new Date();
       let rows = text.split(";");
@@ -93,7 +84,18 @@
         const type = file.type.replace(/\/.+/, "");
 
         if (file.type === "application/pdf") {
-          createIframe(file);
+          var url = document.createElement("a");
+          url.href = "/";
+          url.download = file.name;
+          var btn = document.createElement("button");
+          var text = document.createTextNode("Download statements");
+
+          btn.appendChild(text);
+          btn.type = "submit";
+          btn.id = "pdfStat";
+
+          url.appendChild(btn);
+          olymp.statements = url;
           return;
         }
         const reader = new FileReader();
