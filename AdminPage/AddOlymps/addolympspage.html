@@ -8,6 +8,18 @@
   <script src="../../socket.io/socket.io.js"></script>
   <script type="text/javascript">
     var socket = io();
+    let startDataChanged = false;
+    let endDataChanged = false;
+    let start_date_error_msg = "";
+    let end_date_error_msg = "";
+    let common_date_error_msg = "";
+
+    let date_error_parse = "";
+    let IsEror = false;
+    let StartError;
+    let EndError;
+    let start_data_parse_error = false;
+    let end_data_parse_error = false;
 
     function checkAdmin() {
       if (JSON.parse(localStorage.getItem('user')) === null ||
@@ -65,26 +77,73 @@
     };
 
     function parseDate(text) {
-      var date = new Date();
+      let date = "not_date";
       let rows = text.split(";");
-      let dayData = rows[0].split(".");
-      let timeData = rows[1].split(":");
-      date.setFullYear(dayData[2], dayData[1] - 1, dayData[0]);
-      date.setHours(timeData[0], timeData[1], 0, 0);
+
+      if ((typeof rows[0] === "string") && (typeof rows[1] === "string")) {
+        let dayData = rows[0].split(".");
+        let timeData = rows[1].split(":");
+
+        if (dayData[0] === "undefined" || dayData[1] === "undefined" || dayData[2] === "undefined" ||
+          timeData[0] === "undefined" || timeData[1] === "undefined")
+          date_error_parse = "Incorrect date format";
+        else {
+          date = new Date();
+
+          date.setFullYear(dayData[2], dayData[1] - 1, dayData[0]);
+          date.setHours(timeData[0], timeData[1], 0, 0);
+          date_error_parse = "";
+        }
+      }
+      else
+        date_error_parse = "Incorrect date format";
+      if (!isValidDate(date))
+        date_error_parse = "Incorrect date format!";
+      else
+        date_error_parse = "";
+
+      console.log(date_error_parse);
 
       return date;
     }
 
     function setStart(e) {
+      StartError = document.getElementById("start_date_err");
       let date = parseDate(e.value);
 
+      StartError.innerHTML = "";
+
+      if (date_error_parse != "")
+        start_data_parse_error = true;
+      else
+        start_data_parse_error = false;
+
+      start_date_error_msg = "";
+
       olymp.startDate = date;
+      document.getElementById("all_inputs2").className = "validate-input";
+      startDataChanged = true;
+      common_date_error_msg = "";
     }
 
     function setEnd(e) {
+      EndError = document.getElementById("end_date_err");
+
       let date = parseDate(e.value);
 
+      EndError.innerHTML = "";
+
+      if (date_error_parse != "")
+        end_data_parse_error = true;
+      else
+        end_data_parse_error = false;
+
+      end_date_error_msg = "";
+
       olymp.endDate = date;
+      document.getElementById("all_inputs3").className = "validate-input";
+      endDataChanged = true;
+      common_date_error_msg = "";
     }
 
     function readFiles(e) {
@@ -94,6 +153,7 @@
 
         if (file.type === "application/pdf") {
           createIframe(file);
+          document.getElementById("error_statement").innerHTML = "";
           return;
         }
         const reader = new FileReader();
@@ -103,25 +163,156 @@
 
           olymp.answers = content;
         });
-
         reader.readAsText(file);
       }
+      document.getElementById("error_answ").innerHTML = "";
+
     }
 
     function setStatus() {
       olymp.isCommand = !(document.getElementById("isCommand").checked);
     }
 
+    function isValidDate(date) {
+      if (Object.prototype.toString.call(date) === "[object Date]") {
+        if (isNaN(date.getTime())) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+
+    function checkDate(startDate, endDate) {
+      if (!isValidDate(startDate) || !isValidDate(endDate)) {
+        return;
+      }
+      let currentdate = new Date();
+
+      let currentyear = currentdate.getFullYear();
+      let currentmonth = currentdate.getMonth();
+      let currentday = currentdate.getDate();
+      let currenthour = currentdate.getHours();
+      let currentminute = currentdate.getMinutes();
+
+      let startyear = startDate.getFullYear();
+      let startmonth = startDate.getMonth();
+      let startday = startDate.getDate();
+      let starthour = startDate.getHours();
+      let startminute = startDate.getMinutes();
+
+      let endyear = endDate.getFullYear();
+      let endmonth = endDate.getMonth();
+      let endday = endDate.getDate();
+      let endhour = endDate.getHours();
+      let endminute = endDate.getMinutes();
+
+      if (startyear < currentyear)
+        start_date_error_msg = "Invalid start date (year)";
+      else if (startyear == currentyear)
+        if (startmonth < currentmonth)
+          start_date_error_msg = "Invalid start date (month)";
+        else if (startmonth == currentmonth)
+          if (startday < currentday)
+            start_date_error_msg = "Invalid start date (day)";
+          else if (startday == currentday)
+            if (starthour < currenthour)
+              start_date_error_msg = "Invalid start date (hour)";
+            else if (starthour == currenthour)
+              if (startminute < currentminute)
+                start_date_error_msg = "Invalid start date (minutes)";
+      console.log(start_date_error_msg);
+      if (endyear < startyear)
+        end_date_error_msg = "Invalid end date (year)";
+      else if (endyear == startyear)
+        if (endmonth < startmonth)
+          end_date_error_msg = "Invalid end date (month)";
+        else if (endmonth == startmonth)
+          if (endday < startday)
+            end_date_error_msg = "Invalid end date (day)";
+          else if (endday == startday)
+            if (endhour < starthour)
+              end_date_error_msg = "Invalid end date (hour)";
+            else if (endhour == starthour)
+              if (endminute < startminute)
+                end_date_error_msg = "Invalid end date (minutes)";
+      console.log(end_date_error_msg);
+      if (endyear == startyear && endmonth == startmonth &&
+        endday == startday && endhour == starthour && endminute == startminute)
+        common_date_error_msg = "Start date and end date are identical";
+      console.log(common_date_error_msg);
+    }
+
     function addOlymp() {
+      StartError = document.getElementById("start_date_err");
+      EndError = document.getElementById("end_date_err");
+
+      EndError.innerHTML = "";
+      StartError.innerHTML = "";
+
       if (olymp.statements === null || olymp.answers === null) {
-        alert("Fill in statements and answers!!!");
-        location.reload();
+        console.log(olymp.startDate);
+        console.log(olymp.endDate);
+
+        //alert("Fill in statements and answers!!!");
+        //location.reload();
+        //return;
       }
       olymp.name = document.getElementById("name").value;
       olymp.description = document.getElementById("validate-input").value;
+      if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
+        olymp.statements === null || olymp.answers === null) {
+        alert("Fill all necessary fields!");
+        if (olymp.name === "")
+          document.getElementById("all_inputs1").className = "invalidate-input";
+        if (startDataChanged == false)
+          document.getElementById("all_inputs2").className = "invalidate-input";
+        if (endDataChanged == false)
+          document.getElementById("all_inputs3").className = "invalidate-input";
+        if (olymp.statements === null) {
+          let statements_id = document.getElementById("error_statement");
+          statements_id.innerHTML = "Statements file is missing";
+        }
+        if (olymp.answers === null) {
+          let answers_id = document.getElementById("error_answ");
+          answers_id.innerHTML = "Answers file is missing";
+        }
+        return;
+      }
+      checkDate(olymp.startDate, olymp.endDate);
 
+      if (date_error_parse != "") {
+        if (start_data_parse_error)
+          StartError.innerHTML = date_error_parse;
+        if (end_data_parse_error)
+          EndError.innerHTML = date_error_parse;
+        return;
+      }
+      if (end_date_error_msg != "" || start_date_error_msg) {
+        if (end_date_error_msg != "")
+          EndError.innerHTML = end_date_error_msg;
+        if (start_date_error_msg != "")
+          StartError.innerHTML = start_date_error_msg;
+        return;
+      }
+      if (common_date_error_msg != "") {
+        EndError.innerHTML = common_date_error_msg;
+        StartError.innerHTML = common_date_error_msg;
+        return;
+      }
+      else {
+        EndError.innerHTML = "";
+        StartError.innerHTML = "";
+      }
       socket.emit('newOlymp', JSON.stringify(olymp));
-      location.href = "http://localhost:8080/AdminPage/adminpage.html"
+      location.href = "http://localhost:8080/AdminPage/adminpage.html";
+    }
+    function changeContest() {
+      document.getElementById("all_inputs1").className = "validate-input";
     }
   </script>
 </head>
@@ -131,30 +322,43 @@
     <div class="foreground">
       <h2 id="log">Enter contest data:</h2>
 
-      <div class="wrapper-info"><span class="txt">Contest Name</span></div>
-      <div class="validate-input">
-        <input id="name" placeholder=" Olymp30">
+      <div class="wrapper-info"><span class="txt">Contest Name</span>
+        <span class="txt" style="color:#ff0000">(*)</span>
+      </div>
+      <div id="all_inputs1" class="validate-input">
+        <input id="name" placeholder=" Olymp30" onchange="changeContest()">
       </div>
       <div class="wrapper-info"><span class="txt">Contest description</span></div>
       <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
-      <div class="wrapper-info"><span class="txt">Date of start</span></div>
-      <div class="validate-input">
-        <input id="dateStart" placeholder="01.01.2021; 12:00" onchange="setStart(this)">
+      <div class="wrapper-info"><span class="txt">Date of start</span>
+        <span class="txt" style="color:#ff0000">(*) <span class="txt" id="start_date_err">&nbsp; </span>
       </div>
-      <div class="wrapper-info"><span class="txt">Date of end</span></div>
-      <div class="validate-input">
-        <input id="dateEnd" placeholder="01.01.2021; 15:00" onchange="setEnd(this)">
+      <div id="all_inputs2" class="validate-input">
+        <input id="dateStart" placeholder="01.01.2022; 12:00" onchange="setStart(this)">
       </div>
-      <div class="wrapper-info"><span class="txt">Statements</span></div>
+      <div class="wrapper-info"><span class="txt">Date of end</span>
+        <span class="txt" style="color:#ff0000">(*) <span class="txt" id="end_date_err">&nbsp; </span>
+      </div>
+      <div id="all_inputs3" class="validate-input">
+        <input id="dateEnd" placeholder="01.01.2022; 15:00" onchange="setEnd(this)">
+      </div>
+      <div class="wrapper-info"><span class="txt">Statements</span>
+        <span class="txt" style="color:#ff0000">(*)
+      </div>
       <input id="statements" type="file" onchange="readFiles(this)">
-      <div class="wrapper-info"><span class="txt">Correct answers on all tests</span></div>
+      <span id="error_statement" class="txt"></span>
+
+      <div class="wrapper-info"><span class="txt">Correct answers on all tests</span>
+        <span class="txt" style="color:#ff0000">(*)
+      </div>
       <input id="answers" type="file" onchange="readFiles(this)">
+      <span id="error_answ" class="txt"></span>
 
       <label class="checkbox-other">
         <input type="checkbox" id="isCommand" onchange="setStatus()">
-        <span>Individual contest</span>
+        <span id="Command_check">Individual contest</span>
       </label>
-
+      <h4><span class="txt" style="color:#ff0000">(*)</span> - necessary fields</h4>
       <button id="signup" onclick="addOlymp()">Add contest</button>
     </div>
   </div>

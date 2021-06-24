@@ -91,8 +91,10 @@ h1 {
 
 #signup {
   position: absolute;
-  right: 35px;
-  margin-bottom: 10px;
+  left: 5.23rem;
+  margin-top: 17px;
+
+  margin-bottom: 20px;
   width: 200px;
   height: 36px;
   border-radius: 18px;
@@ -130,24 +132,12 @@ h1 {
   padding: 20px 85px;
   font-family: "Source Serif Pro";
   margin: auto;
-  width: 100vw;
   height: 850px;
   background-color: white;
-}
 
-.foreground {
   overflow-y: auto;
   width: 90%;
   border-radius: 10px;
-  background-color: #fff;
-}
-
-.foreground pre
-{
-  font-family: "Source Serif Pro";
-  text-align: left;
-  font-size: 13px;
-  padding: 0px 0px 11px;
 }
 
 input {
@@ -162,6 +152,15 @@ input {
   border: 1px solid black;
   border-radius: 10px;
 }
+
+.invalidate-input {
+  width: 100%;
+  position: relative;
+  background-color: #f7f7f7;
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
 
 .input100 {
   font-family: "Source Serif Pro";
@@ -201,6 +200,7 @@ input {
 }
 
 #statements, #answers {
+  position: relative;
   font-family: "Source Serif Pro";
   color: #000000;
   line-height: 1.2;
@@ -208,17 +208,15 @@ input {
   display: block;
   width: 100%;
   background: transparent;
-  height: 60px;
+  height: 67px;
   padding: 0 0px;
   margin: auto;
 }
-
 
 #isCommand {
   margin: 10px;
   margin-top: 10px; 
 }
-
 textarea {
   resize: none;
   width: 500px;
@@ -240,7 +238,7 @@ textarea {
 
 .checkbox-other {
 	display: block;
-	margin: 0 0 10px 0;
+	margin: 10px 0 10px 0;
 	cursor: pointer;
 	user-select: none;
 	position: relative;
@@ -253,12 +251,14 @@ textarea {
 	width: 0;
 	height: 0;
 }
+
 .checkbox-other span {
 	display: inline-block;
 	position: relative; 
 	padding: 0 0 0 35px; 
 	line-height: 22px;    
 }
+
 .checkbox-other span:before {
 	content: "";
 	display: inline-block;
@@ -304,5 +304,33 @@ textarea {
 h2 {
   text-align: center;
   padding: 0;
-  margin: 15px;
+  margin: 5px;
+}
+
+#error_answ {
+  font-size: 20px;
+  position: absolute;
+  bottom: 4.6rem;
+  left: 3.4rem;
+  color:red;
+  margin: 30px;
+}
+
+#error_statement {
+  font-size: 20px;
+  position: absolute;
+  bottom: 11.5rem;
+  left: 3.4rem;
+  color:red;
+  margin: 30px;
+}
+
+h4 {
+  position: absolute;
+  left: 35rem;
+  bottom: 14.3rem;
+}
+
+#start_date_err, #end_date_err {
+  color: red; 
 }
