@@ -6,10 +6,10 @@
     <title>Sign up to olymp</title>
     <h1>Sign up to olymp</h1>
     <link rel="stylesheet" type="text/css" href="./styles.css">
-
+    <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
-        let nameUser, surname, form;
-        let name, password;
+        var socket = io();
+        let password;
         let user = {
             name: "",
             surname: "",
@@ -17,23 +17,59 @@
             nickname: "",
             password: "",
         };
+
+        let tm = {
+            name: "",
+            surname: "",
+            form: "",
+        };
+
+        let tm2 = {
+            name: "",
+            surname: "",
+            form: "",
+        };
+
+        let tm3 = {
+            name: "",
+            surname: "",
+            form: "",
+        };
+
+        let teammates = [];
+
+        let team = {
+            teamName: "",
+            captain: null,
+            teammates,
+        };
+        let isAdd = [false, false, false];
+
         let TM = 1;
 
         function add_fields() {
             TM++;
             if (TM > 4)
                 return;
-            var objTo = document.getElementById('room_fileds')
+            var objTo = document.getElementById('members')
             var divtest = document.createElement("div");
-            divtest.innerHTML = '<pre><b>TeamMember ' + TM + ':<div class="content"></pre></b><b>Name </b><input type="text" placeholder="Иван" class="normalData" style="width:100px;" /><b>  Surname </b><input type="text" placeholder="Иванов" class="normalData" style="width:100px;" /><b>  Form </b><input type="text" placeholder="8-1" class="normalData" style="width:40px;"/></pre><br><br>';
+
+            var TMname = "tmname" + TM.toString();
+            var TMsurname = "tmsurname" + TM.toString();
+            var TMform = "tmform" + TM.toString();
+
+            var TMcName = "changeTMname" + TM.toString() + "()";
+            var TMcSurname = "changeTMsurname" + TM.toString() + "()";
+            var TMcForm = "changeTMform" + TM.toString() + "()";
+
+            divtest.innerHTML = '<pre><b>TeamMember ' + TM + `:</pre></b><b>Name </b><input id=${TMname} type="text" placeholder="Иван" onchange=${TMcName} class="normalData" style="width:100px;" /><b>  Surname </b><input id=${TMsurname} type="text" placeholder="Иванов" onchange=${TMcSurname} class="normalData" style="width:100px;" /><b>  Form </b><input id=${TMform} type="text" placeholder="8-1" onchange=${TMcForm} class="normalData" style="width:40px;"/></pre><br><br>`;
 
             objTo.appendChild(divtest)
         }
 
-        function changeName() {
-            name = document.getElementById("username").value;
-            document.getElementById("username").className = "normalData";
-            user.nickname = name;
+        function changeComname() {
+            team.teamName = document.getElementById("comname").value;
+            document.getElementById("comname").className = "normalData";
         }
 
         function changePassword() {
@@ -42,45 +78,149 @@
             user.password = password;
         }
 
-        function changeUserName() {
-            nameUser = document.getElementById("name").value;
-            document.getElementById("name").className = "normalData";
-            user.name = nameUser;
+        function changeTMname2() {
+            tm.name = document.getElementById("tmname2").value;
+            document.getElementById("tmname2").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm))) {
+                team.teammates.push(tm);
+            }
+            else {
+                team.teammates[0].name = tm.name;
+            }
         }
 
-        function changeSurname() {
-            surname = document.getElementById("surname").value;
-            document.getElementById("surname").className = "normalData";
-            user.surname = surname;
+        function changeTMname3() {
+            tm2.name = document.getElementById("tmname3").value;
+            document.getElementById("tmname3").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm2))) {
+                team.teammates.push(tm2);
+            }
+            else {
+                team.teammates[1].name = tm2.name;
+            }
         }
 
-        function changeForm() {
-            form = document.getElementById("form").value;
-            document.getElementById("form").className = "normalData";
-            user.form = form;
+        function changeTMname4() {
+            tm3.name = document.getElementById("tmname4").value;
+            document.getElementById("tmname4").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm3))) {
+                team.teammates.push(tm3);
+            }
+            else {
+                team.teammates[2].name = tm3.name;
+            }
         }
+
+        function changeTMsurname2() {
+            tm.surname = document.getElementById("tmsurname2").value;
+            document.getElementById("tmsurname2").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm))) {
+                team.teammates.push(tm);
+            }
+            else {
+                team.teammates[0].surname = tm.surname;
+            }
+        }
+
+        function changeTMsurname3() {
+            tm2.surname = document.getElementById("tmsurname3").value;
+            document.getElementById("tmsurname3").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm2))) {
+                team.teammates.push(tm2);
+            }
+            else {
+                team.teammates[1].surname = tm2.surname;
+            }
+        }
+
+        function changeTMsurname4() {
+            tm3.surname = document.getElementById("tmsurname4").value;
+            document.getElementById("tmsurname4").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm3))) {
+                team.teammates.push(tm3);
+            }
+            else {
+                team.teammates[2].surname = tm3.surname;
+            }
+        }
+
+        function changeTMform2() {
+            tm.form = document.getElementById("tmform2").value;
+            document.getElementById("tmform2").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm))) {
+                team.teammates.push(tm);
+            }
+            else {
+                team.teammates[0].form = tm.form;
+            }
+        }
+
+        function changeTMform3() {
+            tm2.form = document.getElementById("tmform3").value;
+            document.getElementById("tmform3").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm2))) {
+                team.teammates.push(tm2);
+            }
+            else {
+                team.teammates[1].form = tm2.form;
+            }
+        }
+
+        function changeTMform4() {
+            tm3.form = document.getElementById("tmform4").value;
+            document.getElementById("tmform4").className = "normalData";
+            if (team.teammates === null || !(team.teammates.includes(tm3))) {
+                team.teammates.push(tm3);
+            }
+            else {
+                team.teammates[2].form = tm3.form;
+            }
+        }
+
+        function getUser() {
+            user = JSON.parse(localStorage.getItem('user'));
+        }
+
+        function findUser() {
+            let uname = user.nickname;
+            let upassword = document.getElementById("password").value;
+            let stringToDataBase = uname + ":" + upassword;
+
+            console.log(stringToDataBase);
+            socket.emit('olympreg', stringToDataBase);
+        }
+
+        socket.on('alertio', msg => {
+            document.getElementById("error").innerHTML = msg;
+        });
+
+        socket.on('redirectToNewPage', URL => {
+            user.password = null;
+            team.captain = user;
+            if (team.teamName == "") {
+                team.teamName = user.name + " " + user.surname;
+            }
+            socket.emit('addTeam', "ComOlymp", team, team.teamName);
+            window.location.href = URL;
+        });
+
     </script>
 </head>
 
-<body>
+<body onload="getUser()">
     <div class="foreground">
         <h2 id="log"></h2>
 
         <pre><b>Your password</b></pre><input id="password" type="password" onchange="changePassword()"
             placeholder="PML30 FOREVER" class="normalData"><br><br>
-        <pre><b>Command name</b></pre><input id="comname" type="text" onchange="CommandName()" placeholder="PML30"
+        <pre><b>Command name</b></pre><input id="comname" type="text" onchange="changeComname()" placeholder="PML30"
             class="normalData"><br><br>
-        <div id="room_fileds">
+        <div id="members">
         </div>
-        <!--<pre><b>Name</b></pre><input id="name" onchange="changeUserName()" placeholder="Иван"
-            class="normalData"><br><br>
-        <pre><b>Surname</b></pre><input id="surname" onchange="changeSurname()" placeholder="Иванов"
-            class="normalData"><br><br>
-        <pre><b>Form</b></pre><input id="form" onchange="changeForm()" placeholder="8-1" class="normalData"><br><br>
-        -->
 
         <button id="more_fields" onclick="add_fields();">Add Member</button>
-        <button id="signup" onclick="signup()">Finish</button>
+        <button id="signup" onclick="findUser()">Finish</button><br><br>
+        <span id="error"></span>
         <h2 id="log"></h2>
     </div>
 </body>

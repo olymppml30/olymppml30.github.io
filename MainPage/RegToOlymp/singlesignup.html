@@ -40,7 +40,7 @@
             let stringToDataBase = uname + ":" + upassword;
 
             console.log(stringToDataBase);
-            socket.emit('singleolympreg', stringToDataBase);
+            socket.emit('olympreg', stringToDataBase);
         }
 
         socket.on('alertio', msg => {

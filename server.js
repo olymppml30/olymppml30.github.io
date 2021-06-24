@@ -154,7 +154,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                 olympsCollection.insertOne(olymp);
             });
 
-            socket.on('singleolympreg', (user) => {
+            socket.on('olympreg', (user) => {
                 var array_of_strings = user.split(":");
                 let username_by_user = array_of_strings[0];
                 console.log(username_by_user);

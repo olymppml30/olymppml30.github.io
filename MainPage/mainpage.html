@@ -29,16 +29,16 @@
     function getCommandByName() {
       /*if (olymp is command) return true;
       else false*/
-      return false;
+      return true;
     }
 
     function redirectToReg() {
-      /*if (getCommandByName) {
+      if (getCommandByName()) {
         window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
       }
-      else { */
-      window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
-      //  }
+      else {
+        window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
+      }
     }
 
   </script>
