@@ -5,16 +5,15 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="styles.css">
   <title>Main page</title>
+  <script src="../socket.io/socket.io.js"></script>
   <script type="text/javascript">
+    var socket = io();
     let user;
     let str;
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
-      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
-                                                       Surname: ${user.surname}<br>
-                                                       Form: ${user.form}<br>
-                                                       Nickname: ${user.nickname}<br>`;
+      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>Surname: ${user.surname}<br>Form: ${user.form}<br>Nickname: ${user.nickname}<br>`;
     }
 
     function logout() {
@@ -41,10 +40,51 @@
       }
     }
 
+    async function SeeOlymps() {
+      try {
+        const responce = await window.fetch("../getOlymps", { method: 'GET' });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        olymps = JSON.parse(await responce.text());
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      for (let i = 0; i < olymps.length; i++) {
+        var objTo = document.getElementById('ol');
+        var divtest = document.createElement("div");
+        var reg, command;
+
+        if (olymps[i].isRegisterOpen)
+          reg = 'Registration is open';
+        else {
+          reg = 'Registration is closed';
+        }
+
+        if (olymps[i].isCommand)
+          command = 'Command olympiad';
+        else {
+          command = 'Single olympiad';
+        }
+
+
+        divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
+          olymps[i].name + '</h2><h5>' + olymps[i].startDate + ' - ' + olymps[i].endDate +
+          '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
+          '</div><h4>' + reg + '</br>' + command + '</br>' + '<button id="SignUp" class=".card button" onclick="redirectToReg()">Sign up</button><br><br></div></div></div>';
+
+        objTo.appendChild(divtest);
+      }
+    }
+
+    function add_fields() {
+
+    }
+
   </script>
 </head>
 
-<body onload="getUser()">
+<body onload="getUser(); SeeOlymps();">
 
   <div class="header">
     <h1>Olymp30</h1>
@@ -60,21 +100,11 @@
       </div>
     </div>
     <button class="logout" onclick="logout()"><i class="fa fa-sign-out"></i> Log out</button>
-
   </div>
 
-  <div class="row">
-    <div class="leftcolumn">
-      <div class="card">
-        <h2>It olymp</h2>
-        <h5>05.06.2021, 13:00 - 16:00</h5>
-        <div class="fakeimg" style="height:fit-contents"></div>
-        <button id="SignUp" class=".card button" onclick="redirectToReg()">Sign up</button><br><br>
-      </div>
-    </div>
-  </div>
+  <div id="ol"></div>
 
-  <div class="footer">
+  <!--<div class="footer">
     <p style="float:right">
       <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
     </p>
@@ -83,7 +113,7 @@
     </p>
     <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
     <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
-  </div>
+  </div>-->
 
 </body>
 

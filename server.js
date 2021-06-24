@@ -72,6 +72,13 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                 });
         });
 
+        app.get("/getOlymps", (req, res) => {
+            olympsCollection.find().toArray()
+                .then(results => {
+                    res.send(JSON.stringify(results));
+                });
+        });
+
         io.on('connection', (socket) => {
             socket.on('quotes', newEl => {
                 let user = JSON.parse(newEl);
