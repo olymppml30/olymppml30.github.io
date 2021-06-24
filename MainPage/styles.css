@@ -163,17 +163,16 @@
 
   .logout {
     position: absolute;
-    top: 7px;
     font-family: "Source Serif Pro";
     font-size: 27px;
     margin-left: 5px;
-    margin-top: 0px;
+    margin-top: 7px;
     padding: 5px 20px;
     background-color: #F95959;
     border-radius: 20px;
     border-color: grey;
   }
-  
+    
 .dropdown-content p {
     color: black;
     padding: 12px 16px;

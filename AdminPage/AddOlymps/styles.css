@@ -187,9 +187,9 @@ input {
   line-height: 1.;
 }
 
-#name, #dateStart, #dateEnd, #statements, #answers, #maxpart {
+#name, #dateStart, #dateEnd, #maxpart {
   font-family: "Source Serif Pro";
-  color: #333333;
+  color: #000000;
   line-height: 1.2;
   font-size: 18px;
   display: block;
@@ -199,9 +199,10 @@ input {
   padding: 0 20px;
   margin: auto;
 }
+
 #statements, #answers {
   font-family: "Source Serif Pro";
-  color: #333333;
+  color: #000000;
   line-height: 1.2;
   font-size: 18px;
   display: block;
@@ -210,12 +211,14 @@ input {
   height: 60px;
   padding: 0 0px;
   margin: auto;
-  
 }
+
+
 #isCommand {
   margin: 10px;
   margin-top: 10px; 
 }
+
 textarea {
   resize: none;
   width: 500px;
@@ -232,6 +235,7 @@ textarea {
   background-color: #f7f7f7;
   border: 1px solid black;
   border-radius: 10px;
+  padding-top: 10px;
 }
 
 .checkbox-other {
