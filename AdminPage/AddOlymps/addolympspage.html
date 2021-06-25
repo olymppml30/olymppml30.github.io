@@ -147,7 +147,9 @@
         const type = file.type.replace(/\/.+/, "");
 
         if (file.type === "application/pdf") {
-          createIframe(file);
+          //createIframe(file);
+          olymp.answers = "pdf_content";
+
           document.getElementById("error_statement").innerHTML = "";
           return;
         }
@@ -169,7 +171,8 @@
         const type = file.type.replace(/\/.+/, "");
 
         if (file.type === "application/pdf") {
-          createIframe(file);
+          //createIframe(file);
+          olymp.statements = "pdf_content";
           document.getElementById("error_statement").innerHTML = "";
           return;
         }
@@ -182,7 +185,7 @@
         });
         reader.readAsText(file);
       }
-      document.getElementById("error_answ").innerHTML = "";
+      document.getElementById("error_statement").innerHTML = "";
     }
 
     function setStatus() {
@@ -277,14 +280,14 @@
       EndError.innerHTML = "";
       StartError.innerHTML = "";
 
-      if (olymp.statements === null || olymp.answers === null) {
-        console.log(olymp.startDate);
-        console.log(olymp.endDate);
+      // if (olymp.statements === null || olymp.answers === null) {
+      //   console.log(olymp.startDate);
+      //   console.log(olymp.endDate);
 
-        //alert("Fill in statements and answers!!!");
-        //location.reload();
-        //return;
-      }
+      //   alert("Fill in statements and answers!!!");
+      //   location.reload();
+      //   return;
+      // }
       olymp.name = document.getElementById("name").value;
       olymp.description = document.getElementById("validate-input").value;
       if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
@@ -353,33 +356,33 @@
       <h2 id="log">Enter contest data:</h2>
 
       <div class="wrapper-info"><span class="txt">Contest Name</span>
-        <span class="txt" style="color:#ff0000">(*)</span>
+        <span class="txt" style="color:#ff0000">*</span>
       </div>
       <div id="all_inputs1" class="validate-input">
         <input id="name" placeholder=" Olymp30" onchange="changeContest()">
       </div>
       <div class="wrapper-info"><span class="txt">Contest description</span></div>
       <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
-      <div class="wrapper-info"><span class="txt">Date of start</span>
-        <span class="txt" style="color:#ff0000">(*) <span class="txt" id="start_date_err">&nbsp; </span>
+      <div class="wrapper-info"><span class="txt">Date of start (format: 01.01.2022; 12:00)</span>
+        <span class="txt" style="color:#ff0000">* <span class="txt" id="start_date_err">&nbsp; </span>
       </div>
       <div id="all_inputs2" class="validate-input">
         <input id="dateStart" placeholder="01.01.2022; 12:00" onchange="setStart(this)">
       </div>
       <div class="wrapper-info"><span class="txt">Date of end</span>
-        <span class="txt" style="color:#ff0000">(*) <span class="txt" id="end_date_err">&nbsp; </span>
+        <span class="txt" style="color:#ff0000">* <span class="txt" id="end_date_err">&nbsp; </span>
       </div>
       <div id="all_inputs3" class="validate-input">
         <input id="dateEnd" placeholder="01.01.2022; 15:00" onchange="setEnd(this)">
       </div>
-      <div class="wrapper-info"><span class="txt">Statements</span>
-        <span class="txt" style="color:#ff0000">(*)
+      <div class="wrapper-info"><span class="txt">Statements (.txt file)</span>
+        <span class="txt" style="color:#ff0000">*
       </div>
       <input id="statements" type="file" onchange="readFilesStat(this)">
       <span id="error_statement" class="txt"></span>
 
-      <div class="wrapper-info"><span class="txt">Correct answers on all tests</span>
-        <span class="txt" style="color:#ff0000">(*)
+      <div class="wrapper-info"><span class="txt">Correct answers on all tests (.txt file)</span>
+        <span class="txt" style="color:#ff0000">*
       </div>
       <input id="answers" type="file" onchange="readFilesAns(this)">
       <span id="error_answ" class="txt"></span>
@@ -388,7 +391,7 @@
         <input type="checkbox" id="isCommand" onchange="setStatus()">
         <span id="Command_check">Individual contest</span>
       </label>
-      <h4><span class="txt" style="color:#ff0000">(*)</span> - necessary fields</h4>
+      <h4><span class="txt" style="color:#ff0000">*</span> - necessary fields</h4>
       <button id="signup" onclick="addOlymp()">Add contest</button>
     </div>
   </div>
