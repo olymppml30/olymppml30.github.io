@@ -102,7 +102,7 @@
           else
             socket.emit("changeState", olymps[i].name, FINISHED);
         }
-        else
+        if ((current_date.getTime() < startDate.getTime()))
           socket.emit("changeState", olymps[i].name, NOT_STARTED);
       }
       //setTimeout("update_olymps_state(olymps)", 10000);
