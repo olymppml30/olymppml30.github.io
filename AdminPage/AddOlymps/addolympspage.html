@@ -306,8 +306,8 @@
       // }
       olymp.name = document.getElementById("name").value;
       olymp.description = document.getElementById("validate-input").value;
-      if (olymp.name === "" || endDataChanged == false || startDataChanged == false /* ||
-         olymp.statements === null || olymp.answers === null */) {
+      if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
+        olymp.statements === null || olymp.answers === null) {
         alert("Fill all necessary fields!");
         if (olymp.name === "")
           document.getElementById("all_inputs1").className = "invalidate-input";
@@ -315,7 +315,6 @@
           document.getElementById("all_inputs2").className = "invalidate-input";
         if (endDataChanged == false)
           document.getElementById("all_inputs3").className = "invalidate-input";
-        /*
         if (olymp.statements === null) {
           let statements_id = document.getElementById("error_statement");
           statements_id.innerHTML = "Statements file is missing";
@@ -324,7 +323,6 @@
           let answers_id = document.getElementById("error_answ");
           answers_id.innerHTML = "Answers file is missing";
         }
-        */
         return;
       }
       checkDate(olymp.startDate, olymp.endDate);
