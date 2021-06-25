@@ -12,10 +12,11 @@ let currentUser;
 
 function genPassword(len) {
     var password = "";
-    var symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_+=";
-    for (var i = 0; i < len; i++) {
+    var symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!№;%?*()_+=";
+    for (var i = 0; i < len - 1; i++) {
         password += symbols.charAt(Math.floor(Math.random() * symbols.length));
     }
+    password += "U";
     return password;
 }
 

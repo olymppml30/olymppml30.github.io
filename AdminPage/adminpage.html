@@ -89,6 +89,9 @@
         else {
           command = 'Single olympiad';
         }
+        let ahref = "http://localhost:8080/Statements/" + olymps[i].statements;
+
+        let states = "<a href=" + ahref + "><button>VIEW STATEMENTS</button></a>"
 
         var sd = olymps[i].startDate;
         var start = getDateString(sd);
@@ -98,7 +101,7 @@
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
           olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
-          '</div></br>' + reg + command + state + `Score per task: ` + olymps[i].scorePerTask + `<br><br></div></div></div>`;
+          '</div></br>' + reg + command + state + `Score per task: ` + olymps[i].scorePerTask + states + `<br><br></div></div></div>`;
 
         objTo.appendChild(divtest);
       }
