@@ -31,14 +31,25 @@
       for (let i = 0; i < olymps.length; i++) {
         if (olymps[i].name == Name) {
           localStorage.setItem('OlympName', JSON.stringify(Name));
+          let current_date = new Date();
+          console.log(current_date.getTime());
+          console.log(olymps[i].startDate.getTime());
 
-          if (true) {
-            if (olymps[i].isCommand)
-              window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
-            else
-              window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
-            break;
+          if (current_date.getTime() > olymps[i].startDate.getTime()) {
+            alert("Hello");
+            return;
           }
+          if (olymps[i].isCommand) {
+            let signup_btn = document.getElementById(Name);
+            signup_btn.style.display = "none";
+            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
+          }
+          else {
+            let signup_btn = document.getElementById(Name);
+            signup_btn.style.display = "none";
+            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
+          }
+          break;
         }
       }
     }
@@ -96,7 +107,10 @@
         for (var k = 0; k < olymps[i].allTeams.length; k++) {
           console.log(olymps[i].allTeams[k].captain.nickname);
           if (user.nickname == olymps[i].allTeams[k].captain.nickname) {
-            check = '<div style="color: green">You are registered as a captain</div>';
+            if (olymps[i].isCommand)
+              check = '<div style="color: green">You are registered as a captain</div>';
+            else
+              check = '<div style="color: green">You are registered for an individual olympiad</div>';
             k++;
             isUserReg = true;
             break;
@@ -135,7 +149,9 @@
           olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check +
-          `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button><br><br></div></div></div>`;
+          `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` +
+          `<button id="ad" class="red_to_olymp" onclick="redirectToReg(this.id)">Go to olymp</button><br><br></div></div></div>`;
+
         objTo.appendChild(divtest);
         if (ex == 'No') {
           document.getElementById(bid).disabled = "disabled";
