@@ -18,14 +18,96 @@
                                                        Form: ${user.form}<br>
                                                        Nickname: ${user.nickname}<br>`;
     }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "http://localhost:8080/";
+    }
+
+    /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+    function seeUser() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
     function redirectToOlymps() {
       window.location.href = "http://localhost:8080/AdminPage/AddOlymps/addolympspage.html";
     }
+
+    function getDateString(str) {
+      /* 2021-06-26T14:00:00.000Z */
+      let rows = str.split("T");
+      let dateData = rows[0].split("-");
+      str.replace(".", ":");
+      let timeData = rows[1].split(":");
+      let result = "";
+
+      //timeData[0] = (parseInt(timeData[0]) + 3).toString();
+      result += (dateData[2].toString() + ".");
+      result += (dateData[1].toString() + ".");
+      result += (dateData[0].toString() + "  ");
+
+      result += (timeData[0].toString() + ":");
+      result += timeData[1].toString();
+
+      return result;
+    }
+
+    async function SeeOlymps() {
+      try {
+        const responce = await window.fetch("../getOlymps", { method: 'GET' });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        olymps = JSON.parse(await responce.text());
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      for (let i = 0; i < olymps.length; i++) {
+        var objTo = document.getElementById('ol');
+        var divtest = document.createElement("div");
+        var reg, command, state;
+
+        if (olymps[i].state == 0)
+          state = '<div style="color: green">Not started</div>';
+        else if (olymps[i].state == 1) {
+          state = '<div style="color: orange">In progress...</div>';
+        }
+        else {
+          state = '<div style="color: red">Finished</div>';
+        }
+
+
+        if (olymps[i].isRegisterOpen)
+          reg = '<div style="color: green">Registration is open</div>';
+        else {
+          reg = '<div style="color: red">Registration is closed</div>';
+        }
+
+        if (olymps[i].isCommand)
+          command = 'Command olympiad';
+        else {
+          command = 'Single olympiad';
+        }
+
+        var sd = olymps[i].startDate;
+        var start = getDateString(sd);
+        var ed = olymps[i].endDate;
+        var end = getDateString(ed);
+
+        divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
+          olymps[i].name + '</h2><h5>' + start + ' - ' + end +
+          '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
+          '</div></br>' + reg + command + state + `Score per task: ` + olymps[i].scorePerTask + `<br><br></div></div></div>`;
+
+        objTo.appendChild(divtest);
+      }
+    }
+
   </script>
 </head>
 
-<body onload="getUser()">
-
+<body onload="getUser(); SeeOlymps();">
   <div class="header">
     <h1>Olymp30</h1>
   </div>
@@ -46,30 +128,10 @@
       Add new olymp</p>
     <button type="button" class="AddOlymp" onclick="redirectToOlymps()">+</button>
   </div>
-  <script>
-    function logout() {
-      localStorage.clear();
-      window.location.href = "http://localhost:8080/";
-    }
-    /* When the user clicks on the button, 
-    toggle between hiding and showing the dropdown content */
-    function seeUser() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-  </script>
 
-  <div class="row">
-    <div class="leftcolumn">
-      <div class="card">
-        <h2>It olymp</h2>
-        <h5>05.06.2021, 13:00 - 16:00</h5>
-        <div class="fakeimg" style="height:fit-contents"></div>
-        <button id="SignUp" class=".card button">Sign up</button><br><br>
-      </div>
-    </div>
-  </div>
+  <div id="ol"></div>
 
-  <div class="footer">
+  <!--<div class="footer">
     <p style="float:right">
       <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
     </p>
@@ -78,7 +140,7 @@
     </p>
     <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
     <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
-  </div>
+  </div>-->
 
 </body>
 

@@ -86,11 +86,20 @@
       for (let i = 0; i < olymps.length; i++) {
         var objTo = document.getElementById('ol');
         var divtest = document.createElement("div");
-        var reg, command, check;
+        var reg, command, check, state;
         var bid = olymps[i].name;
         var isUserReg = false;
 
         ex = 'No';
+
+        if (olymps[i].state == 0)
+          state = '<div style="color: green">Not started</div>';
+        else if (olymps[i].state == 1) {
+          state = '<div style="color: orange">In progress...</div>';
+        }
+        else {
+          state = '<div style="color: red">Finished</div>';
+        }
 
         if (olymps[i].isRegisterOpen)
           reg = '<div style="color: green">Registration is open</div>';
@@ -148,7 +157,7 @@
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
           olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
-          '</div></br>' + reg + command + check +
+          '</div></br>' + reg + command + check + state +
           `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` +
           `<button id="ad" class="red_to_olymp" onclick="redirectToReg(this.id)">Go to olymp</button><br><br></div></div></div>`;
 
