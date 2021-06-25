@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
+const fs = require('fs');
 
 let currentUser;
 
@@ -60,13 +61,6 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
 
         app.get("/getDB", (req, res) => {
             quotesCollection.find().toArray()
-                .then(results => {
-                    res.send(JSON.stringify(results));
-                });
-        });
-
-        app.get("/getOlymps", (req, res) => {
-            olympsCollection.find().toArray()
                 .then(results => {
                     res.send(JSON.stringify(results));
                 });
@@ -211,6 +205,19 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                             console.log(err.message);
                         }
                     });
+            });
+
+            socket.on('createPDF', (chunk, filename) => {
+                var path = "./Statements/" + filename;
+
+                fs.appendFile(path, Buffer.from(chunk), function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        return chunk.length;
+                    }
+                });
             });
         });
 

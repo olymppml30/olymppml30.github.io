@@ -184,21 +184,23 @@
       if (window.FileList && window.File) {
         const file = e.files[0];
         const type = file.type.replace(/\/.+/, "");
+        olymp.statements = file.name;
 
-        if (file.type === "application/pdf") {
+        /*if (file.type === "application/pdf") {
           //createIframe(file);
           olymp.statements = "pdf_content";
           document.getElementById("error_statement").innerHTML = "";
           return;
-        }
+        }*/
         const reader = new FileReader();
 
         reader.addEventListener('load', event => {
           let content = event.target.result;
+          let chunk = new Uint8Array(content);
 
-          olymp.statements = content;
+          socket.emit('createPDF', chunk, olymp.statements);
         });
-        reader.readAsText(file);
+        reader.readAsArrayBuffer(file);
       }
       document.getElementById("error_statement").innerHTML = "";
     }
