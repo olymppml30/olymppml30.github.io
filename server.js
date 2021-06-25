@@ -206,6 +206,39 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         }
                     });
             });
+            socket.on('changeState', (olympName, newState) => {
+
+                olympsCollection.findOne({ name: olympName },
+                    function (err, doc) {
+                        try {
+                            if (err) {
+                                throw err;
+                            }
+                            doc.state = newState;
+                            olympsCollection.save(doc);
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                        }
+                    });
+            });
+            socket.on('changeRegisterState', (olympName, newRegisterState) => {
+
+                olympsCollection.findOne({ name: olympName },
+                    function (err, doc) {
+                        try {
+                            if (err) {
+                                throw err;
+                            }
+                            doc.isRegisterOpen = newRegisterState;
+                            olympsCollection.save(doc);
+                        }
+                        catch (err) {
+                            console.log(err.message);
+                        }
+                    });
+            });
+
 
             socket.on('createPDF', (chunk, filename) => {
                 var path = "./Statements/" + filename;

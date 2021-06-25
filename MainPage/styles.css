@@ -87,8 +87,9 @@
   }
 
   .red_to_olymp {
-    margin-left: 217px;
-    margin-top: 20px;
+    display: none;
+    
+    margin-top: 55px;
     left: 55px;
     position: absolute;
     width: 200px;

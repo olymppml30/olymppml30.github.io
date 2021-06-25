@@ -10,8 +10,10 @@
     var socket = io();
     let user;
     let str;
-    var ex = 'No';
+    var check_user_reg = 'No';
+    var check_user_go_to = 'No';
     var Can = true;
+    const NOT_STARTED = 0, IN_PROGRESS = 1, FINISHED = 2;
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
@@ -77,7 +79,34 @@
         }
       }
     }
+    function update_olymps_state(olymps) {
+      for (let i = 0; i < olymps.length; i++) {
+        let current_date = new Date();
+        let startDate = new Date(olymps[i].startDate);
+        let endDate = new Date(olymps[i].endDate);
 
+        //startDate = convertFromStringToDate(olymps[i].startDate);
+
+        console.log(current_date.getTime());
+        console.log(olymps[i].startDate);
+        startDate.setHours(startDate.getHours() - 3);
+        endDate.setHours(endDate.getHours() - 3);
+
+        console.log(startDate.getHours());
+        console.log(endDate.getHours());
+
+        if (current_date.getTime() >= startDate.getTime()) {
+          socket.emit("changeRegisterState", olymps[i].name, false);
+          if (current_date.getTime() < endDate.getTime())
+            socket.emit("changeState", olymps[i].name, IN_PROGRESS);
+          else
+            socket.emit("changeState", olymps[i].name, FINISHED);
+        }
+        else
+          socket.emit("changeState", olymps[i].name, NOT_STARTED);
+      }
+      //setTimeout("update_olymps_state(olymps)", 10000);
+    }
     function getDateString(str) {
       /* 2021-06-26T14:00:00.000Z */
       let rows = str.split("T");
@@ -106,23 +135,22 @@
       } catch (err) {
         console.log(err.message);
       }
+      setInterval("update_olymps_state(olymps)", 5000);
+      //update_olymps_state(olymps);
 
       for (let i = 0; i < olymps.length; i++) {
         var objTo = document.getElementById('ol');
         var divtest = document.createElement("div");
-<<<<<<< Updated upstream
         var reg, command, check, state;
-=======
-        var reg, command, check, olymps_state;
->>>>>>> Stashed changes
         var bid = olymps[i].name;
         var isUserReg = false;
 
-        ex = 'No';
+        check_user_reg = 'No';
+        check_user_go_to = 'No';
 
-        if (olymps[i].state == 0)
+        if (olymps[i].state == NOT_STARTED)
           state = '<div style="color: green">Not started</div>';
-        else if (olymps[i].state == 1) {
+        else if (olymps[i].state == IN_PROGRESS) {
           state = '<div style="color: orange">In progress...</div>';
         }
         else {
@@ -179,7 +207,10 @@
         var end = getDateString(ed);
 
         if (isUserReg == false && olymps[i].isRegisterOpen == true) {
-          ex = 'Yes';
+          check_user_reg = 'Yes';
+        }
+        if (isUserReg == true && olymps[i].isRegisterOpen == false) {
+          check_user_go_to = 'Yes';
         }
 
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
@@ -187,12 +218,16 @@
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check + state +
           `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` +
-          `<button id="ad" class="red_to_olymp" onclick="redirectToReg(this.id)">Go to olymp</button><br><br></div></div></div>`;
+          `<button id=${bid + "red"}  class="red_to_olymp" onclick="redirectToReg(this.id)">Go to olymp</button><br><br></div></div></div>`;
 
         objTo.appendChild(divtest);
-        if (ex == 'No') {
-          document.getElementById(bid).disabled = "disabled";
+        if (check_user_reg == 'No') {
+          document.getElementById(bid).style.display = "none";
         }
+        if (check_user_go_to == 'Yes') {
+          document.getElementById(bid + "red").style.display = "block";
+        }
+
       }
     }
 
