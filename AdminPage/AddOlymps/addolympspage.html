@@ -102,9 +102,15 @@
 
     function setStart(e) {
       StartError = document.getElementById("start_date_err");
+      startDataChanged = true;
+
       let date = parseDate(e.value);
 
       StartError.innerHTML = "";
+      if (typeof date == "string") {
+        olymp.startDate = "invalid";
+        return;
+      }
 
       if (date_error_parse != "")
         start_data_parse_error = true;
@@ -115,7 +121,6 @@
 
       olymp.startDate = date;
       document.getElementById("all_inputs2").className = "validate-input";
-      startDataChanged = true;
       if (common_date_error_msg !== "") {
         EndError.innerHTML = "";
         common_date_error_msg = "";
@@ -124,10 +129,15 @@
 
     function setEnd(e) {
       EndError = document.getElementById("end_date_err");
+      endDataChanged = true;
 
       let date = parseDate(e.value);
 
       EndError.innerHTML = "";
+      if (typeof date == "string") {
+        olymp.endDate = "invalid";
+        return;
+      }
 
       if (date_error_parse != "")
         end_data_parse_error = true;
@@ -138,7 +148,6 @@
 
       olymp.endDate = date;
       document.getElementById("all_inputs3").className = "validate-input";
-      endDataChanged = true;
       if (common_date_error_msg !== "") {
         StartError.innerHTML = "";
         common_date_error_msg = "";
@@ -273,6 +282,7 @@
     }
 
     function addOlymp() {
+      start_date_error_msg = end_date_error_msg = common_date_error_msg = "";
       // Get the button that opens the modal
       var btn = document.getElementById("signup");
       // Get the modal
@@ -296,8 +306,8 @@
       // }
       olymp.name = document.getElementById("name").value;
       olymp.description = document.getElementById("validate-input").value;
-      if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
-        olymp.statements === null || olymp.answers === null) {
+      if (olymp.name === "" || endDataChanged == false || startDataChanged == false /* ||
+         olymp.statements === null || olymp.answers === null */) {
         alert("Fill all necessary fields!");
         if (olymp.name === "")
           document.getElementById("all_inputs1").className = "invalidate-input";
@@ -305,6 +315,7 @@
           document.getElementById("all_inputs2").className = "invalidate-input";
         if (endDataChanged == false)
           document.getElementById("all_inputs3").className = "invalidate-input";
+        /*
         if (olymp.statements === null) {
           let statements_id = document.getElementById("error_statement");
           statements_id.innerHTML = "Statements file is missing";
@@ -313,10 +324,17 @@
           let answers_id = document.getElementById("error_answ");
           answers_id.innerHTML = "Answers file is missing";
         }
+        */
         return;
       }
       checkDate(olymp.startDate, olymp.endDate);
-
+      if ((typeof olymp.startDate == "string") || (typeof olymp.endDate == "string")) {
+        if (typeof olymp.startDate == "string")
+          StartError.innerHTML = "Incorrect date format";
+        if (typeof olymp.endDate == "string")
+          EndError.innerHTML = "Incorrect date format";
+        return;
+      }
       if (date_error_parse != "") {
         if (start_data_parse_error)
           StartError.innerHTML = date_error_parse;
