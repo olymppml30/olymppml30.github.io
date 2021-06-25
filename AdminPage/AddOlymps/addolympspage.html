@@ -116,7 +116,10 @@
       olymp.startDate = date;
       document.getElementById("all_inputs2").className = "validate-input";
       startDataChanged = true;
-      common_date_error_msg = "";
+      if (common_date_error_msg !== "") {
+        EndError.innerHTML = "";
+        common_date_error_msg = "";
+      }
     }
 
     function setEnd(e) {
@@ -136,7 +139,10 @@
       olymp.endDate = date;
       document.getElementById("all_inputs3").className = "validate-input";
       endDataChanged = true;
-      common_date_error_msg = "";
+      if (common_date_error_msg !== "") {
+        StartError.innerHTML = "";
+        common_date_error_msg = "";
+      }
     }
     function myreadFiles(e) {
     }
@@ -363,13 +369,13 @@
       </div>
       <div class="wrapper-info"><span class="txt">Contest description</span></div>
       <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
-      <div class="wrapper-info"><span class="txt">Date of start (format: 01.01.2022; 12:00)</span>
+      <div class="wrapper-info"><span class="txt">Start date (format: 01.01.2022; 12:00)</span>
         <span class="txt" style="color:#ff0000">* <span class="txt" id="start_date_err">&nbsp; </span>
       </div>
       <div id="all_inputs2" class="validate-input">
         <input id="dateStart" placeholder="01.01.2022; 12:00" onchange="setStart(this)">
       </div>
-      <div class="wrapper-info"><span class="txt">Date of end</span>
+      <div class="wrapper-info"><span class="txt">End date (format: 01.01.2022; 15:00)</span>
         <span class="txt" style="color:#ff0000">* <span class="txt" id="end_date_err">&nbsp; </span>
       </div>
       <div id="all_inputs3" class="validate-input">
