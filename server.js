@@ -10,6 +10,15 @@ const fs = require('fs');
 
 let currentUser;
 
+function genPassword(len) {
+    var password = "";
+    var symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_+=";
+    for (var i = 0; i < len; i++) {
+        password += symbols.charAt(Math.floor(Math.random() * symbols.length));
+    }
+    return password;
+}
+
 function CreateHashPassword(my_password, saltRounds) {
     var hashed_password = "";
 
@@ -241,6 +250,10 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
 
 
             socket.on('createPDF', (chunk, filename) => {
+                let rname = genPassword(15);
+                let format = filename.split(".")[filename.split(".").length - 1];
+                let fname = rname + "." + format;
+                filename = fname;
                 var path = "./Statements/" + filename;
 
                 fs.appendFile(path, Buffer.from(chunk), function (err) {
@@ -251,6 +264,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         return chunk.length;
                     }
                 });
+                socket.emit('filename', fname);
             });
         });
 

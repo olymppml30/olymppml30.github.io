@@ -371,6 +371,10 @@
     function changeContest() {
       document.getElementById("all_inputs1").className = "validate-input";
     }
+
+    socket.on('filename', Name => {
+      olymp.statements = Name;
+    });
   </script>
 </head>
 
