@@ -26,19 +26,43 @@
     function seeUser() {
       document.getElementById("myDropdown").classList.toggle("show");
     }
+    function convertFromStringToDate(responseDate) {
+      let dateComponents = responseDate.split('T');
+      let datePieces = dateComponents[0].split("-");
+      let timePieces = dateComponents[1].split(":");
+      return (new Date(datePieces[0], (datePieces[1] - 1), datePieces[2],
+        timePieces[0], timePieces[1], timePieces[2]))
+    }
 
     function redirectToReg(Name) {
       for (let i = 0; i < olymps.length; i++) {
         if (olymps[i].name == Name) {
           localStorage.setItem('OlympName', JSON.stringify(Name));
           let current_date = new Date();
-          console.log(current_date.getTime());
-          console.log(olymps[i].startDate.getTime());
+          let startDate = new Date(olymps[i].startDate);
+          let endDate = new Date(olymps[i].endDate);
 
-          if (current_date.getTime() > olymps[i].startDate.getTime()) {
-            alert("Hello");
+          //startDate = convertFromStringToDate(olymps[i].startDate);
+
+          console.log(current_date.getTime());
+          console.log(olymps[i].startDate);
+          startDate.setHours(startDate.getHours() - 3);
+          endDate.setHours(endDate.getHours() - 3);
+
+          console.log(startDate.getHours());
+          console.log(endDate.getHours());
+
+          if (current_date.getTime() >= startDate.getTime()) {
+            olymps[i].isRegisterOpen = false;
+            if (current_date.getTime() < endDate.getTime())
+              olymps[i].state = 1;
+            else
+              olymps[i].state = 2;
             return;
           }
+          else
+            olymps[i].state = 0;
+
           if (olymps[i].isCommand) {
             let signup_btn = document.getElementById(Name);
             signup_btn.style.display = "none";
@@ -86,7 +110,11 @@
       for (let i = 0; i < olymps.length; i++) {
         var objTo = document.getElementById('ol');
         var divtest = document.createElement("div");
+<<<<<<< Updated upstream
         var reg, command, check, state;
+=======
+        var reg, command, check, olymps_state;
+>>>>>>> Stashed changes
         var bid = olymps[i].name;
         var isUserReg = false;
 
