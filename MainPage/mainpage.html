@@ -10,6 +10,9 @@
     var socket = io();
     let user;
     let str;
+    var ex = 'No';
+    var Can = true;
+
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
       document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>Surname: ${user.surname}<br>Form: ${user.form}<br>Nickname: ${user.nickname}<br>`;
@@ -24,17 +27,18 @@
       document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    function redirectToReg(clicked_id) {
-      var Name = clicked_id;
-
+    function redirectToReg(Name) {
       for (let i = 0; i < olymps.length; i++) {
         if (olymps[i].name == Name) {
           localStorage.setItem('OlympName', JSON.stringify(Name));
-          if (olymps[i].isCommand)
-            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
-          else
-            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
-          break;
+
+          if (true) {
+            if (olymps[i].isCommand)
+              window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
+            else
+              window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
+            break;
+          }
         }
       }
     }
@@ -73,6 +77,9 @@
         var divtest = document.createElement("div");
         var reg, command, check;
         var bid = olymps[i].name;
+        var isUserReg = false;
+
+        ex = 'No';
 
         if (olymps[i].isRegisterOpen)
           reg = '<div style="color: green">Registration is open</div>';
@@ -91,6 +98,7 @@
           if (user.nickname == olymps[i].allTeams[k].captain.nickname) {
             check = '<div style="color: green">You are registered as a captain</div>';
             k++;
+            isUserReg = true;
             break;
           }
           else {
@@ -108,6 +116,7 @@
             if (user.name == olymps[i].allTeams[j].teammates[p].name &&
               user.surname == olymps[i].allTeams[j].teammates[p].surname &&
               user.form == olymps[i].allTeams[j].teammates[p].form) {
+              isUserReg = true;
               check = '<div style="color: green">You are registered as a team member</div>';
               break;
             }
@@ -118,13 +127,19 @@
         var ed = olymps[i].endDate;
         var end = getDateString(ed);
 
+        if (isUserReg == false && olymps[i].isRegisterOpen == true) {
+          ex = 'Yes';
+        }
+
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
           olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check +
           `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button><br><br></div></div></div>`;
-
         objTo.appendChild(divtest);
+        if (ex == 'No') {
+          document.getElementById(bid).disabled = "disabled";
+        }
       }
     }
 
