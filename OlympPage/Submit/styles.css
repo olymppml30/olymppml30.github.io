@@ -1,0 +1,109 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  font-family: "Source Serif Pro";
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: rgb(76.8, 120.3, 204.8);
+  background-color: #EBEBEB;
+}
+
+.olymp_buttons {
+  margin-right: 17px;
+  left: 5.23rem;
+  margin-top: 5px;
+
+  margin-bottom: 20px;
+  width: 200px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: #1c89ff;
+  border: solid 1px transparent;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all .1s ease-in-out;    
+}
+
+.olymp_buttons:hover {
+  background-color: black;
+  border-radius: 40px;
+  border-color: #fff;
+  border-style: solid;
+  transition: all .1s ease-in-out;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-color: #ebebeb;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn {   
+    width: 97%;
+    margin: auto;
+  }
+} 
+
+.foreground {
+  margin-top: 10px;
+  position: relative;
+  padding: 30px 85px;
+  font-family: "Source Serif Pro";
+  margin: auto;
+  height: 850px;
+  background-color: white;
+
+  overflow-y: auto;
+  width: 90%;
+  border-radius: 10px;
+}
+
+select, textarea {
+  font-size: 20px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 20px;
+  resize: vertical;
+  margin-top: 10px;
+
+}
+textarea {
+  height: 20rem;
+  overflow-y: auto;
+}
+
+#statements {
+  font-size: 20px;
+
+}
+label {
+  font-size: 30px;
+
+}
+input[type="file"] {
+  margin-top: 10px;
+  margin-bottom: 30px;
+
+}

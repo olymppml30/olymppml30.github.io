@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css">
+  <title>Olymp Page</title>
+  <script type="text/javascript">
+    //var socket = io();
+    let NumberOfAttempts = [];
+    function myFunction(event) {
+
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="foreground">
+      <label for="Choose_problem">Choose problem</label>
+      <select id="Problem_choose" name="Choose_problem">
+        <option value=0>Task A</option>
+        <option value=1>Task B</option>
+        <option value=2>Task C</option>
+        <option value=3>Task D</option>
+        <option value=4>Task E</option>
+      </select>
+      <label for="Choose_problem">Choose compiler</label>
+      <select id="compliler_choose" name="Choose_problem">
+        <option value=0>Compiler1</option>
+        <option value=1>Compiler2...</option>
+      </select>
+
+      <label for="statements">Send your file with solution</label><br>
+      <input id="statements" type="file" onchange="myFunction(this)"><br>
+
+      <label for="type_programm">Type your programm here</label>
+
+      <textarea id="type_programm" type="text" placeholder="Or type your programm here..."></textarea>
+
+      <button id="signup" type="submit" class="olymp_buttons">Submit</button>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

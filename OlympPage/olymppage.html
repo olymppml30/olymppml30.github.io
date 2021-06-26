@@ -9,9 +9,13 @@
   <script type="text/javascript">
     var socket = io();
     let NumberOfAttempts = [];
-    function redirectToSubmit() {
+    function redirectToResults() {
       window.location.href = "http://localhost:8080/OlympPage/Monitor/monitorpage.html";
     }
+    function redirectToSubmit() {
+      window.location.href = "http://localhost:8080/OlympPage/Submit/submitpage.html";
+    }
+
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
