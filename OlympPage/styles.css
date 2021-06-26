@@ -35,14 +35,11 @@ h1 {
   text-align: center;
 }
 .olymp_buttons {
-  margin-right: 17px;
+  margin-top: 40%;
   left: 5.23rem;
-  margin-top: 17px;
-
-  margin-bottom: 20px;
-  width: 200px;
-  height: 36px;
-  border-radius: 18px;
+  width: 400px;
+  height: 72px;
+  border-radius: 36px;
   background-color: #1c89ff;
   border: solid 1px transparent;
   color: #fff;
@@ -79,6 +76,7 @@ h1 {
   overflow-y: auto;
   width: 90%;
   border-radius: 10px;
+  text-align: center;
 }
 
 .txt {
