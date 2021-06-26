@@ -15,6 +15,15 @@
     var Can = true;
     const NOT_STARTED = 0, IN_PROGRESS = 1, FINISHED = 2;
     let IsUserRegForOlymp;
+    let templink = [{
+      link: "",
+    }];
+
+    function saveLink() {
+      localStorage.setItem('oldlink', localStorage.getItem('link'));
+      localStorage.removeItem('link');
+      localStorage.setItem('link', JSON.stringify(templink));
+    }
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
@@ -175,6 +184,66 @@
       return result;
     }
 
+    async function deleteTempLinkStr(str) {
+      var tl = {
+        link: str
+      };
+      try {
+        const responce = await window.fetch("/deletePDF", {
+          method: 'POST',
+          body: JSON.stringify(tl),
+          headers: {
+            'content-type': 'application/json'
+          }
+        });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        concole.log("Temporary file deleted!");
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+
+    async function deleteTempLink(num) {
+      try {
+        const responce = await window.fetch("/deletePDF", {
+          method: 'POST',
+          body: JSON.stringify(templink[num]),
+          headers: {
+            'content-type': 'application/json'
+          }
+        });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        concole.log("Temporary file deleted!");
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+
+    function deleteAll() {
+      for (let i = 0; i < templink.length; i++) {
+        deleteTempLink(i);
+      }
+    }
+
+    function checkLinks() {
+      let oldls = JSON.parse(localStorage.getItem('oldlink'));
+      let links = JSON.parse(localStorage.getItem('link'));
+      if (links === null)
+        return;
+      for (let i = 0; i < templink.length; i++) {
+        if (templink[i].link !== links[i].link) {
+          deleteTempLink(i);
+        }
+      }
+      if (oldls === null)
+        return;
+      for (let i = 0; i < oldls.length; i++) {
+        deleteTempLinkStr(oldls[i].link);
+      }
+    }
+
     async function SeeOlymps() {
       try {
         const responce = await window.fetch("../getOlymps", { method: 'GET' });
@@ -193,18 +262,11 @@
         var reg, command, check, state;
         var bid = olymps[i].name;
         var isUserReg = false;
+        var states;
+        let res;
 
         check_user_reg = 'No';
         check_user_go_to = 'No';
-
-        if (olymps[i].state == NOT_STARTED)
-          state = '<div style="color: green">Not started</div>';
-        else if (olymps[i].state == IN_PROGRESS) {
-          state = '<div style="color: orange">In progress...</div>';
-        }
-        else {
-          state = '<div style="color: red">Finished</div>';
-        }
 
         if (olymps[i].isRegisterOpen)
           reg = '<div style="color: green">Registration is open</div>';
@@ -262,11 +324,64 @@
           check_user_go_to = 'Yes';
         }
 
+        if (olymps[i].state == NOT_STARTED) {
+          state = '<div style="color: green">Not started</div>';
+          states = "";
+        }
+        else if (olymps[i].state == IN_PROGRESS) {
+          state = '<div style="color: orange">In progress...</div>';
+          if (isUserReg) {
+            try {
+              const responce = await window.fetch('/createPDF', {
+                method: 'post',
+                headers: {
+                  'content-type': 'application/json',
+                  'format': olymps[i].format
+                },
+                body: JSON.stringify(olymps[i].statements)
+              });
+              if (!responce.ok)
+                throw new Error(`Response status is: ${response.status}`);
+              res = await responce.text();
+            } catch (err) {
+              console.log(err.message);
+            }
+            let ahref = "http://localhost:8080/Statements/" + res;
+            if (!templink[i])
+              templink.push({});
+            templink[i].link = res;
+            states = "<a href=" + ahref + `><button onclick="saveLink()">View statements</button></a><br><br>`;
+          }
+        }
+        else {
+          try {
+            const responce = await window.fetch('/createPDF', {
+              method: 'post',
+              headers: {
+                'content-type': 'application/json',
+                'format': olymps[i].format
+              },
+              body: JSON.stringify(olymps[i].statements)
+            });
+            if (!responce.ok)
+              throw new Error(`Response status is: ${response.status}`);
+            res = await responce.text();
+          } catch (err) {
+            console.log(err.message);
+          }
+          let ahref = "http://localhost:8080/Statements/" + res;
+          if (!templink[i])
+            templink.push({});
+          templink[i].link = res;
+          state = '<div style="color: red">Finished</div>';
+          states = "<a href=" + ahref + `><button onclick="saveLink()">View statements</button></a><br><br>`;
+        }
+
         divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
           olymps[i].name + '</h2><h5>' + start + ' - ' + end +
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check + state +
-          `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` +
+          `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` + states +
           `<button id=${bid + "red"}  class="red_to_olymp" onclick="redirectToOlymp(this.id)">Go to olymp</button><br><br></div></div></div>`;
 
         objTo.appendChild(divtest);
@@ -276,14 +391,15 @@
         if (check_user_go_to == 'Yes') {
           document.getElementById(bid + "red").style.display = "block";
         }
-
       }
+      saveLink();
+      checkLinks();
     }
 
   </script>
 </head>
 
-<body onload="getUser(); SeeOlymps();">
+<body onload="getUser(); SeeOlymps();" onunload="deleteAll()">
   <div class="header">
     <h1>Olymp30</h1>
   </div>

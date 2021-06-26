@@ -108,11 +108,15 @@
     function checkLinks() {
       let oldls = JSON.parse(localStorage.getItem('oldlink'));
       let links = JSON.parse(localStorage.getItem('link'));
+      if (links === null)
+        return;
       for (let i = 0; i < templink.length; i++) {
         if (templink[i].link !== links[i].link) {
           deleteTempLink(i);
         }
       }
+      if (oldls === null)
+        return;
       for (let i = 0; i < oldls.length; i++) {
         deleteTempLinkStr(oldls[i].link);
       }
