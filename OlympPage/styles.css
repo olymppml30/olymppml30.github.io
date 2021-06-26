@@ -1,4 +1,5 @@
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100");
 
 * {
   box-sizing: border-box;
@@ -15,6 +16,7 @@ body {
 .container {
   width: 100%;
   min-height: 100vh;
+  height: 10%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -32,67 +34,8 @@ h1 {
   color:black;
   text-align: center;
 }
-
-/* Left column */
-.leftcolumn {   
-  margin: auto;
-  width: 97%;
-}
-
-/* Fake image */
-.fakeimg {
-  background-color: #aaa;
-  width: 100%;
-  padding: 20px;
-  font-size: 20px;
-  border-radius: 18px;
-  border: solid 1px transparent;
-  border-color: #000;
-}
-
-/* Add a card effect for articles */
-.card {
-  background-color: white;
-  padding: 20px;
-  margin-top: 20px;
-  font-size: 20px;
-  height: max-content;
-  border-radius: 18px;
-  border: solid 1px transparent;
-  border-color: #000;
-} 
-  
-.card button {
-  margin-top: 20px;
-  left: 55px;
-  position: absolute;
-  width: 200px;
-  height: 36px;
-  border-radius: 18px;
-  background-color: #1c89ff;
-  border: solid 1px transparent;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 300;
-  cursor: pointer;
-  transition: all .1s ease-in-out;
-}
-
-.card button:hover {
-  background-color: black;
-  border-color: #fff;
-  transition: all .1s ease-in-out;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-#signup {
-  position: absolute;
+.olymp_buttons {
+  margin-right: 17px;
   left: 5.23rem;
   margin-top: 17px;
 
@@ -109,11 +52,7 @@ h1 {
   transition: all .1s ease-in-out;    
 }
 
-#log {
-  font-size: 30px;
-}
-
-#signup:hover {
+.olymp_buttons:hover {
   background-color: black;
   border-radius: 40px;
   border-color: #fff;
@@ -142,45 +81,6 @@ h1 {
   border-radius: 10px;
 }
 
-input {
-  outline: none;
-  border: none;
-}
-
-.validate-input {
-  width: 100%;
-  position: relative;
-  background-color: #f7f7f7;
-  border: 1px solid black;
-  border-radius: 10px;
-}
-
-.invalidate-input {
-  width: 100%;
-  position: relative;
-  background-color: #f7f7f7;
-  border: 1px solid red;
-  border-radius: 10px;
-}
-
-
-.input100 {
-  font-family: "Source Serif Pro";
-  color: #333333;
-  line-height: 1.2;
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  background: transparent;
-  height: 60px;
-  padding: 0 20px;
-}
-
-.wrapper-info {
-  padding-bottom: 9px;
-  padding-top: 13px;
-}
-
 .txt {
   font-family: "Source Serif Pro";
   font-size: 16px;
@@ -188,120 +88,6 @@ input {
   line-height: 1.;
 }
 
-#name, #dateStart, #dateEnd, #maxpart {
-  font-family: "Source Serif Pro";
-  color: #000000;
-  line-height: 1.2;
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  background: transparent;
-  height: 60px;
-  padding: 0 20px;
-  margin: auto;
-}
-
-#statements, #answers {
-  position: relative;
-  font-family: "Source Serif Pro";
-  color: #000000;
-  line-height: 1.2;
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  background: transparent;
-  height: 67px;
-  padding: 0 0px;
-  margin: auto;
-}
-
-#isCommand {
-  margin: 10px;
-  margin-top: 10px; 
-}
-textarea {
-  resize: none;
-  width: 500px;
-  height: 100px;
-  font-family: "Source Serif Pro";
-  color: #333333;
-  line-height: 1.2;
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  background: transparent;
-  padding: 0 20px;
-  margin: auto;
-  background-color: #f7f7f7;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding-top: 10px;
-}
-
-.checkbox-other {
-	display: block;
-	margin: 10px 0 10px 0;
-	cursor: pointer;
-	user-select: none;
-	position: relative;
-}
-.checkbox-other input[type=checkbox] {
-	position: absolute;
-	z-index: -1;
-	opacity: 0;
-	display: block;
-	width: 0;
-	height: 0;
-}
-
-.checkbox-other span {
-	display: inline-block;
-	position: relative; 
-	padding: 0 0 0 35px; 
-	line-height: 22px;    
-}
-
-.checkbox-other span:before {
-	content: "";
-	display: inline-block;
-	width: 22px;
-	height: 22px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	transition: background 0.3s ease;
-	background: url(https://snipp.ru/uploads/contents/checkbox-1.png) 0 0 no-repeat;
-}
- 
-/* Checked */
-.checkbox-other input[type=checkbox]:checked + span:before {
-	background-image: url(https://snipp.ru/uploads/contents/checkbox-2.png);
-}
- 
-/* Focus */
-.focused span:before {
-	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
- 
-/* Hover */
-.checkbox-other span:hover:before {
-	filter: brightness(110%);
-}
- 
-/* Active */
-.checkbox-other span:active:before {
-	filter: brightness(80%);
-}
- 
-/* Disabled */
-.checkbox-other input[type=checkbox]:disabled + span {
-	color: #666;
-	cursor: default;
-}
-.checkbox-other input[type=checkbox]:disabled + span:before {
-	filter: grayscale(100%);
-	opacity: 0.6;
-}
 
 h2 {
   text-align: center;
@@ -309,23 +95,6 @@ h2 {
   margin: 5px;
 }
 
-#error_answ {
-  font-size: 20px;
-  position: absolute;
-  bottom: 4.6rem;
-  left: 3.4rem;
-  color:red;
-  margin: 30px;
-}
-
-#error_statement {
-  font-size: 20px;
-  position: absolute;
-  bottom: 11.5rem;
-  left: 3.4rem;
-  color:red;
-  margin: 30px;
-}
 
 h4 {
   position: absolute;
@@ -337,44 +106,3 @@ h4 {
   color: red; 
 }
 
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 400px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  font-size: 30px;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-  border-radius: 3px 3px 3px 3px;
-  color: #270;
-  background-color: #DFF2BF;
-}
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
