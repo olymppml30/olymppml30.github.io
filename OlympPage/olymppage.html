@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css">
+  <title>Main page</title>
+  <script type="text/javascript">
+    let user;
+    let str;
+
+    function getUser() {
+      user = JSON.parse(localStorage.getItem('user'));
+      if (user === null || user.nickname !== "admin")
+        location.href = "http://localhost:8080";
+      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
+                                                       Surname: ${user.surname}<br>
+                                                       Form: ${user.form}<br>
+                                                       Nickname: ${user.nickname}<br>`;
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "http://localhost:8080/";
+    }
+
+    /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+    function seeUser() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function redirectToOlymps() {
+      window.location.href = "http://localhost:8080/AdminPage/AddOlymps/addolympspage.html";
+    }
+
+    function getDateString(str) {
+      /* 2021-06-26T14:00:00.000Z */
+      let rows = str.split("T");
+      let dateData = rows[0].split("-");
+      str.replace(".", ":");
+      let timeData = rows[1].split(":");
+      let result = "";
+
+      //timeData[0] = (parseInt(timeData[0]) + 3).toString();
+      result += (dateData[2].toString() + ".");
+      result += (dateData[1].toString() + ".");
+      result += (dateData[0].toString() + "  ");
+
+      result += (timeData[0].toString() + ":");
+      result += timeData[1].toString();
+
+      return result;
+    }
+
+    async function SeeOlymps() {
+      try {
+        const responce = await window.fetch("../getOlymps", { method: 'GET' });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        olymps = JSON.parse(await responce.text());
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      for (let i = 0; i < olymps.length; i++) {
+        var objTo = document.getElementById('ol');
+        var divtest = document.createElement("div");
+        var reg, command, state;
+
+        if (olymps[i].state == 0)
+          state = '<div style="color: green">Not started</div>';
+        else if (olymps[i].state == 1) {
+          state = '<div style="color: orange">In progress...</div>';
+        }
+        else {
+          state = '<div style="color: red">Finished</div>';
+        }
+
+
+        if (olymps[i].isRegisterOpen)
+          reg = '<div style="color: green">Registration is open</div>';
+        else {
+          reg = '<div style="color: red">Registration is closed</div>';
+        }
+
+        if (olymps[i].isCommand)
+          command = 'Command olympiad';
+        else {
+          command = 'Single olympiad';
+        }
+        let ahref = "http://localhost:8080/Statements/" + olymps[i].statements;
+
+        let states = "<br><br><a href=" + ahref + "><button>View statements</button></a>"
+
+        var sd = olymps[i].startDate;
+        var start = getDateString(sd);
+        var ed = olymps[i].endDate;
+        var end = getDateString(ed);
+
+        divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
+          olymps[i].name + '</h2><h5>' + start + ' - ' + end +
+          '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
+          '</div></br>' + reg + command + state + `Score per task: ` + olymps[i].scorePerTask + states + `<br><br></div></div></div>`;
+
+        objTo.appendChild(divtest);
+      }
+    }
+
+  </script>
+</head>
+
+<body onload="getUser(); SeeOlymps();">
+  <div class="header">
+    <h1>Olymp30</h1>
+  </div>
+
+  <div class="topnav">
+    <div class="dropdown">
+      <button onclick="seeUser()" class="dropbtn">
+        <img src="../src/user.png" style="height: 30px;" />
+      </button>
+      <div id="myDropdown" class="dropdown-content">
+        <p id="userinfo"></p>
+      </div>
+    </div>
+
+    <button class="logout" onclick="logout()"><i class="fa fa-sign-out"></i> Log out</button>
+    <p style="color: white; position: absolute; margin: auto; margin-top: 0px; right: 0; margin-right: 6rem; top: 1.08rem;
+      font-size: 22px">
+      Add new olymp</p>
+    <button type="button" class="AddOlymp" onclick="redirectToOlymps()">+</button>
+  </div>
+
+  <div id="ol"></div>
+
+  <!--<div class="footer">
+    <p style="float:right">
+      <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
+    </p>
+    <p style="float:left">
+      <img src=https://pml30.ru/images/logo.png style="height: 120px;" />
+    </p>
+    <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
+    <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
+  </div>-->
+
+</body>
+
+</html>
