@@ -34,23 +34,55 @@ h1 {
   color:black;
   text-align: center;
 }
-.olymp_buttons {
-  margin-top: 40%;
+
+.olymp_buttons#submits {
+  position: absolute;
+  top: 40%;
   left: 5.23rem;
   width: 400px;
   height: 72px;
-  border-radius: 36px;
-  background-color: #1c89ff;
-  border: solid 1px transparent;
-  color: #fff;
+  background-color: rgb(28, 137, 255);
+  color: rgb(255, 255, 255);
   font-size: 18px;
   font-weight: 300;
   cursor: pointer;
-  transition: all .1s ease-in-out;    
+  border-radius: 36px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  border-image: initial;
+  transition: all 0.1s ease-in-out 0s;
 }
 
-.olymp_buttons:hover {
+.olymp_buttons#results {
+  position: absolute;
+  top: 40%;
+  right: 5.23rem;
+  width: 400px;
+  height: 72px;
+  background-color: rgb(28, 137, 255);
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
+  border-radius: 36px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  border-image: initial;
+  transition: all 0.1s ease-in-out 0s;
+}
+
+.olymp_buttons#submits:hover {
   background-color: black;
+  border-radius: 40px;
+  border-color: #fff;
+  border-style: solid;
+  transition: all .1s ease-in-out;
+}
+
+.olymp_buttons#results:hover {
+  background-color: orangered;
   border-radius: 40px;
   border-color: #fff;
   border-style: solid;
