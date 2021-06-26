@@ -290,6 +290,25 @@
       console.log(common_date_error_msg);
     }
 
+    function checkName(name) {
+      for (let i = 0; i < olymps.length; i++) {
+        if (olymps[i].name == name) {
+          return false;
+        }
+      }
+    }
+
+    async function getDb() {
+      try {
+        const responce = await window.fetch("../../getOlymps", { method: 'GET' });
+        if (!responce.ok)
+          throw new Error(`Response status is: ${response.status}`);
+        olymps = JSON.parse(await responce.text());
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+
     function addOlymp() {
       start_date_error_msg = end_date_error_msg = common_date_error_msg = "";
       // Get the button that opens the modal
@@ -332,6 +351,11 @@
           let answers_id = document.getElementById("error_answ");
           answers_id.innerHTML = "Answers file is missing";
         }
+        return;
+      }
+      if (checkName(olymp.name) == false) {
+        alert("Olymp name is used. Please, change name!");
+        document.getElementById("all_inputs1").className = "invalidate-input";
         return;
       }
       checkDate(olymp.startDate, olymp.endDate);
@@ -385,7 +409,7 @@
   </script>
 </head>
 
-<body onload="checkAdmin()">
+<body onload="checkAdmin(); getDb()">
   <div class="container">
     <div class="foreground">
       <h2 id="log">Enter contest data:</h2>
