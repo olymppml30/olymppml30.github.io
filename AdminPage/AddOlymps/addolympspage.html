@@ -59,6 +59,7 @@
       endDate: new Date,       /* date of ending (ex. 01.01.2022) */
       state: 0,                /* 0 - NOT STARTED, 1 - IN PROGRESS, 2 - FINISHED */
       statements: null,        /* *.pdf */
+      format: "",              /* statements data format */
       answers: null,           /* *.txt */
       scorePerTask: 100,        /* amount of score per one task */
       isRegisterOpen: true,    /* flag if register open */
@@ -191,7 +192,8 @@
       if (window.FileList && window.File) {
         const file = e.files[0];
         const type = file.type.replace(/\/.+/, "");
-        olymp.statements = file.name;
+
+        olymp.format = file.name.split(".")[file.name.split(".").length - 1];
 
         /*if (file.type === "application/pdf") {
           //createIframe(file);
@@ -205,7 +207,7 @@
           let content = event.target.result;
           let chunk = new Uint8Array(content);
 
-          socket.emit('createPDF', chunk, olymp.statements);
+          olymp.statements = chunk;
         });
         reader.readAsArrayBuffer(file);
       }

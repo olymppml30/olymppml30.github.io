@@ -61,7 +61,10 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
         const quotesCollection = db.collection('quotes');
         const olympsCollection = db.collection('olymps');
 
-        app.use(bodyParser.urlencoded({ extended: true }));
+        //app.use(bodyParser);
+
+        app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+        app.use(bodyParser.json({ limit: '50mb' }));
 
         app.use(express.static(__dirname + '/'));
 
@@ -81,6 +84,52 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                 .then(results => {
                     res.send(JSON.stringify(results));
                 });
+        });
+
+        app.post("/createPDF", (req, res) => {
+            let format = "." + req.headers.format;
+            let rname = genPassword(15);
+            let fname = rname + format;
+            let path = "./Statements/" + fname;
+            let arr = req.body;
+            let len = Object.keys(arr).length;
+            var arr2 = [];
+
+            for (let i = 0; i < len; i++) {
+                arr2.push(arr[i]);
+            }
+            var chunk = new Uint8Array(arr2);
+
+            try {
+                fs.appendFile(path, chunk, function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("Temporary file created!");
+                        res.send(fname);
+                    }
+                });
+            }
+            catch (err) {
+                console.log(err.message);
+            }
+        });
+
+        app.post("/deletePDF", (req, res) => {
+            let fname = req.body;
+            let path = "./Statements/" + fname.link;
+
+            fs.unlink(path, (err) => {
+                try {
+                    if (err) throw err;
+
+                    console.log('Temporary file deleted!');
+                }
+                catch (err) {
+                    console.log(err.message);
+                }
+            });
         });
 
         io.on('connection', (socket) => {
