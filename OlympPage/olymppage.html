@@ -5,9 +5,7 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="styles.css">
   <title>Olymp Page</title>
-  <script src="../../socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    var socket = io();
     let NumberOfAttempts = [];
     function redirectToResults() {
       window.location.href = "http://localhost:8080/OlympPage/Monitor/monitorpage.html";
@@ -15,17 +13,6 @@
     function redirectToSubmit() {
       window.location.href = "http://localhost:8080/OlympPage/Submit/submitpage.html";
     }
-
-
-    function getUser() {
-      user = JSON.parse(localStorage.getItem('user'));
-    }
-
-    function getName() {
-      Name = JSON.parse(localStorage.getItem('OlympName'));
-    }
-
-
   </script>
 </head>
 
@@ -33,7 +20,6 @@
   <div class="container">
     <div class="foreground">
       <button id="results" class="olymp_buttons" onclick="redirectToSubmit()">Submit</button>
-      <button id="statements" class="olymp_buttons" onclick="redirectToStatements()">Statements</button>
       <button id="results" class="olymp_buttons" onclick="redirectToResults()">Monitor</button>
 
     </div>
