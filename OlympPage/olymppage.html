@@ -4,147 +4,430 @@
 <head>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="styles.css">
-  <title>Main page</title>
+  <title>Add olymp</title>
+  <script src="../../socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    let user;
-    let str;
+    var socket = io();
+    let startDataChanged = false;
+    let endDataChanged = false;
+    let start_date_error_msg = "";
+    let end_date_error_msg = "";
+    let common_date_error_msg = "";
 
-    function getUser() {
-      user = JSON.parse(localStorage.getItem('user'));
-      if (user === null || user.nickname !== "admin")
-        location.href = "http://localhost:8080";
-      document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
-                                                       Surname: ${user.surname}<br>
-                                                       Form: ${user.form}<br>
-                                                       Nickname: ${user.nickname}<br>`;
+    let date_error_parse = "";
+    let IsEror = false;
+    let StartError;
+    let EndError;
+    let start_data_parse_error = false;
+    let end_data_parse_error = false;
+
+
+    /* Olymp object */
+    let captain = {
+      name: "",
+      surname: "",
+      form: "",
+      username: "",
+      password: "",
+    };
+
+    let user = {
+      name: "",
+      surname: "",
+      form: "",
     }
 
-    function logout() {
-      localStorage.clear();
-      window.location.href = "http://localhost:8080/";
+    let teammates = [];
+
+    let team = {
+      teamName: "",
+      captain,
+      teammates,
+    };
+
+    let allTeams = [];
+
+    let olymp = {
+      name: "",                /* olymp name (ex. Programming command olymp) */
+      description: "",         /* description of olymp (ex. PML 30 first olymp) */
+      startDate: new Date,     /* date of start (ex. 01.09.2021) */
+      endDate: new Date,       /* date of ending (ex. 01.01.2022) */
+      state: 0,                /* 0 - NOT STARTED, 1 - IN PROGRESS, 2 - FINISHED */
+      statements: null,        /* *.pdf */
+      answers: null,           /* *.txt */
+      scorePerTask: 30,        /* amount of score per one task */
+      isRegisterOpen: true,    /* flag if register open */
+      isCommand: true,         /* false - individual, true - command */
+      allTeams,
+    };
+    /* End of olymp object */
+
+    function parseDate(text) {
+      let date = "not_date";
+      let rows = text.split(";");
+
+      if ((typeof rows[0] === "string") && (typeof rows[1] === "string")) {
+        let dayData = rows[0].split(".");
+        let timeData = rows[1].split(":");
+
+        timeData[0] = (parseInt(timeData[0]) + 3).toString();
+
+        if (dayData[0] === "undefined" || dayData[1] === "undefined" || dayData[2] === "undefined" ||
+          timeData[0] === "undefined" || timeData[1] === "undefined")
+          date_error_parse = "Incorrect date format";
+        else {
+          date = new Date();
+
+          date.setFullYear(dayData[2], dayData[1] - 1, dayData[0]);
+          date.setHours(timeData[0], timeData[1], 0, 0);
+          date_error_parse = "";
+        }
+      }
+      else
+        date_error_parse = "Incorrect date format";
+      if (!isValidDate(date))
+        date_error_parse = "Incorrect date format!";
+      else
+        date_error_parse = "";
+
+      console.log(date_error_parse);
+
+      return date;
     }
 
-    /* When the user clicks on the button, 
-    toggle between hiding and showing the dropdown content */
-    function seeUser() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
+    function setStart(e) {
+      StartError = document.getElementById("start_date_err");
+      startDataChanged = true;
 
-    function redirectToOlymps() {
-      window.location.href = "http://localhost:8080/AdminPage/AddOlymps/addolympspage.html";
-    }
+      let date = parseDate(e.value);
 
-    function getDateString(str) {
-      /* 2021-06-26T14:00:00.000Z */
-      let rows = str.split("T");
-      let dateData = rows[0].split("-");
-      str.replace(".", ":");
-      let timeData = rows[1].split(":");
-      let result = "";
-
-      //timeData[0] = (parseInt(timeData[0]) + 3).toString();
-      result += (dateData[2].toString() + ".");
-      result += (dateData[1].toString() + ".");
-      result += (dateData[0].toString() + "  ");
-
-      result += (timeData[0].toString() + ":");
-      result += timeData[1].toString();
-
-      return result;
-    }
-
-    async function SeeOlymps() {
-      try {
-        const responce = await window.fetch("../getOlymps", { method: 'GET' });
-        if (!responce.ok)
-          throw new Error(`Response status is: ${response.status}`);
-        olymps = JSON.parse(await responce.text());
-      } catch (err) {
-        console.log(err.message);
+      StartError.innerHTML = "";
+      if (typeof date == "string") {
+        olymp.startDate = "invalid";
+        return;
       }
 
-      for (let i = 0; i < olymps.length; i++) {
-        var objTo = document.getElementById('ol');
-        var divtest = document.createElement("div");
-        var reg, command, state;
+      if (date_error_parse != "")
+        start_data_parse_error = true;
+      else
+        start_data_parse_error = false;
 
-        if (olymps[i].state == 0)
-          state = '<div style="color: green">Not started</div>';
-        else if (olymps[i].state == 1) {
-          state = '<div style="color: orange">In progress...</div>';
-        }
-        else {
-          state = '<div style="color: red">Finished</div>';
-        }
+      start_date_error_msg = "";
 
-
-        if (olymps[i].isRegisterOpen)
-          reg = '<div style="color: green">Registration is open</div>';
-        else {
-          reg = '<div style="color: red">Registration is closed</div>';
-        }
-
-        if (olymps[i].isCommand)
-          command = 'Command olympiad';
-        else {
-          command = 'Single olympiad';
-        }
-        let ahref = "http://localhost:8080/Statements/" + olymps[i].statements;
-
-        let states = "<br><br><a href=" + ahref + "><button>View statements</button></a>"
-
-        var sd = olymps[i].startDate;
-        var start = getDateString(sd);
-        var ed = olymps[i].endDate;
-        var end = getDateString(ed);
-
-        divtest.innerHTML = '<div class="row"><div class="leftcolumn"><div class="card"><h2>' +
-          olymps[i].name + '</h2><h5>' + start + ' - ' + end +
-          '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
-          '</div></br>' + reg + command + state + `Score per task: ` + olymps[i].scorePerTask + states + `<br><br></div></div></div>`;
-
-        objTo.appendChild(divtest);
+      olymp.startDate = date;
+      document.getElementById("all_inputs2").className = "validate-input";
+      if (common_date_error_msg !== "") {
+        EndError.innerHTML = "";
+        common_date_error_msg = "";
       }
     }
 
+    function setEnd(e) {
+      EndError = document.getElementById("end_date_err");
+      endDataChanged = true;
+
+      let date = parseDate(e.value);
+
+      EndError.innerHTML = "";
+      if (typeof date == "string") {
+        olymp.endDate = "invalid";
+        return;
+      }
+
+      if (date_error_parse != "")
+        end_data_parse_error = true;
+      else
+        end_data_parse_error = false;
+
+      end_date_error_msg = "";
+
+      olymp.endDate = date;
+      document.getElementById("all_inputs3").className = "validate-input";
+      if (common_date_error_msg !== "") {
+        StartError.innerHTML = "";
+        common_date_error_msg = "";
+      }
+    }
+    function myreadFiles(e) {
+    }
+
+    function readFilesAns(e) {
+      if (window.FileList && window.File) {
+        const file = e.files[0];
+        const type = file.type.replace(/\/.+/, "");
+
+        if (file.type === "application/pdf") {
+          //createIframe(file);
+          olymp.answers = "pdf_content";
+
+          document.getElementById("error_statement").innerHTML = "";
+          return;
+        }
+        const reader = new FileReader();
+
+        reader.addEventListener('load', event => {
+          let content = event.target.result;
+
+          olymp.answers = content;
+        });
+        reader.readAsText(file);
+      }
+      document.getElementById("error_answ").innerHTML = "";
+    }
+
+    function readFilesStat(e) {
+      if (window.FileList && window.File) {
+        const file = e.files[0];
+        const type = file.type.replace(/\/.+/, "");
+        olymp.statements = file.name;
+
+        /*if (file.type === "application/pdf") {
+          //createIframe(file);
+          olymp.statements = "pdf_content";
+          document.getElementById("error_statement").innerHTML = "";
+          return;
+        }*/
+        const reader = new FileReader();
+
+        reader.addEventListener('load', event => {
+          let content = event.target.result;
+          let chunk = new Uint8Array(content);
+
+          socket.emit('createPDF', chunk, olymp.statements);
+        });
+        reader.readAsArrayBuffer(file);
+      }
+      document.getElementById("error_statement").innerHTML = "";
+    }
+
+    function setStatus() {
+      olymp.isCommand = !(document.getElementById("isCommand").checked);
+    }
+
+    function isValidDate(date) {
+      if (Object.prototype.toString.call(date) === "[object Date]") {
+        if (isNaN(date.getTime())) {
+          return false;
+        }
+        else {
+          return true;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+
+    function checkDate(startDate, endDate) {
+      if (!isValidDate(startDate) || !isValidDate(endDate)) {
+        return;
+      }
+      let currentdate = new Date();
+
+      let currentyear = currentdate.getFullYear();
+      let currentmonth = currentdate.getMonth();
+      let currentday = currentdate.getDate();
+      let currenthour = currentdate.getHours();
+      let currentminute = currentdate.getMinutes();
+
+      let startyear = startDate.getFullYear();
+      let startmonth = startDate.getMonth();
+      let startday = startDate.getDate();
+      let starthour = startDate.getHours();
+      let startminute = startDate.getMinutes();
+
+      let endyear = endDate.getFullYear();
+      let endmonth = endDate.getMonth();
+      let endday = endDate.getDate();
+      let endhour = endDate.getHours();
+      let endminute = endDate.getMinutes();
+
+      if (startyear < currentyear)
+        start_date_error_msg = "Invalid start date (year)";
+      else if (startyear == currentyear)
+        if (startmonth < currentmonth)
+          start_date_error_msg = "Invalid start date (month)";
+        else if (startmonth == currentmonth)
+          if (startday < currentday)
+            start_date_error_msg = "Invalid start date (day)";
+          else if (startday == currentday)
+            if (starthour < currenthour)
+              start_date_error_msg = "Invalid start date (hour)";
+            else if (starthour == currenthour)
+              if (startminute < currentminute)
+                start_date_error_msg = "Invalid start date (minutes)";
+      console.log(start_date_error_msg);
+      if (endyear < startyear)
+        end_date_error_msg = "Invalid end date (year)";
+      else if (endyear == startyear)
+        if (endmonth < startmonth)
+          end_date_error_msg = "Invalid end date (month)";
+        else if (endmonth == startmonth)
+          if (endday < startday)
+            end_date_error_msg = "Invalid end date (day)";
+          else if (endday == startday)
+            if (endhour < starthour)
+              end_date_error_msg = "Invalid end date (hour)";
+            else if (endhour == starthour)
+              if (endminute < startminute)
+                end_date_error_msg = "Invalid end date (minutes)";
+      console.log(end_date_error_msg);
+      if (endyear == startyear && endmonth == startmonth &&
+        endday == startday && endhour == starthour && endminute == startminute)
+        common_date_error_msg = "Start date and end date are identical";
+      console.log(common_date_error_msg);
+    }
+
+    function addOlymp() {
+      start_date_error_msg = end_date_error_msg = common_date_error_msg = "";
+      // Get the button that opens the modal
+      var btn = document.getElementById("signup");
+      // Get the modal
+      var modal = document.getElementById("myModal");
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      StartError = document.getElementById("start_date_err");
+      EndError = document.getElementById("end_date_err");
+
+      EndError.innerHTML = "";
+      StartError.innerHTML = "";
+
+      // if (olymp.statements === null || olymp.answers === null) {
+      //   console.log(olymp.startDate);
+      //   console.log(olymp.endDate);
+
+      //   alert("Fill in statements and answers!!!");
+      //   location.reload();
+      //   return;
+      // }
+      olymp.name = document.getElementById("name").value;
+      olymp.description = document.getElementById("validate-input").value;
+      if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
+        olymp.statements === null || olymp.answers === null) {
+        alert("Fill all necessary fields!");
+        if (olymp.name === "")
+          document.getElementById("all_inputs1").className = "invalidate-input";
+        if (startDataChanged == false)
+          document.getElementById("all_inputs2").className = "invalidate-input";
+        if (endDataChanged == false)
+          document.getElementById("all_inputs3").className = "invalidate-input";
+        if (olymp.statements === null) {
+          let statements_id = document.getElementById("error_statement");
+          statements_id.innerHTML = "Statements file is missing";
+        }
+        if (olymp.answers === null) {
+          let answers_id = document.getElementById("error_answ");
+          answers_id.innerHTML = "Answers file is missing";
+        }
+        return;
+      }
+      checkDate(olymp.startDate, olymp.endDate);
+      if ((typeof olymp.startDate == "string") || (typeof olymp.endDate == "string")) {
+        if (typeof olymp.startDate == "string")
+          StartError.innerHTML = "Incorrect date format";
+        if (typeof olymp.endDate == "string")
+          EndError.innerHTML = "Incorrect date format";
+        return;
+      }
+      if (date_error_parse != "") {
+        if (start_data_parse_error)
+          StartError.innerHTML = date_error_parse;
+        if (end_data_parse_error)
+          EndError.innerHTML = date_error_parse;
+        return;
+      }
+      if (end_date_error_msg != "" || start_date_error_msg) {
+        if (end_date_error_msg != "")
+          EndError.innerHTML = end_date_error_msg;
+        if (start_date_error_msg != "")
+          StartError.innerHTML = start_date_error_msg;
+        return;
+      }
+      if (common_date_error_msg != "") {
+        EndError.innerHTML = common_date_error_msg;
+        StartError.innerHTML = common_date_error_msg;
+        return;
+      }
+      else {
+        EndError.innerHTML = "";
+        StartError.innerHTML = "";
+      }
+      modal.style.display = "block";
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = "none";
+        window.location.href = "../adminpage.html";
+      }
+
+      socket.emit('newOlymp', JSON.stringify(olymp));
+      //location.href = "http://localhost:8080/AdminPage/adminpage.html";
+    }
+    function changeContest() {
+      document.getElementById("all_inputs1").className = "validate-input";
+    }
+
+    socket.on('filename', Name => {
+      olymp.statements = Name;
+    });
   </script>
 </head>
 
-<body onload="getUser(); SeeOlymps();">
-  <div class="header">
-    <h1>Olymp30</h1>
-  </div>
+<body>
+  <div class="container">
+    <div class="foreground">
+      <h2 id="log">Enter contest data:</h2>
 
-  <div class="topnav">
-    <div class="dropdown">
-      <button onclick="seeUser()" class="dropbtn">
-        <img src="../src/user.png" style="height: 30px;" />
-      </button>
-      <div id="myDropdown" class="dropdown-content">
-        <p id="userinfo"></p>
+      <div class="wrapper-info"><span class="txt">Contest Name</span>
+        <span class="txt" style="color:#ff0000">*</span>
       </div>
+      <div id="all_inputs1" class="validate-input">
+        <input id="name" placeholder=" Olymp30" onchange="changeContest()">
+      </div>
+      <div class="wrapper-info"><span class="txt">Contest description</span></div>
+      <textarea id="validate-input" class="olymp_description" placeholder="Опишите олимпиаду..."></textarea>
+      <div class="wrapper-info"><span class="txt">Start date (format: 01.01.2022; 12:00)</span>
+        <span class="txt" style="color:#ff0000">* <span class="txt" id="start_date_err">&nbsp; </span>
+      </div>
+      <div id="all_inputs2" class="validate-input">
+        <input id="dateStart" placeholder="01.01.2022; 12:00" onchange="setStart(this)">
+      </div>
+      <div class="wrapper-info"><span class="txt">End date (format: 01.01.2022; 15:00)</span>
+        <span class="txt" style="color:#ff0000">* <span class="txt" id="end_date_err">&nbsp; </span>
+      </div>
+      <div id="all_inputs3" class="validate-input">
+        <input id="dateEnd" placeholder="01.01.2022; 15:00" onchange="setEnd(this)">
+      </div>
+      <div class="wrapper-info"><span class="txt">Statements (.txt or .pdf file)</span>
+        <span class="txt" style="color:#ff0000">*
+      </div>
+      <input id="statements" type="file" onchange="readFilesStat(this)">
+      <span id="error_statement" class="txt"></span>
+
+      <div class="wrapper-info"><span class="txt">Correct answers on all tests (.txt file)</span>
+        <span class="txt" style="color:#ff0000">*
+      </div>
+      <input id="answers" type="file" onchange="readFilesAns(this)">
+      <span id="error_answ" class="txt"></span>
+
+      <label class="checkbox-other">
+        <input type="checkbox" id="isCommand" onchange="setStatus()">
+        <span id="Command_check">Individual contest</span>
+      </label>
+      <h4><span class="txt" style="color:#ff0000">*</span> - necessary fields</h4>
+      <button id="signup" onclick="addOlymp()">Add contest</button>
+    </div>
+  </div>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p><i class="fa fa-check"></i>Successfully created! <a href="../adminpage.html">Go to main page...</a></p>
     </div>
 
-    <button class="logout" onclick="logout()"><i class="fa fa-sign-out"></i> Log out</button>
-    <p style="color: white; position: absolute; margin: auto; margin-top: 0px; right: 0; margin-right: 6rem; top: 1.08rem;
-      font-size: 22px">
-      Add new olymp</p>
-    <button type="button" class="AddOlymp" onclick="redirectToOlymps()">+</button>
   </div>
-
-  <div id="ol"></div>
-
-  <!--<div class="footer">
-    <p style="float:right">
-      <img src="https://python2014.rutsky.org/09_interoperability/_images/cgsg.png" style="height:120px;" />
-    </p>
-    <p style="float:left">
-      <img src=https://pml30.ru/images/logo.png style="height: 120px;" />
-    </p>
-    <h2>Andrey Usikov, Ivan Dmitriev, Maxim Molostov, Vlad Biserov</h2>
-    <h2>Copyright © 1992-2021 Computer Graphics Support Group of 30 Phys-Math Lyceum</h2>
-  </div>-->
-
 </body>
 
 </html>

@@ -188,7 +188,7 @@ input {
   line-height: 1.;
 }
 
-#name, #dateStart, #dateEnd, #maxpart {
+#name, #dateStart, #dateEnd, #maxpart, #score_per_task {
   font-family: "Source Serif Pro";
   color: #000000;
   line-height: 1.2;

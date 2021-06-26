@@ -60,7 +60,7 @@
       state: 0,                /* 0 - NOT STARTED, 1 - IN PROGRESS, 2 - FINISHED */
       statements: null,        /* *.pdf */
       answers: null,           /* *.txt */
-      scorePerTask: 30,        /* amount of score per one task */
+      scorePerTask: 100,        /* amount of score per one task */
       isRegisterOpen: true,    /* flag if register open */
       isCommand: true,         /* false - individual, true - command */
       allTeams,
@@ -99,7 +99,14 @@
 
       return date;
     }
-
+    function changeScore(e) {
+      let score = e.value;
+      if (typeof score != "number") {
+        olymp.scorePerTask = 100;
+        return;
+      }
+      olymp.scorePerTask = score;
+    }
     function setStart(e) {
       StartError = document.getElementById("start_date_err");
       startDataChanged = true;
@@ -419,6 +426,7 @@
         <input type="checkbox" id="isCommand" onchange="setStatus()">
         <span id="Command_check">Individual contest</span>
       </label>
+
       <h4><span class="txt" style="color:#ff0000">*</span> - necessary fields</h4>
       <button id="signup" onclick="addOlymp()">Add contest</button>
     </div>

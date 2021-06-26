@@ -14,6 +14,7 @@
     var check_user_go_to = 'No';
     var Can = true;
     const NOT_STARTED = 0, IN_PROGRESS = 1, FINISHED = 2;
+    let IsUserRegForOlymp;
 
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
@@ -64,6 +65,13 @@
           }
           else
             olymps[i].state = 0;
+          if (IsUserRegForOlymp) {
+            modal.style.display = "block";
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+              modal.style.display = "none";
+            }
+          }
 
           if (olymps[i].isCommand) {
             let signup_btn = document.getElementById(Name);
@@ -79,6 +87,47 @@
         }
       }
     }
+    function redirectToOlymp(IncorrrectName) {
+      Name = IncorrrectName.slice(0, -3);
+      IsUserRegForOlymp = false;
+
+      for (let i = 0; i < olymps.length; i++) {
+        IsUserRegForOlymp = false;
+        if (olymps[i].name == Name) {
+          IsUserRegForOlymp = true;
+
+          localStorage.setItem('OlympName', JSON.stringify(Name));
+          let current_date = new Date();
+          let startDate = new Date(olymps[i].startDate);
+          let endDate = new Date(olymps[i].endDate);
+
+
+          //startDate = convertFromStringToDate(olymps[i].startDate);
+
+          console.log(current_date.getTime());
+          console.log(olymps[i].startDate);
+          startDate.setHours(startDate.getHours() - 3);
+          endDate.setHours(endDate.getHours() - 3);
+
+          console.log(startDate.getHours());
+          console.log(endDate.getHours());
+
+          if (current_date.getTime() >= startDate.getTime()) {
+            olymps[i].isRegisterOpen = false;
+            if (current_date.getTime() < endDate.getTime())
+              olymps[i].state = IN_PROGRESS;
+            else
+              olymps[i].state = FINISHED;
+          }
+          else
+            olymps[i].state = NOT_STARTED;
+
+          window.location.href = "http://localhost:8080/OlympPage/olymppage.html";
+          break;
+        }
+      }
+    }
+
     function update_olymps_state(olymps) {
       for (let i = 0; i < olymps.length; i++) {
         let current_date = new Date();
@@ -218,7 +267,7 @@
           '</h5><div class="fakeimg" style="height:fit-contents">' + olymps[i].description +
           '</div></br>' + reg + command + check + state +
           `<button id=${bid} class=".card button" onclick="redirectToReg(this.id)">Sign up</button>` +
-          `<button id=${bid + "red"}  class="red_to_olymp" onclick="redirectToReg(this.id)">Go to olymp</button><br><br></div></div></div>`;
+          `<button id=${bid + "red"}  class="red_to_olymp" onclick="redirectToOlymp(this.id)">Go to olymp</button><br><br></div></div></div>`;
 
         objTo.appendChild(divtest);
         if (check_user_reg == 'No') {
@@ -252,6 +301,15 @@
   </div>
 
   <div id="ol"></div>
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p><i class="material-icons" style="font-size:48px;color:red">error</i>Registration time has expired</p>
+    </div>
+
+  </div>
 
   <!--<div class="footer">
     <p style="float:right">
