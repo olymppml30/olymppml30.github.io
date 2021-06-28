@@ -7,6 +7,8 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const fs = require('fs');
+const { exec, execFile } = require('child_process');
+const { stderr } = require('process');
 
 let currentUser;
 
@@ -274,23 +276,48 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                     { $set: { isRegisterOpen: newRegisterState } });
             });
 
+            socket.on('sendsol', (allProblems, curProblem, compiler, text) => {
+                //var problem = allProblems[curProblem];
 
-            socket.on('createPDF', (chunk, filename) => {
-                let rname = genPassword(15);
-                let format = filename.split(".")[filename.split(".").length - 1];
-                let fname = rname + "." + format;
-                filename = fname;
-                var path = "./Statements/" + filename;
-
-                fs.appendFile(path, Buffer.from(chunk), function (err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        return chunk.length;
-                    }
-                });
-                socket.emit('filename', fname);
+                switch (compiler) {
+                    case "clang":
+                        fs.writeFileSync(__dirname + "\\myFile.c", text);
+                        execFile("node", [__dirname + "\\Compilers\\ForC\\second_process.js"], (error, stdout, stderr) => {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            stdout = stdout.slice(0, -1);
+                            console.log(stdout);
+                        });
+                        break;
+                    case "cpp":
+                        fs.writeFileSync(__dirname + "\\myFile2.cpp", text);
+                        execFile("node", [__dirname + "\\Compilers\\ForCpp\\second_process.js"], (error, stdout, stderr) => {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            stdout = stdout.slice(0, -1);
+                            console.log(stdout);
+                        });
+                        break;
+                    case "python":
+                        break;
+                    case "js":
+                        fs.writeFileSync(__dirname + "\\Compilers\\ForJs\\js_example.txt", text);
+                        execFile("node", [__dirname + "\\Compilers\\ForJs\\second_process.js"], (error, stdout, stderr) => {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            stdout = stdout.slice(0, -1);
+                            console.log(stdout);
+                        });
+                        break;
+                    default:
+                        console.log("Undefined compiler!!!");
+                }
             });
         });
 
