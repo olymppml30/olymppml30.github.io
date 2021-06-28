@@ -303,6 +303,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                         });
                         break;
                     case "python":
+
                         break;
                     case "js":
                         fs.writeFileSync(__dirname + "\\Compilers\\ForJs\\js_example.txt", text);

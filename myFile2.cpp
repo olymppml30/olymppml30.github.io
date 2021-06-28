@@ -2,7 +2,9 @@
 
 using namespace std;
 
-void main( void )
-{
-  cout << "Hello" << endl;
+void main() {
+  int x;
+
+  cin >> x;
+  cout << x;
 }

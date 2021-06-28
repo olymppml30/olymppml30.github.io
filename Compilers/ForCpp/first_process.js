@@ -1,12 +1,17 @@
 const { exec } = require("child_process");
+var spawn = require("child_process").spawn;
 
 exec(__dirname + '\\a.bat', (error, stdout, stderr) => {
-    exec(__dirname + "\\..\\..\\" + 'myExecutable2', (error, stdout, stderr) => {
-        console.log(`${stdout}==myExecutable2.exe==myFile2.obj`);
+    var child = spawn("myExecutable2");
+    child.stdin.write('223452354'); //my command takes a markdown string...
 
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
+    child.stdout.on('data', function (data) {
+        console.log(data + "==myExecutable2.exe==myFile2.obj");
     });
+
+    child.stdin.end();
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+    }
 });
