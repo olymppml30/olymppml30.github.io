@@ -7,7 +7,9 @@
   <title>Olymp Page</title>
   <script src="../../socket.io/socket.io.js"></script>
   <script type="text/javascript">
-    var socket = io();
+    //var socket = io();
+    let CurTask;
+    let Task;
     var text = "";
     let NumberOfAttempts = [];
     function myFunction(event) {
@@ -42,6 +44,11 @@
         return;
       }
     }
+    function ChangeCurrentTask() {
+      Task = document.getElementById("Problem_choose");
+      CurTask = Task.value;
+      localStorage.setItem('Current_task', CurTask);
+    }
   </script>
 </head>
 
@@ -49,12 +56,12 @@
   <div class="container">
     <div class="foreground">
       <label for="Choose_problem">Choose problem</label>
-      <select id="Problem_choose" name="Choose_problem">
-        <option value=0>Task A</option>
-        <option value=1>Task B</option>
-        <option value=2>Task C</option>
-        <option value=3>Task D</option>
-        <option value=4>Task E</option>
+      <select id="Problem_choose" name="Choose_problem" onchange="ChangeCurrentTask()">
+        <option value="A">Task A</option>
+        <option value="B">Task B</option>
+        <option value="C">Task C</option>
+        <option value="D">Task D</option>
+        <option value="E">Task E</option>
       </select>
       <label for="Choose_problem">Choose compiler</label>
       <select id="compiler_choose" name="Choose_problem">

@@ -201,7 +201,7 @@ input {
   margin: auto;
 }
 
-#statements, #answers {
+ #usdfu {
   position: relative;
   font-family: "Source Serif Pro";
   color: #000000;
@@ -211,6 +211,21 @@ input {
   width: 100%;
   background: transparent;
   height: 67px;
+  padding: 0 0px;
+  margin: auto;
+}
+
+#statements, #conditions, #answers
+{
+  position: relative;
+  font-family: "Source Serif Pro";
+  color: #000000;
+  line-height: 1.2;
+  font-size: 18px;
+  display: block;
+  width: 100%;
+  background: transparent;
+  height: 40px;
   padding: 0 0px;
   margin: auto;
 }
@@ -311,20 +326,23 @@ h2 {
 
 #error_answ {
   font-size: 20px;
-  position: absolute;
+  bottom: 3rem;
+  left: 3.4rem;
+  color:red;
+}
+
+#error_cond {
+  font-size: 20px;
   bottom: 4.6rem;
   left: 3.4rem;
   color:red;
-  margin: 30px;
 }
 
 #error_statement {
   font-size: 20px;
-  position: absolute;
   bottom: 11.5rem;
   left: 3.4rem;
   color:red;
-  margin: 30px;
 }
 
 h4 {

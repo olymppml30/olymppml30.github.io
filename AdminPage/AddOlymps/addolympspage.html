@@ -60,8 +60,9 @@
       state: 0,                /* 0 - NOT STARTED, 1 - IN PROGRESS, 2 - FINISHED */
       statements: null,        /* *.pdf */
       format: "",              /* statements data format */
+      conditions: null,        /* *.txt */
       answers: null,           /* *.txt */
-      scorePerTask: 100,        /* amount of score per one task */
+      scorePerTask: 100,       /* amount of score per one task */
       isRegisterOpen: true,    /* flag if register open */
       isCommand: true,         /* false - individual, true - command */
       allTeams,
@@ -169,13 +170,6 @@
         const file = e.files[0];
         const type = file.type.replace(/\/.+/, "");
 
-        if (file.type === "application/pdf") {
-          //createIframe(file);
-          olymp.answers = "pdf_content";
-
-          document.getElementById("error_statement").innerHTML = "";
-          return;
-        }
         const reader = new FileReader();
 
         reader.addEventListener('load', event => {
@@ -186,6 +180,23 @@
         reader.readAsText(file);
       }
       document.getElementById("error_answ").innerHTML = "";
+    }
+
+    function readFilesCond(e) {
+      if (window.FileList && window.File) {
+        const file = e.files[0];
+        const type = file.type.replace(/\/.+/, "");
+
+        const reader = new FileReader();
+
+        reader.addEventListener('load', event => {
+          let content = event.target.result;
+
+          olymp.conditions = content;
+        });
+        reader.readAsText(file);
+      }
+      document.getElementById("error_cond").innerHTML = "";
     }
 
     function readFilesStat(e) {
@@ -337,7 +348,7 @@
       olymp.name = document.getElementById("name").value;
       olymp.description = document.getElementById("validate-input").value;
       if (olymp.name === "" || endDataChanged == false || startDataChanged == false ||
-        olymp.statements === null || olymp.answers === null) {
+        olymp.statements === null || olymp.answers === null || olymp.conditions === null) {
         alert("Fill all necessary fields!");
         if (olymp.name === "")
           document.getElementById("all_inputs1").className = "invalidate-input";
@@ -353,6 +364,11 @@
           let answers_id = document.getElementById("error_answ");
           answers_id.innerHTML = "Answers file is missing";
         }
+        if (olymp.conditions === null) {
+          let cond_id = document.getElementById("error_cond");
+          cond_id.innerHTML = "File with test is missing";
+        }
+
         return;
       }
       if (checkName(olymp.name) == false) {
@@ -442,8 +458,14 @@
       <input id="statements" type="file" onchange="readFilesStat(this)">
       <span id="error_statement" class="txt"></span>
 
+      <div class="wrapper-info"><span class="txt">File with tests (.txt file)</span>
+        <span class="txt" style="color:#ff0000">* <a href="../../src/conditions.txt">&nbsp;See example...</a>
+      </div>
+      <input id="conditions" type="file" onchange="readFilesCond(this)">
+      <span id="error_cond" class="txt"></span>
+
       <div class="wrapper-info"><span class="txt">Correct answers on all tests (.txt file)</span>
-        <span class="txt" style="color:#ff0000">*
+        <span class="txt" style="color:#ff0000">* <a href="../../src/answers.txt">&nbsp;See example...</a>
       </div>
       <input id="answers" type="file" onchange="readFilesAns(this)">
       <span id="error_answ" class="txt"></span>
