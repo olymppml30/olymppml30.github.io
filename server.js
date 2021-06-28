@@ -289,6 +289,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                             }
                             stdout = stdout.slice(0, -1);
                             console.log(stdout);
+                            io.emit('alertio', stdout);
                         });
                         break;
                     case "cpp":

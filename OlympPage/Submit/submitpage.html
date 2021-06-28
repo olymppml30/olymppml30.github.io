@@ -49,6 +49,11 @@
       CurTask = Task.value;
       localStorage.setItem('Current_task', CurTask);
     }
+
+    socket.on('alertio', msg => {
+      console.log(msg);
+      alert("100 points");
+    });
   </script>
 </head>
 

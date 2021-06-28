@@ -1,11 +1,9 @@
-#include <iostream>
+#include <stdio.h>
 
-using namespace std;
-
-void main()
+void main( void )
 {
   int x;
 
-  cin >> x;
-  cout << x;
+  scanf("%i", &x);
+  printf("%i", x);
 }
