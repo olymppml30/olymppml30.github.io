@@ -180,9 +180,9 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                                 } else {
                                     console.log("Password matches!")
                                     if (doc.nickname == "admin")
-                                        io.emit("redirectToNewPage", "http://localhost:8080/AdminPage/adminpage.html");
+                                        io.emit("redirectToNewPage", "http://192.168.30.8:8080/AdminPage/adminpage.html");
                                     else
-                                        io.emit("redirectToNewPage", "http://localhost:8080/Mainpage/mainpage.html");
+                                        io.emit("redirectToNewPage", "http://192.168.30.8:8080/Mainpage/mainpage.html");
                                 }
                             });
                         }
@@ -238,7 +238,7 @@ mongoose.connect('mongodb+srv://olymppml30:AU3ID3MM5VB5@cluster0.cdj7z.mongodb.n
                                     io.emit('alertio', "Incorrect password!");
                                 } else {
                                     console.log("Password matches!");
-                                    io.emit('redirectToNewPage', "http://localhost:8080/Mainpage/mainpage.html");
+                                    io.emit('redirectToNewPage', "http://192.168.30.8:8080/Mainpage/mainpage.html");
                                 }
                             });
                         }

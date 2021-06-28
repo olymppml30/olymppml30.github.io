@@ -32,7 +32,7 @@
 
     function logout() {
       localStorage.clear();
-      window.location.href = "http://localhost:8080/";
+      window.location.href = "http://192.168.30.8:8080/";
     }
 
     function seeUser() {
@@ -85,12 +85,12 @@
           if (olymps[i].isCommand) {
             let signup_btn = document.getElementById(Name);
             signup_btn.style.display = "none";
-            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/commandsignup.html";
+            window.location.href = "http://192.168.30.8:8080/MainPage/RegToOlymp/commandsignup.html";
           }
           else {
             let signup_btn = document.getElementById(Name);
             signup_btn.style.display = "none";
-            window.location.href = "http://localhost:8080/MainPage/RegToOlymp/singlesignup.html";
+            window.location.href = "http://192.168.30.8:8080/MainPage/RegToOlymp/singlesignup.html";
           }
           break;
         }
@@ -131,7 +131,7 @@
           else
             olymps[i].state = NOT_STARTED;
 
-          window.location.href = "http://localhost:8080/OlympPage/olymppage.html";
+          window.location.href = "http://192.168.30.8:8080/OlympPage/olymppage.html";
           break;
         }
       }
@@ -346,7 +346,7 @@
             } catch (err) {
               console.log(err.message);
             }
-            let ahref = "http://localhost:8080/Statements/" + res;
+            let ahref = "http://192.168.30.8:8080/Statements/" + res;
             if (!templink[i])
               templink.push({});
             templink[i].link = res;
@@ -369,7 +369,7 @@
           } catch (err) {
             console.log(err.message);
           }
-          let ahref = "http://localhost:8080/Statements/" + res;
+          let ahref = "http://192.168.30.8:8080/Statements/" + res;
           if (!templink[i])
             templink.push({});
           templink[i].link = res;

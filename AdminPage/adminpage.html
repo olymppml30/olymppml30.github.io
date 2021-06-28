@@ -21,7 +21,7 @@
     function getUser() {
       user = JSON.parse(localStorage.getItem('user'));
       if (user === null || user.nickname !== "admin")
-        location.href = "http://localhost:8080";
+        location.href = "http://192.168.30.8:8080";
       document.getElementById("userinfo").innerHTML = `Name: ${user.name}<br>
                                                        Surname: ${user.surname}<br>
                                                        Form: ${user.form}<br>
@@ -30,7 +30,7 @@
 
     function logout() {
       localStorage.clear();
-      window.location.href = "http://localhost:8080/";
+      window.location.href = "http://192.168.30.8:8080/";
     }
 
     /* When the user clicks on the button, 
@@ -40,7 +40,7 @@
     }
 
     function redirectToOlymps() {
-      window.location.href = "http://localhost:8080/AdminPage/AddOlymps/addolympspage.html";
+      window.location.href = "http://192.168.30.8:8080/AdminPage/AddOlymps/addolympspage.html";
     }
 
     function getDateString(str) {
@@ -176,7 +176,7 @@
           console.log(err.message);
         }
 
-        let ahref = "http://localhost:8080/Statements/" + res;
+        let ahref = "http://192.168.30.8:8080/Statements/" + res;
         if (!templink[i])
           templink.push({});
         templink[i].link = res;

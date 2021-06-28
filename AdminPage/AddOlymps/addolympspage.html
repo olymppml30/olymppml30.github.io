@@ -24,7 +24,7 @@
     function checkAdmin() {
       if (JSON.parse(localStorage.getItem('user')) === null ||
         JSON.parse(localStorage.getItem('user')).nickname !== "admin")
-        location.href = "http://localhost:8080";
+        location.href = "http://192.168.30.8:8080";
     }
 
     /* Olymp object */
@@ -415,7 +415,7 @@
       }
 
       socket.emit('newOlymp', JSON.stringify(olymp));
-      //location.href = "http://localhost:8080/AdminPage/adminpage.html";
+      //location.href = "http://192.168.30.8:8080/AdminPage/adminpage.html";
     }
     function changeContest() {
       document.getElementById("all_inputs1").className = "validate-input";
