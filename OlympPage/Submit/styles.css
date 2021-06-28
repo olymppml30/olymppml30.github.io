@@ -92,6 +92,7 @@ select, textarea {
 textarea {
   height: 20rem;
   overflow-y: auto;
+  resize: none;
 }
 
 #statements {
